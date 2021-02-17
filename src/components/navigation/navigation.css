@@ -1,0 +1,23 @@
+.nav-container {
+  background-color: antiquewhite;
+}
+.nav-container > ul {
+  display: flex;
+  list-style-type: none;
+}
+.lists {
+  justify-content: space-around;
+  align-items: center;
+}
+
+.navigation__logo {
+  width: 100px;
+  padding-right: 20px;
+}
+
+.list {
+  text-decoration: none;
+}
+.list:hover {
+  color: gray;
+}
