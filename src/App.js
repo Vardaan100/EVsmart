@@ -7,19 +7,26 @@ import Find from "./components/find";
 import Contact from "./components/contacttus";
 import Signup from "./components/signup";
 import About from "./components/About";
+import Signin from "./components/Signin";
+import Dashboard from "./components/Dashboard";
+import SignUp from "./components/signup";
+import { Fragment } from "react";
 
 function App() {
   return (
     <BrowserRouter>
       <Navigation />
-      <Switch>
-        <div className="App">
+      <Switch className="App">
+        <Fragment>
           <Route exact path="/" component={Home} />
           <Route path="/find" component={Find} />
           <Route path="/contact" component={Contact} />
           <Route path="/signup" component={Signup} />
           <Route path="/about" component={About} />
-        </div>
+          <Route path="/sign-in" component={Signin} />
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/dashboard" component={Dashboard} />
+        </Fragment>
       </Switch>
       <Footer />
     </BrowserRouter>

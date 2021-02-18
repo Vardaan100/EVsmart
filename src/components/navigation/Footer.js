@@ -4,7 +4,7 @@ import "./footer.css";
 
 function Footer() {
   return (
-    <div className="footer_container">
+    <div className="footer_container fixed-bottom col-12">
       <ul className="footer_lists">
         <li>
           <Link className="footer_list" to="/">

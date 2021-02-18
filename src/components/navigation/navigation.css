@@ -1,4 +1,5 @@
 .nav-container {
+  /* width: 100%; */
   background-color: antiquewhite;
 }
 .nav-container > ul {

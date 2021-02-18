@@ -9,7 +9,7 @@ import Start from "./Start";
 function Home() {
   return (
     <div>
-      <div className="home">
+      <div className="home ">
         <div className="home__text">
           <h1>Charging location near me</h1>
           <br></br>

@@ -1,11 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
+import UserSignup from "./UserSignup";
+import ProviderSignup from "./ProviderSignup";
 
-function Signup() {
-  return (
-    <div>
-      <h1>Signup....</h1>
-    </div>
-  );
+export default class SignUp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: true,
+    };
+  }
+
+  clickHandler = (e) => {
+    this.setState({
+      user: !this.state.user,
+    });
+  };
+
+  render() {
+    const buttonText = this.state.user ? "Provider" : "User";
+    return (
+      <div>
+        <button
+          className="btn btn-primary btn-block"
+          onClick={this.clickHandler}
+        >
+          {buttonText}
+        </button>
+        {this.state.user ? <UserSignup /> : <ProviderSignup />}
+      </div>
+    );
+  }
 }
-
-export default Signup;
