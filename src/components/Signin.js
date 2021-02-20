@@ -9,13 +9,12 @@ class Signin extends Component {
     if (username && password) {
       let actions = {
         type: "login",
-        // payload: !this.props.islogin
-        payload: true,
+        payload: !this.props.islogin,
       };
       this.props.dispatch(actions);
-      console.log("success");
+      //   console.log("success");
     } else {
-      console.log("fail");
+      //   console.log("fail");
     }
   };
 
@@ -77,7 +76,7 @@ function msp(state) {
   };
 }
 function mdp(dispatch) {
-  console.log("dispatch", dispatch);
+  //   console.log("dispatch", dispatch);
   return {
     dispatch,
   };
