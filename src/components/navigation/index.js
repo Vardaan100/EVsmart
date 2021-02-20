@@ -16,7 +16,7 @@ class Index extends Component {
     // this.setState({ isLoggedIn: false });
     let action = {
       type: "login",
-      payload: false,
+      payload: !this.props.islogin,
       // payload: setState,
     };
     this.props.dispatch(action);
