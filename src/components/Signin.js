@@ -55,7 +55,7 @@ class Signin extends Component {
             </label>
           </div>
         </div>
-        <Link to={"./Dashboard"}>
+        <Link to={"/dashboard"}>
           <button
             onClick={this.user}
             type="submit"

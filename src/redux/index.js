@@ -1,5 +1,5 @@
 let iniatialState = {
-  islogin: true,
+  islogin: false,
 };
 function Redux(state = iniatialState, action) {
   switch (action.type) {

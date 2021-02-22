@@ -31,11 +31,6 @@ class Index extends Component {
             </Link>
           </li>
           <li>
-            <Link className="list" to="/">
-              Home
-            </Link>
-          </li>
-          <li>
             <Link className="list" to="/about">
               About
             </Link>
@@ -43,11 +38,6 @@ class Index extends Component {
           <li>
             <Link className="list" to="/contact">
               Contact us
-            </Link>
-          </li>
-          <li>
-            <Link className="list" to="/find">
-              Find
             </Link>
           </li>
           <li className="menu">
@@ -84,11 +74,11 @@ class Index extends Component {
                     />
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="list nav-link" to="/">
-                    Home
-                  </Link>
-                </li>
+                <li>
+                <Link className="list" to="/home">
+                Home
+              </Link>
+              </li>
                 <li className="nav-item">
                   <Link className="list nav-link" to="/about">
                     About
@@ -97,11 +87,6 @@ class Index extends Component {
                 <li className="nav-item">
                   <Link className="list nav-link" to="/contact">
                     Contact Us
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="list nav-link" to="/find">
-                    Find
                   </Link>
                 </li>
                 <li className="nav-item">

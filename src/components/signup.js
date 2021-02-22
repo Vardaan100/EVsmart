@@ -1,34 +1,64 @@
 import React, { Component } from "react";
-import UserSignup from "./UserSignup";
-import ProviderSignup from "./ProviderSignup";
+import { Link } from "react-router-dom";
 
 export default class SignUp extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: true,
-    };
-  }
-
-  clickHandler = (e) => {
-    this.setState({
-      user: !this.state.user,
-    });
-  };
-
+  
   render() {
-    const buttonText = this.state.user ? "Provider" : "User";
     return (
-      <div>
-        <button
-          className="btn btn-primary btn-block"
-          onClick={this.clickHandler}
-        >
-          {buttonText}
-        </button>
-        {this.state.user ? <UserSignup /> : <ProviderSignup />}
+      <form>
+      <h3>Sign Up</h3>
+
+      <div className="form-group">
+        <label>First name</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="First name"
+        />
       </div>
+
+      <div className="form-group">
+        <label>Last name</label>
+        <input type="text" className="form-control" placeholder="Last name" />
+      </div>
+
+      <div className="form-group">
+        <label>Phone Number</label>
+        <input
+          type="number"
+          className="form-control"
+          placeholder="Enter phone number"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Email address</label>
+        <input
+          type="email"
+          className="form-control"
+          placeholder="Enter email"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Enter password"
+        />
+      </div>
+
+      <button type="submit" className="btn btn-primary btn-block">
+        Sign Up
+      </button>
+      <p className="forgot-password text-right">
+        Already registered{" "}
+        <Link className="nav-link" to={"/sign-in"}>
+          sign in?
+        </Link>
+      </p>
+    </form>
     );
   }
 }

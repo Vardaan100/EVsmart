@@ -47,12 +47,12 @@ class Menus extends React.Component {
           </Menu.Item>
           <Menu.Item key="7" className="sub">
             <EuroTwoTone />
-            <strong>Payments</strong>
+            <strong>Station List</strong>
           </Menu.Item>
-          <Link to={"./sign-in"}>
+          <Link to={"./station"}>
             <Menu.Item key="5" className="sub">
               <UnlockTwoTone />
-              <strong>Sign Out</strong>
+              <strong>Add Station</strong>
             </Menu.Item>
           </Link>
         </SubMenu>
