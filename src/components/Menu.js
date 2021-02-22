@@ -37,24 +37,34 @@ class Menus extends React.Component {
           title="Menu"
           style={{ fontSize: "20px" }}
         >
+          <Link to={"./profile"}>
           <Menu.Item key="5" className="sub">
             <IdcardTwoTone />
             <strong>Profile</strong>
           </Menu.Item>
+          </Link>
+
+          <Link to={"./help"}>
           <Menu.Item key="6" className="sub">
             <FileUnknownTwoTone />
             <strong>Help</strong>
           </Menu.Item>
+          </Link>
+          
+          <Link to={"./list"}>
           <Menu.Item key="7" className="sub">
             <EuroTwoTone />
             <strong>Station List</strong>
           </Menu.Item>
+          </Link>
+
           <Link to={"./station"}>
             <Menu.Item key="5" className="sub">
               <UnlockTwoTone />
               <strong>Add Station</strong>
             </Menu.Item>
           </Link>
+
         </SubMenu>
       </Menu>
     );

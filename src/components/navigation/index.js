@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Menus from "../Menu";
@@ -40,9 +40,11 @@ class Index extends Component {
               Contact us
             </Link>
           </li>
+          <Fragment>
           <li className="menu">
             <Menus />
           </li>
+          </Fragment>
           {!this.props.islogin ? (
             <li>
               <Link className="list" to="/signup">

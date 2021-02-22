@@ -62,7 +62,7 @@ class Signin extends Component {
             // onSubmit={this.submitHandler}
             className="btn btn-primary btn-block"
           >
-            Submit
+            Sign In
           </button>
         </Link>
       </form>
@@ -70,7 +70,7 @@ class Signin extends Component {
   }
 }
 function msp(state) {
-  console.log("propss", state);
+  console.log("props", state);
   return {
     islogin: state.islogin,
   };
