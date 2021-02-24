@@ -1,85 +1,98 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { signin, authenticate } from "../routing/auth";
 
-class Signin extends Component {
-  user = (props) => {
-    let username = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-    if (username && password) {
-      let actions = {
-        type: "login",
-        payload: !this.props.islogin,
-      };
-      this.props.dispatch(actions);
-      //   console.log("success");
-    } else {
-      //   console.log("fail");
+const Signin = () => {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    error: "",
+    loading: false,
+    redirectToReferrer: false,
+  });
+
+  const { email, password, loading, error, redirectToReferrer } = values;
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: false, loading: true });
+    signin({ email, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, loading: false });
+      } else {
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            redirectToReferrer: true,
+          });
+        });
+      console.log("Login Succesfull");
+      }
+
+    });
+  };
+
+  const signUpForm = () => (
+    <form>
+      <div className="form-group">
+        <label className="text-muted">Email</label>
+        <input
+          onChange={handleChange("email")}
+          type="email"
+          className="form-control"
+          value={email}
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="text-muted">Password</label>
+        <input
+          onChange={handleChange("password")}
+          type="password"
+          className="form-control"
+          value={password}
+        />
+      </div>
+      <button onClick={clickSubmit} className="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  );
+
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showLoading = () =>
+    loading && (
+      <div className="alert alert-info">
+        <h2>Loading...</h2>
+      </div>
+    );
+
+  const redirectUser = () => {
+    if (redirectToReferrer) {
+      return <Redirect to="/" />;
     }
   };
 
-  render() {
-    return (
-      <form>
-        <h3>Sign In</h3>
+  return (
+    <div>
+      {showLoading()}
+      {showError()}
+      {signUpForm()}
+      {redirectUser()}
+    </div>
+  );
+};
 
-        <div className="form-group">
-          <label>Email address</label>
-          <input
-            id="email"
-            type="email"
-            className="form-control"
-            placeholder="Enter email"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            id="password"
-            type="password"
-            className="form-control"
-            placeholder="Enter password"
-          />
-        </div>
-
-        <div className="form-group">
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
-            />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
-          </div>
-        </div>
-        <Link to={"/dashboard"}>
-          <button
-            onClick={this.user}
-            type="submit"
-            // onSubmit={this.submitHandler}
-            className="btn btn-primary btn-block"
-          >
-            Sign In
-          </button>
-        </Link>
-      </form>
-    );
-  }
-}
-function msp(state) {
-  console.log("props", state);
-  return {
-    islogin: state.islogin,
-  };
-}
-function mdp(dispatch) {
-  //   console.log("dispatch", dispatch);
-  return {
-    dispatch,
-  };
-}
-
-export default connect(null, mdp)(Signin);
+export default Signin;

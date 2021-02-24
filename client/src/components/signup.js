@@ -12,7 +12,7 @@ const Signup = () => {
     error: "",
     success: false,
   });
-
+  
   const { firstname, lastname, email, phone, password, error } = values;
 
   const handleChange = (firstname) => (event) => {
