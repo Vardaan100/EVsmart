@@ -140,10 +140,10 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
     };
 })
 // for user verification
-router.put("/userVerification",async (req,res)=>{
+router.get("/userVerification/:id",async (req,res)=>{
     try {
         // console.log("hi")
-        const {email} = req.body;
+        const email = req.params.id;
         // console.log(email)
         //check whether user exsist or not
         const user = await pool.query("SELECT * FROM users WHERE user_email =$1",[email]);
