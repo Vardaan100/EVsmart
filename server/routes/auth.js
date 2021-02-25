@@ -9,7 +9,9 @@ const userDataToken = require("../middleware/tokenReturn");
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
 
-
+router.get("/",(req,res)=>{
+    res.send("hello EvSmart")
+});
 
 //signup andd register
 
@@ -37,8 +39,8 @@ router.post("/signup",verifyInfo,async (req,res)=>{
         const newUser = await pool.query("INSERT INTO users(user_firstname,user_lastname,user_phone, user_email, user_password) VALUES ($1,$2,$3,$4,$5) RETURNING user_firstname,user_lastname,user_phone, user_email",[firstname,lastname,phone,email,bcryptPassword]);
         
         //generating jwtoken
-        const token = jwtGenerator(newUser.rows[0].user_email);
-        // const token = jwtGenerator(newUser.rows[0].user_id);
+        // const token = jwtGenerator(newUser.rows[0].user_email);
+        const token = jwtGenerator(newUser.rows[0].user_id);
         var nr = newUser.rows;
         // nr.token = JSON.stringify(token);
         res.json(nr);
@@ -71,8 +73,8 @@ router.post("/signin",verifyInfo,async (req,res)=>{
         }
         //jwtoken
 
-        const token = jwtGenerator(user.rows[0].user_email);
-        // const token = jwtGenerator(user.rows[0].user_id);
+        // const token = jwtGenerator(user.rows[0].user_email);
+        const token = jwtGenerator(user.rows[0].user_id);
         res.json(token);
 
 
@@ -84,7 +86,7 @@ router.post("/signin",verifyInfo,async (req,res)=>{
 
 router.get("/verify",authorization,async(req,res)=>{
     try {
-        console.log(req.user)
+        // console.log(req.user)
         // console.log(authorization)
         res.json(true);
         
@@ -132,7 +134,9 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
         const bcryptPassword = await bcrypt.hash(password,saltRound)
 
         const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_phone=$3,user_password=$4 WHERE user_email=$5 RETURNING user_firstname,user_lastname,user_email,user_phone",[firstname, lastname, phone , bcryptPassword, req.user])
-        res.json(updateUser.rows)
+        // res.json(updateUser.rows)
+        res.json(req.user)
+        
         
     } catch (err) {
         console.error(err.message);
