@@ -11,8 +11,8 @@ CREATE TABLE users(
     user_password VARCHAR(64) NOT NULL,
     user_verification BOOLEAN NOT NULL DEFAULT false,
     user_role CHAR(255) NOT NUll DEFAULT 'Normal',
-    user_create_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    user_updated_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    user_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    user_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- test users
