@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import React from "react";
+import { Link } from "react-router-dom";
 import Footer from "../navigation/Footer";
 import Customer from "./customer";
 import "./Home.css";
@@ -15,12 +16,18 @@ function Home() {
           <br></br>
           <br></br>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi
-            bibendum neque egestas congue quisque egestas diam in. Fermentum
-            odio eu feugiat pretium nibh ipsum consequat nisl.
+          EV Smart aims to provide service for people who needs to charge their vehicle
+          away from home. At EV Smart service is given by people to people.
+          Sign up with us and locate charging station near you.
+          You can also add your own station as well, just head to the station option fill out the
+          form and your station will be added to stations list
+          <br></br>
+          <br></br>
+          Be the change for better tomorrow
           </p>
-          <Button vairent="contained">Find Charginh point</Button>
+          <Link to="/sign-in">
+          <Button vairent="contained">Find Charging point</Button>
+          </Link>
         </div>
         <div className="home__image">
           <img

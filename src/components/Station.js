@@ -16,7 +16,7 @@ export default class Station extends Component {
         <input
           type="number"
           className="form-control"
-          placeholder="Enter phone number"
+          placeholder="Enter phone number for station (optional)"
         />
       </div>
 

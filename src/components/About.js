@@ -7,7 +7,6 @@ import Footer from "./navigation/Footer";
 function About() {
   return (
     <div>
-      <h1>About....</h1>
       <Customer />
       <Price />
       <Start />
