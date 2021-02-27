@@ -12,6 +12,7 @@ app.use(express.json());
  // Routes
 app.use("/api/dashboard",require("./routes/dashboard"))
 app.use("/api/auth",require("./routes/auth")) //auth route
+app.use("/api/cs",require("./routes/cs")) //cs route
 app.get("/",(req,res)=>{
     res.send("hello EvSmart")
 });

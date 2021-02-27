@@ -14,7 +14,7 @@ verifyLogin = async(req,res,next) => {
             return res.status(403).json("NOT AUTHORISED(invalid token");
         };
         req.user = verify.user;
-        // console.log(req.user)
+        console.log(verify)
         next();
     } catch (err) {
         console.error(err.message);

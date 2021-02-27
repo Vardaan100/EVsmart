@@ -5,13 +5,12 @@ const jwtGenerator = require("../utils/jwtgenerator");
 const verifyInfo = require("../middleware/validInfo");
 const authorization = require("../middleware/verifyAuth");
 const userDataToken = require("../middleware/tokenReturn");
-
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
 
-router.get("/",(req,res)=>{
-    res.send("hello EvSmart")
-});
+// router.get("/",(req,res)=>{
+//     res.send("hello EvSmart")
+// });
 
 //signup andd register
 
@@ -21,7 +20,8 @@ router.post("/signup",verifyInfo,async (req,res)=>{
 
         // check if user exsist
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1",[email]);
-        // res.json(user.rows)
+        // res.json(user.rows);
+        // console.log(user.rows.length);
         if(user.rows.length<<0){
             return res.status(401).send("user exist");
         };
@@ -41,9 +41,8 @@ router.post("/signup",verifyInfo,async (req,res)=>{
         //generating jwtoken
         // const token = jwtGenerator(newUser.rows[0].user_email);
         const token = jwtGenerator(newUser.rows[0].user_id);
-        var nr = newUser.rows;
         // nr.token = JSON.stringify(token);
-        res.json(nr);
+        res.json(newUser.rows);
         
     } catch (err) {
         console.error(err.message);
@@ -100,14 +99,14 @@ router.get("/verify",authorization,async(req,res)=>{
 router.get("/userdata/:id",userDataToken,async (req,res)=>{
     try {
         // console.log(req.user)
-        userEmailId = req.user
+        userID = req.user
         // check whether the user id is valid
-        const id = await pool.query("SELECT * FROM users WHERE user_email = $1",[userEmailId]);
+        const id = await pool.query("SELECT * FROM users WHERE user_id = $1",[userID]);
         
         if(id.rows.length===0){
             return res.status(401).send("INVALID ID");
         };
-        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_email = $1",[userEmailId])
+        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1",[userID])
         res.json(userData.rows)
         
     } catch (err) {
@@ -126,14 +125,14 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
             return res.status(401).send("Phone no. in use");
         }
         console.log(req.user)
-        userEmailId = req.user
-        console.log(userEmailId)
+        userID = req.user
+        console.log(userID)
         //bcrypting password
         const saltRound = 9 ;//no. of time to bcrypt password
         const Salt = bcrypt.genSalt(saltRound)
         const bcryptPassword = await bcrypt.hash(password,saltRound)
 
-        const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_phone=$3,user_password=$4 WHERE user_email=$5 RETURNING user_firstname,user_lastname,user_email,user_phone",[firstname, lastname, phone , bcryptPassword, req.user])
+        const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_phone=$3,user_password=$4 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone",[firstname, lastname, phone , bcryptPassword, req.user])
         // res.json(updateUser.rows)
         res.json(req.user)
         
@@ -146,7 +145,7 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
 // for user verification
 router.get("/userVerification/:id",async (req,res)=>{
     try {
-        // console.log("hi")
+        console.log("hi");
         const email = req.params.id;
         // console.log(email)
         //check whether user exsist or not
