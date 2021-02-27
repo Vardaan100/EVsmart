@@ -3,8 +3,7 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtgenerator");
 const verifyInfo = require("../middleware/validInfo");
-const authorization = require("../middleware/verifyAuth");
-const userDataToken = require("../middleware/tokenReturn");
+const tokenReturn = require("../middleware/verifyAuth");
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
 
@@ -23,7 +22,7 @@ router.post("/signup",verifyInfo,async (req,res)=>{
         // res.json(user.rows);
         // console.log(user.rows.length);
         if(user.rows.length<<0){
-            return res.status(401).send("user exist");
+            return res.status(401).send("USER ALREADY EXSIST");
         };
         //check if phone no. exsist
         const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1",[phone]);
@@ -83,7 +82,7 @@ router.post("/signin",verifyInfo,async (req,res)=>{
     }
 })
 
-router.get("/verify",authorization,async(req,res)=>{
+router.get("/verify/:id",tokenReturn,async(req,res)=>{
     try {
         // console.log(req.user)
         // console.log(authorization)
@@ -96,7 +95,7 @@ router.get("/verify",authorization,async(req,res)=>{
 });
 
 //getting the user data by token
-router.get("/userdata/:id",userDataToken,async (req,res)=>{
+router.get("/userdata/:id",tokenReturn,async (req,res)=>{
     try {
         // console.log(req.user)
         userID = req.user
@@ -116,7 +115,7 @@ router.get("/userdata/:id",userDataToken,async (req,res)=>{
 })
 
 //updting the user data
-router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
+router.put("/userdata/:id",verifyInfo,tokenReturn,async (req,res)=>{
     try {
         const{firstname, lastname, phone , password}  = req.body;
         //check if phone no. exsist
@@ -124,9 +123,9 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
         if(phone_no.rows.length<<0){
             return res.status(401).send("Phone no. in use");
         }
-        console.log(req.user)
+        // console.log(req.user)
         userID = req.user
-        console.log(userID)
+        // console.log(userID)
         //bcrypting password
         const saltRound = 9 ;//no. of time to bcrypt password
         const Salt = bcrypt.genSalt(saltRound)
@@ -134,7 +133,7 @@ router.put("/userdata/:id",verifyInfo,userDataToken,async (req,res)=>{
 
         const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_phone=$3,user_password=$4 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone",[firstname, lastname, phone , bcryptPassword, req.user])
         // res.json(updateUser.rows)
-        res.json(req.user)
+        res.json(updateUser.rows)
         
         
     } catch (err) {

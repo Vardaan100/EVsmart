@@ -1,15 +1,14 @@
 const router = require("express").Router();
 const pool = require("../db");
-const authorization = require("../middleware/verifyAuth");
-const userDataToken = require("../middleware/tokenReturn");
-const csIdReturn = require("../middleware/cs_id_Return");
+const tokenReturn = require("../middleware/verifyAuth");
+const csIDReturn = require("../middleware/csIdReturn");
 
-router.get("/g/:id", csIdReturn, (req, res) => {
+router.get("/g/:id", csIDReturn, (req, res) => {
     res.json(req.csid)
     // res.json(req.user)
 })
 // create charging station
-router.post("/newcs/:id", userDataToken, async (req, res) => {
+router.post("/newcs/:id", tokenReturn, async (req, res) => {
     try {
         const { phone, open, close, long, lati, cost } = req.body;
         // check in charging station exist or not
@@ -28,7 +27,7 @@ router.post("/newcs/:id", userDataToken, async (req, res) => {
 
         // inserting in database    
         const newCS = await pool.query("INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *", [phone, open, close, long, lati, cost, req.user]);
-        const oc = await pool.query("UPDATE users SET cs_status = true WHERE user_id = $1 RETURNING *", [req.user])
+        const oc = await pool.query("UPDATE users SET cs_status = true WHERE user_id = $1 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [req.user])
         res.json(newCS.rows);
         console.log("created charging station");
     } catch (err) {
@@ -38,7 +37,7 @@ router.post("/newcs/:id", userDataToken, async (req, res) => {
 });
 
 // to get charging station idd=(uuid)
-router.get("/cs_id/:id", csIdReturn, async (req, res) => {
+router.get("/cs_id/:id", tokenReturn, async (req, res) => {
     try {
         //check whether CS exsist or not
         const csExist = await pool.query("SELECT * FROM charging_station WHERE user_ID =$1", [req.user]);
@@ -54,7 +53,7 @@ router.get("/cs_id/:id", csIdReturn, async (req, res) => {
 });
 
 //verifying charging station
-router.get("/verifycs/:id", csIdReturn, async (req, res) => {
+router.get("/verifycs/:id", csIDReturn, async (req, res) => {
     try {
         //check whether CS exsist or not
         const csExist = await pool.query("SELECT * FROM charging_station WHERE cs_id =$1", [req.csid]);
@@ -75,7 +74,7 @@ router.get("/verifycs/:id", csIdReturn, async (req, res) => {
 // get all charging station data
 router.get("/csall", async (req, res) => {
     try {
-        const getAllCS = await pool.query("SELECT * FROM charging_station");
+        const getAllCS = await pool.query("SELECT cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost FROM charging_station");
         res.send(getAllCS.rows);
     } catch (err) {
         console.error(err.message);
@@ -84,9 +83,9 @@ router.get("/csall", async (req, res) => {
 });
 
 // get data of charging station added by said cs id 
-router.get("/csdata/:id", csIdReturn, async (req, res) => {
+router.get("/csdata/:id", csIDReturn, async (req, res) => {
     try {
-        const cs = await pool.query("SELECT * FROM charging_station WHERE cs_id = $1", [req.csid]);
+        const cs = await pool.query("SELECT cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost FROM charging_station WHERE cs_id = $1", [req.csid]);
         // console.log(cs.rows);
         res.json(cs.rows);
     } catch (err) {
@@ -96,7 +95,7 @@ router.get("/csdata/:id", csIdReturn, async (req, res) => {
 });
 
 // update charging station
-router.put("/csdata/:id", csIdReturn, async (req, res) => {
+router.put("/csdata/:id", csIDReturn, async (req, res) => {
     try {
         const { phone, open, close, long, lati, cost } = req.body;
         // check in charging station exist or not
@@ -105,11 +104,12 @@ router.put("/csdata/:id", csIdReturn, async (req, res) => {
             return res.status(400).send("Charging Station DOESNT Exist");
         };
         // check in charging station exist or not
-        // const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
-        // if (chargingStation.rows.length << 0) {
-        //     return res.status(400).send("Charging Station Already Exist");
-        // };
-        const updateCs = await pool.query("UPDATE charging_station SET cs_phone = $1 ,cs_openat = $2 , cs_closeat = $3 , cs_longitude = $4 , cs_latitude =$5 , cs_cost =$6 WHERE cs_id = $7 RETURNING * ", [phone, open, close, long, lati, cost, req.csid]);
+        const chargingStation = await pool.query("SELECT cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2 AND NOT cs_id =$3 ", [long, lati,req.csid]);
+        if (chargingStation.rows.length << 0) {
+            return res.status(400).send("Charging Station Already Exist");
+        };
+
+        const updateCs = await pool.query("UPDATE charging_station SET cs_phone = $1 ,cs_openat = $2 , cs_closeat = $3 , cs_longitude = $4 , cs_latitude =$5 , cs_cost =$6 WHERE cs_id = $7 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [phone, open, close, long, lati, cost, req.csid]);
         res.json(updateCs.rows);
 
     } catch (err) {
@@ -119,7 +119,7 @@ router.put("/csdata/:id", csIdReturn, async (req, res) => {
 });
 
 //delete the cs by id
-router.delete("/deletecs/:id", csIdReturn, async (req, res) => {
+router.delete("/deletecs/:id", csIDReturn, async (req, res) => {
     try {
         const deleteCS = await pool.query("DELETE FROM charging_station WHERE cs_id =$1", [req.csid]);
         res.send("DELETED SUCCESSFULLY")

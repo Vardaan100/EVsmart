@@ -3,7 +3,7 @@ require("dotenv").config()
 
 verifyLogin = async(req,res,next) => {
     try {
-        const jwtToken = req.header("token");
+        const jwtToken = req.params.id;
         if(!jwtToken){
             return res.status(403).json("Provide token")
         }
@@ -14,7 +14,7 @@ verifyLogin = async(req,res,next) => {
             return res.status(403).json("NOT AUTHORISED(invalid token");
         };
         req.user = verify.user;
-        console.log(verify)
+
         next();
     } catch (err) {
         console.error(err.message);
