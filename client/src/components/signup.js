@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { signup } from "../routing/auth";
+import { signup } from "../fetchingData/api_calls";
 
 const Signup = () => {
   const [values, setValues] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    password: "",
+    firstname: "Vardaan",
+    lastname: "Magon",
+    email: "vardaanmagon@yahoo.com",
+    phone: "9999640326",
+    password: "hellohello",
     error: "",
     success: false,
   });
-  
-  const { firstname, lastname, email, phone, password, error } = values;
+
+  const { firstname, lastname, email, phone, password, error, success } = values;
 
   const handleChange = (firstname) => (event) => {
     setValues({ ...values, error: false, [firstname]: event.target.value });
@@ -23,8 +23,10 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
+      console.log(data);
+      if (!data.ok) {
+        console.log("Failure condition");
+        setValues({ ...values, error: data.status, success: false });
       } else {
         setValues({
           ...values,
@@ -36,7 +38,7 @@ const Signup = () => {
           error: "",
           success: true,
         });
-        console.log("SignUp Succesfully");
+        console.log("SignUp Successfully");
       }
     });
   };
@@ -115,7 +117,14 @@ const Signup = () => {
       </p>
     </form>
   );
-
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
+    >
+      New account is created. Please <Link to="/signin">Signin</Link>
+    </div>
+  );
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -127,6 +136,7 @@ const Signup = () => {
 
   return (
     <div>
+      {showSuccess()}
       {showError()}
       {signUpForm()}
     </div>

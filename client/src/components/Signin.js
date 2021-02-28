@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { signin, authenticate } from "../routing/auth";
+import { signin, authenticate } from "../fetchingData/api_calls";
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -21,8 +21,8 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, loading: false });
+      if (!data.ok) {
+        setValues({ ...values, error: data.status, loading: false });
       } else {
         authenticate(data, () => {
           setValues({
@@ -36,24 +36,27 @@ const Signin = () => {
     });
   };
 
-  const signUpForm = () => (
+  const signInForm = () => (
     <form>
-      <div className="form-group">
-        <label className="text-muted">Email</label>
+      <h3>Login</h3>
+       <div className="form-group">
+        <label>Email address</label>
         <input
           onChange={handleChange("email")}
           type="email"
           className="form-control"
+          placeholder="Enter email"
           value={email}
         />
       </div>
 
       <div className="form-group">
-        <label className="text-muted">Password</label>
+        <label>Password</label>
         <input
           onChange={handleChange("password")}
           type="password"
           className="form-control"
+          placeholder="Enter password"
           value={password}
         />
       </div>
@@ -81,7 +84,7 @@ const Signin = () => {
 
   const redirectUser = () => {
     if (redirectToReferrer) {
-      return <Redirect to="/" />;
+      return <Redirect to="/dashboard" />;
     }
   };
 
@@ -89,7 +92,7 @@ const Signin = () => {
     <div>
       {showLoading()}
       {showError()}
-      {signUpForm()}
+      {signInForm()}
       {redirectUser()}
     </div>
   );

@@ -1,7 +1,7 @@
-let iniatialState = {
-  islogin: false,
+let initialState = {
+  islogin: true,
 };
-function Redux(state = iniatialState, action) {
+function Redux(state = initialState, action) {
   switch (action.type) {
     case "login":
       // console.log("action:", action);
