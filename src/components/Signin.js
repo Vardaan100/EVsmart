@@ -30,7 +30,7 @@ class Signin extends Component {
             type="email"
             className="form-control"
             placeholder="Enter email"
-            required = "true"
+            required={true}
           />
         </div>
 
@@ -41,7 +41,7 @@ class Signin extends Component {
             type="password"
             className="form-control"
             placeholder="Enter password"
-            required = "true"
+            required={true}
           />
         </div>
 
