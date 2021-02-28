@@ -38,18 +38,21 @@ export default class Station extends Component {
 
       <div className="form-group">
         <label>Location</label>
-        <input
+        <span> <input
           value = ""
           className="form-control"
           placeholder="Latitude"
           disabled="true"
-        />
-        <input
+        /></span>
+        
+       <span> 
+         <input
           value = ""
           className="form-control"
           placeholder="Longitude"
           disabled="true"
-        />
+        /></span>
+       
         <Link to="/map">
         Set Your Location Manually
         </Link>
