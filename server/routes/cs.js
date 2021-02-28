@@ -14,25 +14,25 @@ router.post("/newcs/:id", tokenReturn, async (req, res) => {
         // check in charging station exist or not
         const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
         if (chargingStation.rows.length << 0) {
-            return res.status(400).send("Charging Station Already Exist");
+            return res.status(400).json("Charging Station Already Exist");
         };
-
+        console.log(req.user)
         // // creating constrait from only ONE CHARGING STATION
         const ocs = await pool.query("SELECT cs_status FROM users WHERE user_id =$1", [req.user]);
         csStatus = ocs.rows[0].cs_status;
         // console.log(csStatus);
         if (csStatus == true) {
-            return res.status(400).send("YOU CAN ONLY ADD ONE CHARGING STATION.");
+            return res.status(400).json("YOU CAN ONLY ADD ONE CHARGING STATION.");
         };
 
         // inserting in database    
-        const newCS = await pool.query("INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *", [phone, open, close, long, lati, cost, req.user]);
-        const oc = await pool.query("UPDATE users SET cs_status = true WHERE user_id = $1 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [req.user])
+        const newCS = await pool.query("INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost", [phone, open, close, long, lati, cost, req.user]);
+        const oc = await pool.query("UPDATE users SET cs_status = true WHERE user_id = $1 ", [req.user])
         res.json(newCS.rows);
         console.log("created charging station");
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -48,7 +48,7 @@ router.get("/cs_id/:id", tokenReturn, async (req, res) => {
         res.json(csID.rows[0].cs_id);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -67,7 +67,7 @@ router.get("/verifycs/:id", csIDReturn, async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -75,10 +75,10 @@ router.get("/verifycs/:id", csIDReturn, async (req, res) => {
 router.get("/csall", async (req, res) => {
     try {
         const getAllCS = await pool.query("SELECT cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost FROM charging_station");
-        res.send(getAllCS.rows);
+        res.json(getAllCS.rows);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -90,7 +90,7 @@ router.get("/csdata/:id", csIDReturn, async (req, res) => {
         res.json(cs.rows);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -101,12 +101,12 @@ router.put("/csdata/:id", csIDReturn, async (req, res) => {
         // check in charging station exist or not
         const checkCS = await pool.query("SELECT * FROM charging_station WHERE cs_id = $1", [req.csid]);
         if (checkCS.rows.length === 0) {
-            return res.status(400).send("Charging Station DOESNT Exist");
+            return res.status(400).json("Charging Station DOESNT Exist");
         };
         // check in charging station exist or not
         const chargingStation = await pool.query("SELECT cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2 AND NOT cs_id =$3 ", [long, lati,req.csid]);
         if (chargingStation.rows.length << 0) {
-            return res.status(400).send("Charging Station Already Exist");
+            return res.status(400).json("Charging Station Already Exist");
         };
 
         const updateCs = await pool.query("UPDATE charging_station SET cs_phone = $1 ,cs_openat = $2 , cs_closeat = $3 , cs_longitude = $4 , cs_latitude =$5 , cs_cost =$6 WHERE cs_id = $7 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [phone, open, close, long, lati, cost, req.csid]);
@@ -114,7 +114,7 @@ router.put("/csdata/:id", csIDReturn, async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -122,11 +122,11 @@ router.put("/csdata/:id", csIDReturn, async (req, res) => {
 router.delete("/deletecs/:id", csIDReturn, async (req, res) => {
     try {
         const deleteCS = await pool.query("DELETE FROM charging_station WHERE cs_id =$1", [req.csid]);
-        res.send("DELETED SUCCESSFULLY")
+        res.json("DELETED SUCCESSFULLY")
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 module.exports = router;

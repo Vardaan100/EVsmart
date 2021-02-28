@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config()
 
 // router.get("/",(req,res)=>{
-//     res.send("hello EvSmart")
+//     res.json("hello EvSmart")
 // });
 
 //signup andd register
@@ -22,12 +22,12 @@ router.post("/signup",verifyInfo,async (req,res)=>{
         // res.json(user.rows);
         // console.log(user.rows.length);
         if(user.rows.length<<0){
-            return res.status(401).send("USER ALREADY EXSIST");
+            return res.status(401).json("USER ALREADY EXSIST");
         };
         //check if phone no. exsist
         const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1",[phone]);
         if(phone_no.rows.length<<0){
-            return res.status(401).send("Phone no. in use");
+            return res.status(401).json("Phone no. in use");
         }
         //bcrypting password
         const saltRound = 9 ;//no. of time to bcrypt password
@@ -45,7 +45,7 @@ router.post("/signup",verifyInfo,async (req,res)=>{
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     }
 })
 
@@ -78,7 +78,7 @@ router.post("/signin",verifyInfo,async (req,res)=>{
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     }
 })
 
@@ -90,7 +90,7 @@ router.get("/verify/:id",tokenReturn,async(req,res)=>{
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 });
 
@@ -103,29 +103,30 @@ router.get("/userdata/:id",tokenReturn,async (req,res)=>{
         const id = await pool.query("SELECT * FROM users WHERE user_id = $1",[userID]);
         
         if(id.rows.length===0){
-            return res.status(401).send("INVALID ID");
+            return res.status(401).json("INVALID ID");
         };
         const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1",[userID])
         res.json(userData.rows)
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 })
 
 //updting the user data
 router.put("/userdata/:id",verifyInfo,tokenReturn,async (req,res)=>{
     try {
+
         const{firstname, lastname, phone , password}  = req.body;
         //check if phone no. exsist
-        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1",[phone]);
+        // console.log(req.user)
+        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1 AND NOT user_id =$2",[phone , req.user]);
         if(phone_no.rows.length<<0){
-            return res.status(401).send("Phone no. in use");
+            return res.status(401).json("Phone no. in use");
         }
         // console.log(req.user)
-        userID = req.user
-        // console.log(userID)
+        
         //bcrypting password
         const saltRound = 9 ;//no. of time to bcrypt password
         const Salt = bcrypt.genSalt(saltRound)
@@ -138,7 +139,7 @@ router.put("/userdata/:id",verifyInfo,tokenReturn,async (req,res)=>{
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 })
 // for user verification
@@ -157,7 +158,7 @@ router.get("/userVerification/:id",async (req,res)=>{
         res.json(verifyUpdate.rows);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("server error");
+        res.status(500).json("server error");
     };
 })
 
