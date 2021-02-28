@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 import cities from "../cities.json";
 
@@ -44,11 +44,7 @@ class Dashboard extends Component {
         {
           !this.props.coords?
           <div>Loading</div> : 
-          <Marker position={[this.state.lat, this.state.lng]}>
-            <Popup>
-              You are here!
-            </Popup>
-          </Marker>
+          <Circle center={[this.state.lat, this.state.lng]}  radius={200} />
         } 
 
         {cities.map((city, idx) => (
