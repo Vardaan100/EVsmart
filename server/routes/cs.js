@@ -10,20 +10,22 @@ router.get("/g/:id", csIDReturn, (req, res) => {
 // create charging station
 router.post("/newcs/:id", tokenReturn, async (req, res) => {
     try {
-        const { phone, open, close, long, lati, cost } = req.body;
-        // check in charging station exist or not
-        const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
-        if (chargingStation.rows.length << 0) {
-            return res.status(400).json("Charging Station Already Exist");
-        };
-        console.log(req.user)
-        // // creating constrait from only ONE CHARGING STATION
         const ocs = await pool.query("SELECT cs_status FROM users WHERE user_id =$1", [req.user]);
         csStatus = ocs.rows[0].cs_status;
         // console.log(csStatus);
         if (csStatus == true) {
             return res.status(400).json("YOU CAN ONLY ADD ONE CHARGING STATION.");
         };
+
+        const { phone, open, close, long, lati, cost } = req.body;
+        // check in charging station exist or not
+        const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
+        if (chargingStation.rows.length << 0) {
+            return res.status(400).json("Charging Station Already Exist");
+        };
+        // console.log(req.user)
+        // // creating constrait from only ONE CHARGING STATION
+        
 
         // inserting in database    
         const newCS = await pool.query("INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost", [phone, open, close, long, lati, cost, req.user]);
