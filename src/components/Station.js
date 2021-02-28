@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { TimePicker } from "antd"
+import { TimePicker } from "antd";
+import { Link } from "react-router-dom";
+
 
 export default class Station extends Component {
   
@@ -37,9 +39,20 @@ export default class Station extends Component {
       <div className="form-group">
         <label>Location</label>
         <input
+          value = ""
           className="form-control"
-          placeholder="Location"
+          placeholder="Latitude"
+          disabled="true"
         />
+        <input
+          value = ""
+          className="form-control"
+          placeholder="Longitude"
+          disabled="true"
+        />
+        <Link to="/map">
+        Set Your Location Manually
+        </Link>
       </div>
 
       <button type="submit" className="btn btn-primary btn-block">
@@ -49,4 +62,6 @@ export default class Station extends Component {
     );
   }
 }
+
+
 

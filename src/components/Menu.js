@@ -51,10 +51,10 @@ class Menus extends React.Component {
           </Menu.Item>
           </Link>
           
-          <Link to={"./list"}>
+          <Link to={"./station-profile"}>
           <Menu.Item key="7" className="sub">
             <EuroTwoTone />
-            <strong>Station List</strong>
+            <strong>Station Profile</strong>
           </Menu.Item>
           </Link>
 

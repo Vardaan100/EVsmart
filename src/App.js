@@ -6,7 +6,7 @@ import Home from "./components/home components/Home";
 import Contact from "./components/contacttus";
 import Signup from "./components/signup";
 import Profile from "./components/Profile";
-import List from "./components/List";
+import StationProfile from "./components/StationProfile";
 import Help from "./components/Help";
 import About from "./components/About";
 import Signin from "./components/Signin";
@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard";
 import SignUp from "./components/signup";
 import Station from "./components/Station"
 import { Fragment } from "react";
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route exact path="/" component={Dashboard} />
           <Route path="/contact" component={Contact} />
           <Route path="/help" component={Help} />
-          <Route path="/list" component={List} />
+          <Route path="/station-profile" component={StationProfile} />
+          <Route path="/map" component={Map} />
           <Route path="/profile" component={Profile} />
           <Route path="/signup" component={Signup} />
           <Route path="/about" component={About} />

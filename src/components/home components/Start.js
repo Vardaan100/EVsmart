@@ -1,6 +1,5 @@
 import { Button } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
 import "./start.css";
 
 function Start() {
@@ -12,9 +11,7 @@ function Start() {
         Our motto is to provide charging stations at best prices, which will be available throughout
         the world
       </p>
-      <Link to="/signup">
       <Button> Start Free Trail </Button>
-      </Link>
     </div>
   );
 }
