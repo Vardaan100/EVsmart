@@ -3,6 +3,7 @@ require("dotenv").config()
 
 verifyLogin = async(req,res,next) => {
     try {
+        
         const jwtToken = req.params.id;
         if(!jwtToken){
             return res.status(403).json("Provide token")
