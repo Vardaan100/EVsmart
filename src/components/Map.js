@@ -26,6 +26,7 @@ class Map extends Component {
       ? this.props.coords.longitude
       : this.state.lng;
     // console.log("lat", latitude, "log", longitude);
+
     let getlocation = () => {
       let action = {
         type: "get_location",
@@ -38,6 +39,7 @@ class Map extends Component {
       }
       // return <Link to="/station"> linkskdbvsd </Link>;
     };
+    
     return (
       <div>
         <MapContainer

@@ -11,7 +11,7 @@ class Dashboard extends Component {
     this.state = {
        lat: 19.7514798,
        lng: 75.7138884,
-       zoom: 6,
+       zoom: 12,
     }
   }
 
@@ -44,7 +44,7 @@ class Dashboard extends Component {
         {
           !this.props.coords?
           <div>Loading</div> : 
-          <Circle center={[this.state.lat, this.state.lng]}  radius={200} />
+          <Circle center={[this.state.lat, this.state.lng]}  radius={800} />
         } 
 
         {cities.map((city, idx) => (

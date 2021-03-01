@@ -41,7 +41,7 @@ class Station extends Component {
           <input
             value={this.props.location}
             className="form-control"
-            placeholder="Latitude"
+            placeholder="Latitude, Longitude"
             disabled={true}
           />
           {/* <input
