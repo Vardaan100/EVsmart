@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import "./signin.css";
 
 class Signin extends Component {
   user = (props) => {
@@ -20,7 +21,7 @@ class Signin extends Component {
 
   render() {
     return (
-      <form>
+      <form className="sign__container">
         <h3>Sign In</h3>
 
         <div className="form-group">

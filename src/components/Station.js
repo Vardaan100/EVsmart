@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import "./station.css";
 
 class Station extends Component {
   render() {
     const { RangePicker } = TimePicker;
 
     return (
-      <form>
+      <form className="station__comtainer">
         <h3>Add Your Station</h3>
 
         <div className="form-group">
