@@ -9,10 +9,10 @@
   margin: 10px;
 }
 
-.home__text > button {
+.home__chargingpoint {
   margin-top: 25px;
   background-color: black !important;
-  color: white;
+  color: white !important;
 }
 .MuiButton-root:hover {
   text-decoration: none;
