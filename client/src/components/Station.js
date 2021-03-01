@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 class Station extends Component {
+  
   render() {
+
     const { RangePicker } = TimePicker;
 
     return (
@@ -16,7 +18,7 @@ class Station extends Component {
           <input
             type="number"
             className="form-control"
-            placeholder="Enter phone number for station (optional)"
+            placeholder="Enter phone number for station"
           />
         </div>
 
