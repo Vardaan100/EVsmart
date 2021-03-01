@@ -14,8 +14,8 @@ import Map from "./components/Map";
 import SignUp from "./components/Signup";
 import Station from "./components/Station"
 import { Fragment } from "react";
-import {PrivateRoute } from "./components/routes/PrivateRoute";
-import {PublicRoute} from "./components/routes/publicRoute";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 
 function App() {
   return (
@@ -23,10 +23,9 @@ function App() {
       <Navigation />
       <Switch className="App">
         <Fragment>
-          <PublicRoute exact path="/home" component={Home} />
+          <PublicRoute exact path="/"  component={Home} />
           <PublicRoute path="/contact" component={Contact} />
           <PrivateRoute path="/help" component={Help} />
-          <Route path="/list" component={List} />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/station-profile" component={StationProfile} />
           <PrivateRoute path="/map" component={Map} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { signin } from "../fetchingData/api_calls";
-import {authenticate} from "../utils/index";
+import {authenticated} from "../utils/index";
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -25,7 +25,7 @@ const Signin = () => {
       if (!data.ok) {
         setValues({ ...values, error: data.status, loading: false });
       } else {
-        authenticate(data, () => {
+        authenticated(data, () => {
           setValues({
             ...values,
             redirectToReferrer: true,
