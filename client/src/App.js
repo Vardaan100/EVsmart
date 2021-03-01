@@ -24,6 +24,7 @@ function App() {
       <Switch className="App">
         <Fragment>
           <PublicRoute exact path="/"  component={Home} />
+          <PublicRoute exact path="/home"  component={Home} />
           <PublicRoute path="/contact" component={Contact} />
           <PrivateRoute path="/help" component={Help} />
           <PrivateRoute path="/profile" component={Profile} />

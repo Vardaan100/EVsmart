@@ -20,7 +20,7 @@ function Home() {
             bibendum neque egestas congue quisque egestas diam in. Fermentum
             odio eu feugiat pretium nibh ipsum consequat nisl.
           </p>
-          <Button vairent="contained">Find Charginh point</Button>
+          <Button vairent="contained">Find Charging point</Button>
         </div>
         <div className="home__image">
           <img

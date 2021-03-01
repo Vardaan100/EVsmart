@@ -18,7 +18,7 @@ function Price() {
           eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
         </p>
         <div className="small">
-          <Avatar /> <small>Ev smart</small>
+          <Avatar /> <small>EVsmart</small>
         </div>
       </div>
       <div className="price__image">

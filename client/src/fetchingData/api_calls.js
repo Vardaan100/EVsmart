@@ -12,7 +12,7 @@ export const signup = (user) => {
     body: JSON.stringify(user),
   })
     .then((response) => {
-      return response;
+      return response.json();
     })
     .catch((err) => {
       console.log(err);
@@ -30,7 +30,7 @@ export const signin = (user) => {
     body: JSON.stringify(user),
   })
     .then((response) => {
-      return response;
+      return response.json();
     })
     .catch((err) => {
       console.log(err);

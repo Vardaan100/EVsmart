@@ -1,8 +1,8 @@
  const TOKEN_KEY = 'jwt';
 
-export const logout = () => {
-    localStorage.removeItem(TOKEN_KEY);
-}
+// export const logout = () => {
+//     localStorage.removeItem(TOKEN_KEY);
+// }
 
 export const authenticate = (data) => {
   if(typeof window !=='undefined' ) {
@@ -10,18 +10,16 @@ export const authenticate = (data) => {
   }
 };
 
-//Creating token and local storage in the browser
-export const authenticated = (data, next) => {
-    if(typeof window !=='undefined' ) {
-        localStorage.setItem('jwt', JSON.stringify(data));
-        next();
-    }
-};
+// //Creating token and local storage in the browser
+// export const authenticated = (data, next) => {
+//     if(typeof window !=='undefined' ) {
+//         localStorage.setItem('jwt', JSON.stringify(data));
+//         next();
+//     }
+// };
 
-export const getToken = (data) => {
-  if(typeof window!== 'undefined'){
-    localStorage.getItem('jwt');
-    return true;
-  }
-  return false;
-}
+// export const getToken = (data) => {
+//   if(typeof window!== 'undefined'){
+//     localStorage.getItem('jwt');
+//   }
+// }

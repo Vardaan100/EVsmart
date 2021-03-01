@@ -13,7 +13,15 @@ const Signup = () => {
     success: false,
   });
 
-  const { firstname, lastname, email, phone, password, error, success } = values;
+  const {
+    firstname,
+    lastname,
+    email,
+    phone,
+    password,
+    error,
+    success,
+  } = values;
 
   const handleChange = (firstname) => (event) => {
     setValues({ ...values, error: false, [firstname]: event.target.value });
@@ -22,12 +30,10 @@ const Signup = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
-    signup({ firstname, lastname, email, phone, password })
-    .then((data) => {
-      const details = data.json();  
+    signup({ firstname, lastname, email, phone, password }).then((data) => {
       if (!data.ok) {
-        console.log(details);
-        setValues({ ...values, error: data.status, success: false });
+        console.log(data);
+        setValues({ ...values, error: data, success: false });
       } else {
         setValues({
           ...values,

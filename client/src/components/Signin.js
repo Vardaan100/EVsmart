@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { signin } from "../fetchingData/api_calls";
-import {authenticated} from "../utils/index";
+import {authenticate} from "../utils/index";
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: "vardaanmagon@yahoo.com",
+    password: "hellohello",
     error: "",
     loading: false,
     redirectToReferrer: false,
@@ -22,14 +22,15 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
-      if (!data.ok) {
+      console.log(data);
+      if (data==null) {
+        console.log("Failed");
         setValues({ ...values, error: data.status, loading: false });
       } else {
-        authenticated(data, () => {
-          setValues({
+        authenticate(data) 
+        setValues({
             ...values,
             redirectToReferrer: true,
-          });
         });
       console.log("Login Succesfull");
       }
