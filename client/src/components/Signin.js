@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { signin, authenticate } from "../fetchingData/api_calls";
+import { signin } from "../fetchingData/api_calls";
+import {authenticate} from "../utils/index";
 
 const Signin = () => {
   const [values, setValues] = useState({

@@ -28,9 +28,9 @@ class Profile extends Component {
   }
 
   render() {
-    if (!this.props.islogin) {
-      return <Redirect to={"/sign-in"} />;
-    }
+    // if (!this.props.islogin) {
+    //   return <Redirect to={"/sign-in"} />;
+    // }
 
     return (
       <div>

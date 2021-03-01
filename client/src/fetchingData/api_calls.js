@@ -12,7 +12,6 @@ export const signup = (user) => {
     body: JSON.stringify(user),
   })
     .then((response) => {
-      console.log(response.json());
       return response;
     })
     .catch((err) => {
@@ -39,7 +38,7 @@ export const signin = (user) => {
 };
 
 //Get data from API for Profile
-export const userData =  (token) =>{
+export const userData = (token) =>{
   return fetch(`${API}/auth/userdata/${token}`,{
     method:"GET",
     headers:{
@@ -47,17 +46,28 @@ export const userData =  (token) =>{
     },
   })
   .then((response)=>{
-    return response.json();
+    return response;
   })
   .catch((err)=> {
     console.log(err);
   });
 }
 
-//Creating token and local storage in the browser
-export const authenticate = (data, next) => {
-    if(typeof window !=='undefined' ) {
-        localStorage.setItem('jwt', JSON.stringify(data));
-        next();
-    }
+// Post data to API for signup
+export const addCS = (chargingD,token) => {
+  // console.log(name,email, password);
+  return fetch(`${API}/cs//newcs/${token}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(chargingD),
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
