@@ -1,15 +1,15 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { authenticate } from '../../utils/index';
+// import React from 'react';
+// import { Route, Redirect } from 'react-router-dom';
+// import { isLogin } from '../utils';
 
-const PublicRoute = ({component: Component, restricted, ...rest}) => {
-    return (
-        <Route {...rest} render={props => (
-            authenticate() && restricted ?
-                <Redirect to="/dashboard" />
-            : <Component {...props} />
-        )} />
-    );
-};
+// const PublicRoute = ({component: Component, restricted, ...rest}) => {
+//     return (
+//         <Route {...rest} render={props => (
+//             isLogin() && restricted ?
+//                 <Redirect to="/home" />
+//             : <Component {...props} />
+//         )} />
+//     );
+// };
 
-export default PublicRoute;
+// export default PublicRoute
