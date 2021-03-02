@@ -23,18 +23,18 @@ function App() {
       <Navigation />
       <Switch className="App">
         <Fragment>
-          <Route exact path="/"  component={Home} />
-          <Route exact path="/home"  component={Home} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/help" component={Help} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/station-profile" component={StationProfile} />
-          <Route path="/map" component={Map} />
-          <Route path="/about" component={About} />
-          <Route path="/sign-in" component={Signin} />
-          <Route path="/sign-up" component={SignUp} />
-          <Route path="/station" component={Station} />
-          <Route path="/dashboard" component={Dashboard} />
+          <PublicRoute exact path="/"  component={Home} />
+          <PublicRoute exact path="/home"  component={Home} />
+          <PublicRoute path="/contact" component={Contact} />
+          <PrivateRoute path="/help" component={Help} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/station-profile" component={StationProfile} />
+          <PrivateRoute path="/map" component={Map} />
+          <PublicRoute path="/about" component={About} />
+          <PublicRoute path="/sign-in" component={Signin} />
+          <PublicRoute path="/sign-up" component={SignUp} />
+          <PrivateRoute path="/station" component={Station} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         </Fragment>
       </Switch>
       {/* <Footer /> */}

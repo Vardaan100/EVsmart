@@ -23,7 +23,7 @@ const Signin = () => {
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
       console.log(data);
-      if (data=="User doesnt exsist" || data=="Password or Email is incorrect" || data=="Please Enter email and password") {
+      if (data=="User doesnt exsist" || data=="Password or Email is incorrect" || data=="Please Enter email and password" || data=="Invalid Email") {
         console.log("Failed");
         setValues({ ...values, error: data, loading: false });
       } else {

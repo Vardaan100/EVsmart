@@ -1,28 +1,30 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Menus from "../Menu";
 import "./navigation.css";
+import { getToken, logout } from "../../utils/index"
+
 
 class Index extends Component {
-  // constructor(props) {
-  //   super(props);
 
-  //   this.state = {
-  //     isLoggedIn: true,
-  //   };
-  // }
-  logout = () => {
-    // this.setState({ isLoggedIn: false });
-    let action = {
-      type: "login",
-      payload: !this.props.islogin,
-      // payload: setState,
-    };
-    this.props.dispatch(action);
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        isLogin: getToken()
+    }
+}
+
+handleLogout = () => {
+    logout();
+    this.setState({
+        isLogin: false
+    })
+}
+  
+
   render() {
-    return this.props.islogin ? (
+    return this.state.isLogin ? (
       <div style={{ background_color: "red" }} className="nav-container">
         <ul className="lists">
           <li>
@@ -40,25 +42,15 @@ class Index extends Component {
               Contact us
             </Link>
           </li>
-          <Fragment>
+          
           <li className="menu">
             <Menus />
           </li>
-          </Fragment>
-          {!this.props.islogin ? (
-            <li>
-              <Link className="list" to="/signup">
-                Signup
-              </Link>
-              <Link className="list" to="/sign-in">
-                Login
-              </Link>
-            </li>
-          ) : (
-            <Link onClick={this.logout} className="list" to="/sign-in">
+          <li>
+            <Link onClick={this.handleLogout} className="list" to="/sign-in">
               Logout
             </Link>
-          )}
+            </li>
         </ul>
       </div>
     ) : (
@@ -110,17 +102,4 @@ class Index extends Component {
   }
 }
 
-// export default Index;
-function msp(state) {
-  // console.log("stateee", state);
-  return {
-    islogin: state.islogin,
-  };
-}
-function mdp(dispatch) {
-  // console.log("dispatch", dispatch);
-  return {
-    dispatch,
-  };
-}
-export default connect(msp, mdp)(Index);
+export default Index
