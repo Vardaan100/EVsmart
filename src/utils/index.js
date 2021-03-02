@@ -19,8 +19,8 @@ export const authenticate = (data) => {
 //     }
 // };
 
-// export const getToken = (data) => {
-//   if(typeof window!== 'undefined'){
-//     localStorage.getItem('jwt');
-//   }
-// }
+export const getToken = (data) => {
+  if(typeof window!== 'undefined'){
+    localStorage.getItem('jwt');
+  }
+}
