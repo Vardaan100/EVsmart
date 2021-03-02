@@ -46,21 +46,23 @@ export const userData = (token) =>{
     },
   })
   .then((response)=>{
-    return response;
+    return response.json();
   })
   .catch((err)=> {
     console.log(err);
   });
 }
 
-export const updateUser = (token) =>{
+export const updateUser = (user,token) =>{
   return fetch(`${API}/auth/userdata/${token}`,{
     method:"PUT",
     headers:{
       Accept:"application/json",
     },
+    body: JSON.stringify(user),
   })
   .then((response)=>{
+    console.log(response);
     return response;
   })
   .catch((err)=> {
