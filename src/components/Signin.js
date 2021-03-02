@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { signin } from "../fetchingData/api_calls";
-import {authenticate} from "../utils/index";
+import { authenticate } from "../utils/index";
+import "./signin.css";
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -23,25 +24,29 @@ const Signin = () => {
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
       console.log(data);
-      if (data=="User doesnt exsist" || data=="Password or Email is incorrect" || data=="Please Enter email and password" || data=="Invalid Email") {
+      if (
+        data == "User doesnt exsist" ||
+        data == "Password or Email is incorrect" ||
+        data == "Please Enter email and password" ||
+        data == "Invalid Email"
+      ) {
         console.log("Failed");
         setValues({ ...values, error: data, loading: false });
       } else {
-        authenticate(data); 
+        authenticate(data);
         setValues({
-            ...values,
-            redirectToReferrer: true,
+          ...values,
+          redirectToReferrer: true,
         });
-      console.log("Login Succesfull");
+        console.log("Login Succesfull");
       }
-
     });
   };
 
   const signInForm = () => (
-    <form>
+    <form className="sign__container">
       <h3>Login</h3>
-       <div className="form-group">
+      <div className="form-group">
         <label>Email address</label>
         <input
           onChange={handleChange("email")}
@@ -91,11 +96,11 @@ const Signin = () => {
   };
 
   return (
-    <div>
+    <div className="login">
       {showLoading()}
       {showError()}
-      {signInForm()}
       {redirectUser()}
+      {signInForm()}
     </div>
   );
 };

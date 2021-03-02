@@ -1,27 +1,36 @@
-import { useForm } from 'react-hook-form';
-import emailjs from 'emailjs-com';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
+import { useForm } from "react-hook-form";
+import emailjs from "emailjs-com";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import "./contactus.css";
+// import image from "/images/ev.jpg";
+// import image from "./imgs/ev.jpg";
 
+// var backgroundImage = {
+//   width: "100%",
+//   height: "400px",
+//   // backgroundImage: "url(" + { image } + ")",
+//   backgroundImage: `url(${image}) `,
+// };
 const Contact = () => {
   const { register, errors, handleSubmit, reset } = useForm();
 
   const toastifySuccess = () => {
-    toast('Form sent!', {
-      position: 'bottom-right',
+    toast("Form sent!", {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      className: 'submit-feedback success',
-      toastId: 'notifyToast'
+      className: "submit-feedback success",
+      toastId: "notifyToast",
     });
   };
- 
+
   const REACT_APP_SERVICE_ID = "service_99smg2h";
   const REACT_APP_TEMPLATE_ID = "template_x636xcg";
-  const REACT_APP_USER_ID = "user_8OSbcGGMSuhSSdAxAI41a"
+  const REACT_APP_USER_ID = "user_8OSbcGGMSuhSSdAxAI41a";
 
   const onSubmit = async (data) => {
     // Send form email
@@ -30,14 +39,14 @@ const Contact = () => {
         name: data.name,
         email: data.email,
         subject: data.subject,
-        message: data.message
+        message: data.message,
       };
 
       await emailjs.send(
         REACT_APP_SERVICE_ID,
-        REACT_APP_TEMPLATE_ID, 
+        REACT_APP_TEMPLATE_ID,
         templateParams,
-        REACT_APP_USER_ID 
+        REACT_APP_USER_ID
       );
 
       reset();
@@ -48,85 +57,126 @@ const Contact = () => {
   };
 
   return (
-    <div className='ContactForm'>
-      {/* <img src="./images/contact.jpg" alt="contact" style={{width:"100%", height:"50vh"}}/> */}
-      <div className='container'>
-        <div className='row'>
-          <div className='col-12 text-center'>
-            <div className='contactForm'>
-              <form id='contact-form' onSubmit={handleSubmit(onSubmit)} noValidate>
+    <div
+      className="ContactForm contactus"
+      // style={{
+      //   backgroundImage: `url(${require("./img/ev.jpg")})`,
+      //   height: "100px",
+      // }}
+    >
+      {/* <img
+        src="/images/ev.jpg"
+        alt="contact"
+        style={{
+          width: "100%",
+          height: "50vh",
+          backgroundImage: `{url(/images/en.jpg)}`,
+        }}
+      /> */}
+      {/* <img src={backgroundImage} alt="ev images" /> */}
+      <div className="container contactus__background">
+        <div className="row">
+          <div className="col-12 text-center">
+            <div className="contactForm">
+              <form
+                id="contact-form"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
+              >
                 {/* Row 1 of form */}
-                <div className='row formRow'>
-                  <div className='col-6'>
+                <div className="row formRow">
+                  <div className="col-6 p-4">
                     <input
-                      type='text'
-                      name='name'
+                      type="text"
+                      name="name"
                       ref={register({
-                        required: { value: true, message: 'Please enter your name' },
+                        required: {
+                          value: true,
+                          message: "Please enter your name",
+                        },
                         maxLength: {
                           value: 30,
-                          message: 'Please use 30 characters or less'
-                        }
+                          message: "Please use 30 characters or less",
+                        },
                       })}
-                      className='form-control formInput'
-                      placeholder='Name'
+                      className="form-control formInput"
+                      placeholder="Name"
                     ></input>
-                    {errors.name && <span className='errorMessage'>{errors.name.message}</span>}
+                    {errors.name && (
+                      <span className="errorMessage">
+                        {errors.name.message}
+                      </span>
+                    )}
                   </div>
-                  <div className='col-6'>
+                  <div className="col-6 p-4">
                     <input
-                      type='email'
-                      name='email'
+                      type="email"
+                      name="email"
                       ref={register({
                         required: true,
-                        pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+                        pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                       })}
-                      className='form-control formInput'
-                      placeholder='Email address'
+                      className="form-control formInput"
+                      placeholder="Email address"
                     ></input>
                     {errors.email && (
-                      <span className='errorMessage'>Please enter a valid email address</span>
+                      <span className="errorMessage">
+                        Please enter a valid email address
+                      </span>
                     )}
                   </div>
                 </div>
                 {/* Row 2 of form */}
-                <div className='row formRow'>
-                  <div className='col'>
+                <div className="row formRow">
+                  <div className="col p-4">
                     <input
-                      type='text'
-                      name='subject'
+                      type="text"
+                      name="subject"
                       ref={register({
-                        required: { value: true, message: 'Please enter a subject' },
+                        required: {
+                          value: true,
+                          message: "Please enter a subject",
+                        },
                         maxLength: {
                           value: 75,
-                          message: 'Subject cannot exceed 75 characters'
-                        }
+                          message: "Subject cannot exceed 75 characters",
+                        },
                       })}
-                      className='form-control formInput'
-                      placeholder='Subject'
+                      className="form-control formInput p-4"
+                      placeholder="Subject"
                     ></input>
                     {errors.subject && (
-                      <span className='errorMessage'>{errors.subject.message}</span>
+                      <span className="errorMessage">
+                        {errors.subject.message}
+                      </span>
                     )}
                   </div>
                 </div>
                 {/* Row 3 of form */}
-                <div className='row formRow'>
-                  <div className='col'>
+                <div className="row formRow">
+                  <div className="col p-4">
                     <textarea
                       rows={3}
-                      name='message'
+                      name="message"
                       ref={register({
-                        required: true
+                        required: true,
                       })}
-                      className='form-control formInput'
-                      placeholder='Message'
+                      className="form-control formInput"
+                      placeholder="Message"
                     ></textarea>
-                    {errors.message && <span className='errorMessage'>Please enter a message</span>}
+                    {errors.message && (
+                      <span className="errorMessage">
+                        Please enter a message
+                      </span>
+                    )}
                   </div>
                 </div>
-                <button className='submit-btn' type='submit'>
-                  Submit
+                <button
+                  className="submit-btn contact__button contact__button_bottom_bg"
+                  type="submit"
+                >
+                  {" "}
+                  <div className="submit__text">Submit</div>
                 </button>
               </form>
             </div>
