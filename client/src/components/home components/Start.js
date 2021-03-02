@@ -5,13 +5,13 @@ import "./start.css";
 function Start() {
   return (
     <div className="start__component">
-      <h4>Ready To started?</h4>
+      <h4>Ready To start?</h4>
       <br></br>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        Our motto is to provide charging stations at best prices, which will be available throughout
+        the world
       </p>
-      <Button> Start Free Trail </Button>
+      <Button> Start Free Trial </Button>
     </div>
   );
 }

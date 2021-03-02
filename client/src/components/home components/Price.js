@@ -8,17 +8,17 @@ function Price() {
       <div className="price__text">
         <h3>Our Best Price</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+          EV Smart provides you best price to charge your car, it gives access to not only
+          commercial stations but also to house stations.{" "}
         </p>
         <br></br>
         <br></br>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+         Just sign up with EV smart and get started to explore new world of charging stations.
+         Click on sign up to start{" "}
         </p>
         <div className="small">
-          <Avatar /> <small>EVsmart</small>
+          <Avatar /> <small>Ev smart</small>
         </div>
       </div>
       <div className="price__image">

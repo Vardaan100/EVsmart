@@ -4,11 +4,11 @@ import { signup } from "../fetchingData/api_calls";
 
 const Signup = () => {
   const [values, setValues] = useState({
-    firstname: "Vardaan",
-    lastname: "Magon",
-    email: "vardaanmagon@yahoo.com",
-    phone: "9999640326",
-    password: "hellohello",
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    password: "",
     error: "",
     success: false,
   });
