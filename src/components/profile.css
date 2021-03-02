@@ -1,12 +1,13 @@
-.station__container {
+.profiles {
   max-width: 600px;
-  padding-top: 4%;
   height: 100vh;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 10%;
 }
 
-.station {
+.profile {
   background-color: #f8f9fa;
+
   margin-top: -15px;
 }

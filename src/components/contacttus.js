@@ -3,7 +3,6 @@ import emailjs from "emailjs-com";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import "./contactus.css";
-// import image from "/images/ev.jpg";
 // import image from "./imgs/ev.jpg";
 
 // var backgroundImage = {
@@ -62,6 +61,11 @@ const Contact = () => {
       // style={{
       //   backgroundImage: `url(${require("./img/ev.jpg")})`,
       //   height: "100px",
+      // }}
+      // style={{
+      //   width: "100%",
+      //   height: "50vh",
+      //   backgroundImage: `url(${image})`,
       // }}
     >
       {/* <img

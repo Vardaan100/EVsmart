@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
+import "./stationprofile.css";
 
 export default class StationProfile extends Component {
   constructor(props) {
@@ -24,72 +25,74 @@ export default class StationProfile extends Component {
       ? "Edit your profile"
       : "Back to profile";
     return (
-      <div>
-        <button onClick={this.clickHandler}>{buttonText}</button>
+      <div className="station__profile">
+        <div className="station__profiles">
+          <button onClick={this.clickHandler}>{buttonText}</button>
 
-        {this.state.edit ? (
-          <form className="station__comtainer">
-            <h3>Station Profile</h3>
+          {this.state.edit ? (
+            <form className="station__container">
+              <h3>Station Profile</h3>
 
-            <div className="form-group">
-              <label>Phone Number</label>
-              <input type="number" className="form-control" disabled="true" />
-            </div>
-
-            <div className="form-group">
-              <label>Working Hours</label>
-              <input type="number" className="form-control" disabled="true" />
-            </div>
-
-            <div className="form-group">
-              <label>Charges per Hour (in Rs)</label>
-              <input type="number" className="form-control" disabled="true" />
-            </div>
-          </form>
-        ) : (
-          <form>
-            <h3>Edit your profile</h3>
-
-            <div className="form-group">
-              <label>Phone Number</label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter phone number for station (optional)"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Working Hours</label>
-              <div>
-                <RangePicker bordered={true} />
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input type="number" className="form-control" disabled="true" />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label>Charges per Hour (in Rs)</label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter charges"
-              />
-            </div>
+              <div className="form-group">
+                <label>Working Hours</label>
+                <input type="number" className="form-control" disabled="true" />
+              </div>
 
-            <div className="form-group">
-              <label>Location</label>
-              <input
-                className="form-control"
-                placeholder="Location"
-                disabled="true"
-              />
-              <Link to="/map">Set Your Location Manually</Link>
-            </div>
+              <div className="form-group">
+                <label>Charges per Hour (in Rs)</label>
+                <input type="number" className="form-control" disabled="true" />
+              </div>
+            </form>
+          ) : (
+            <form>
+              <h3>Edit your profile</h3>
 
-            <button type="submit" className="btn btn-primary btn-block">
-              Save changes
-            </button>
-          </form>
-        )}
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter phone number for station (optional)"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Working Hours</label>
+                <div>
+                  <RangePicker bordered={true} />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Charges per Hour (in Rs)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter charges"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Location</label>
+                <input
+                  className="form-control"
+                  placeholder="Location"
+                  disabled="true"
+                />
+                <Link to="/map">Set Your Location Manually</Link>
+              </div>
+
+              <button type="submit" className="btn btn-primary btn-block">
+                Save changes
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { updateUser, userData } from "../fetchingData/api_calls";
+import "./profile.css";
 
 class Profile extends Component {
   constructor(props) {
@@ -64,98 +65,100 @@ class Profile extends Component {
       ? "Edit your profile"
       : "Back to profile";
     return (
-      <div>
-        <button onClick={this.clickHandler}>{buttonText}</button>
+      <div className="profile">
+        <div className="profiles">
+          <button onClick={this.clickHandler}>{buttonText}</button>
 
-        {this.state.edit ? (
-          <form>
-            <div className="form-group">
-              <label className="text-muted">First name</label>
-              <input
-                type="name"
-                className="form-control"
-                disabled={true}
-                placeholder={this.state.firstname}
-              />
-            </div>
+          {this.state.edit ? (
+            <form>
+              <div className="form-group">
+                <label className="text-muted">First name</label>
+                <input
+                  type="name"
+                  className="form-control"
+                  disabled={true}
+                  placeholder={this.state.firstname}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Last Name</label>
-              <input
-                type="name"
-                className="form-control"
-                disabled={true}
-                placeholder={this.state.lastname}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Last Name</label>
+                <input
+                  type="name"
+                  className="form-control"
+                  disabled={true}
+                  placeholder={this.state.lastname}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                disabled={true}
-                placeholder={this.state.email}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  disabled={true}
+                  placeholder={this.state.email}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Phone Number</label>
-              <input
-                type="number"
-                className="form-control"
-                disabled={true}
-                placeholder={this.state.phone}
-              />
-            </div>
-          </form>
-        ) : (
-          <form>
-            <div className="form-group">
-              <label className="text-muted">First name</label>
-              <input
-                type="name"
-                className="form-control"
-                value={this.state.firstname}
-                onChange={this.handleChange("firstname")}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Phone Number</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  disabled={true}
+                  placeholder={this.state.phone}
+                />
+              </div>
+            </form>
+          ) : (
+            <form>
+              <div className="form-group">
+                <label className="text-muted">First name</label>
+                <input
+                  type="name"
+                  className="form-control"
+                  value={this.state.firstname}
+                  onChange={this.handleChange("firstname")}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Last Name</label>
-              <input
-                type="name"
-                className="form-control"
-                value={this.state.lastname}
-                onChange={this.handleChange("lastname")}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Last Name</label>
+                <input
+                  type="name"
+                  className="form-control"
+                  value={this.state.lastname}
+                  onChange={this.handleChange("lastname")}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                value={this.state.email}
-                disabled={true}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  value={this.state.email}
+                  disabled={true}
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="text-muted">Phone Number</label>
-              <input
-                type="number"
-                className="form-control"
-                value={this.state.phone}
-                onChange={this.handleChange("phone")}
-              />
-            </div>
+              <div className="form-group">
+                <label className="text-muted">Phone Number</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={this.state.phone}
+                  onChange={this.handleChange("phone")}
+                />
+              </div>
 
-            <button className="btn btn-primary" onClick={this.clickSubmit}>
-              Save Changes
-            </button>
-          </form>
-        )}
+              <button className="btn btn-primary" onClick={this.clickSubmit}>
+                Save Changes
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     );
   }
