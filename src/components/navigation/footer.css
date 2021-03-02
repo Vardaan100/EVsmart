@@ -1,0 +1,31 @@
+.footer_container {
+  background-color: rgb(158, 158, 158);
+  position: absolute;
+  /* bottom: 0; */
+  width: 100%;
+}
+.footer_container > ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.footer_lists {
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer_logo {
+  width: 100px;
+  padding-right: 20px;
+}
+
+.footer_list {
+  text-decoration: none;
+}
+.footer_list:hover {
+  color: rgb(175, 40, 40);
+}
+
+.privacy {
+  text-align: center;
+}
