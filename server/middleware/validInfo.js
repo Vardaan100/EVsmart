@@ -7,8 +7,9 @@ module.exports = function (req, res, next){
         return /^[6-9]\d{9}$/.test(phoneNo);
     };
 
-    if(req.path === "/auth/signup"){
-        console.log(!email.length);
+    if(req.path === "/signup"){
+	   // console.log(req.path)
+        //console.log(!email.length);
         if (![email,firstname,lastname,phone,password].every(Boolean)){
             return res.status(401).json("missing Email password phone no. or name");
         }else if (!validEmail(email)){
@@ -16,7 +17,7 @@ module.exports = function (req, res, next){
         }else if (!validPhone(phone)){
             return res.status(401).json("Invalid Phone no.")
         };
-    } else if (req.path=== "/auth/signin"){
+    } else if (req.path=== "/signin"){
         if(![email,password].every(Boolean)){
             return res.status(401).json("Please Enter email and password");
         }else if ( !validEmail(email)){
