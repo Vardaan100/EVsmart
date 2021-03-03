@@ -12,10 +12,11 @@ module.exports = function (req, res, next){
         // console.log(!email.length);
         if (![email,firstname,lastname,phone,password].every(Boolean)){
             return res.status(401).json("missing Email password phone no. or name");
-        }else if (!validEmail(email)){
-            return res.status(401).json("Invalid Email");
         }else if (!validPhone(phone)){
             return res.status(401).json("Invalid Phone no.")
+        }else if (!validEmail(email)){
+            return res.status(401).json("Invalid Email");
+        
         };
     } else if (req.path=== "/signin"){
         if(![email,password].every(Boolean)){

@@ -7,8 +7,8 @@ CREATE TABLE users(
     user_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     user_firstname VARCHAR(245) NOT NULL,
     user_lastname VARCHAR(245) NOT NULL,
-    user_phone BIGINT NOT NULL,
-    user_email VARCHAR(245) NOT NULL,
+    user_phone BIGINT NOT NULL UNIQUE,
+    user_email VARCHAR(245) NOT NULL UNIQUE,
     user_password VARCHAR(64) NOT NULL,
     user_verification BOOLEAN NOT NULL DEFAULT false,
     user_role CHAR(255) NOT NUll DEFAULT 'Normal',
@@ -36,10 +36,10 @@ EXECUTE PROCEDURE trigger_set_timestamp_users();
 CREATE TABLE charging_station(
   cs_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
   cs_phone BIGINT NOT NULL,
-  cs_openat TIME NOT NULL,
-  cs_closeat TIME NOT NULL,
-  cs_longitude NUMERIC(12,9) NOT NULL,
-  cs_latitude NUMERIC(12,9) NOT NULL,
+  cs_openat TIME NOT NULL DEFAULT '00:00:00',
+  cs_closeat TIME NOT NULL DEFAULT '23:59:59',
+  cs_longitude NUMERIC(12,9) NOT NULL UNIQUE,
+  cs_latitude NUMERIC(12,9) NOT NULL UNIQUE,
   cs_cost NUMERIC(9,2) NOT NULL,
   cs_verification BOOLEAN NOT NULL DEFAULT false,
   cs_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -65,19 +65,19 @@ EXECUTE PROCEDURE trigger_set_timestamp_cs();
 
 -- test chargins station
 INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id)
-VALUES(9990372304,'10:00:00','22:00:00',-45.7895442,-89.448245,800.56,'05174e3e-d6ba-4fa0-8b0f-e54769aa8f68');
+VALUES(9990372304,'10:00:00','22:00:00',-45.7895442,-89.448245,800.56,'f720a607-53fb-4505-a622-6ac8498dbe29');
 
 INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id)
-VALUES(9990372304,'10:00','22:00:00',45.785442,-8889.448245,800.5656,'399baafe-8a6c-48ac-affd-101f2c64f59b');
+VALUES(9990372304,'10:00','22:00:00',45.785442,-88.448245,800.5656,'30ad5faa-7341-47d2-b806-7a887d3fdd38');
 
-INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id)
-VALUES(9990372304,'25:00:00','22:00:00',45.7895442,-89.448245,800.56,'399baafe-8a6c-48ac-affd-101f2c64f59b');
+INSERT INTO charging_station(cs_phone,cs_longitude,cs_latitude,cs_cost,user_id)
+VALUES(9990372304,45.7895442,-89.4248245,800.56,'757370fc-81cd-4b63-b470-4a5c1280cc37');
 
 INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id)
 VALUES(9990372304,'10:00:00','22:00:00',45.7895442,-89.448245,800.56,'399baafe-8a6c-48ac-affd-101f2c64f59b');
 -- test users
 INSERT INTO users(user_firstname,user_lastname,user_phone,user_email,user_password)
-VALUES('naman','gupta',9999640326,'guptanaman40@gmail.com','123456');
+VALUES('naman','gupta',99996420326,'guptanaman401@gmail.com','123456');
 
 ALTER TABLE charging_station
 ADD user_email VARCHAR(245) NOT NULL REFERENCES users (user_email) DEFAULT users (user_email);

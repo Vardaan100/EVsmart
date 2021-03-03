@@ -13,36 +13,36 @@ require("dotenv").config()
 
 //signup andd register
 
-router.post("/signup",verifyInfo,async (req,res)=>{
+router.post("/signup", verifyInfo, async (req, res) => {
     try {
-        const{firstname, lastname, phone , email , password}  = req.body;//structing
+        const { firstname, lastname, phone, email, password } = req.body;//structing
 
         // check if user exsist
-        const user = await pool.query("SELECT * FROM users WHERE user_email = $1",[email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
         // res.json(user.rows);
         // console.log(user.rows.length);
-        if(user.rows.length<<0){
+        if (user.rows.length << 0) {
             return res.status(401).json("USER ALREADY EXSIST");
         };
         //check if phone no. exsist
-        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1",[phone]);
-        if(phone_no.rows.length<<0){
+        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1", [phone]);
+        if (phone_no.rows.length << 0) {
             return res.status(401).json("Phone no. in use");
         }
         //bcrypting password
-        const saltRound = 9 ;//no. of time to bcrypt password
+        const saltRound = 9;//no. of time to bcrypt password
         const Salt = bcrypt.genSalt(saltRound)
-        const bcryptPassword = await bcrypt.hash(password,saltRound)//will ecrylic password 9 times
+        const bcryptPassword = await bcrypt.hash(password, saltRound)//will ecrylic password 9 times
 
         // adding user to the database (storing database)
-        const newUser = await pool.query("INSERT INTO users(user_firstname,user_lastname,user_phone, user_email, user_password) VALUES ($1,$2,$3,$4,$5) RETURNING user_firstname,user_lastname,user_phone, user_email",[firstname,lastname,phone,email,bcryptPassword]);
-        
+        const newUser = await pool.query("INSERT INTO users(user_firstname,user_lastname,user_phone, user_email, user_password) VALUES ($1,$2,$3,$4,$5) RETURNING user_firstname,user_lastname,user_phone, user_email", [firstname, lastname, phone, email, bcryptPassword]);
+
         //generating jwtoken
         // const token = jwtGenerator(newUser.rows[0].user_email);
         const token = jwtGenerator(newUser.rows[0].user_id);
         // nr.token = JSON.stringify(token);
         res.json(newUser.rows);
-        
+
     } catch (err) {
         console.error(err.message);
         res.status(500).json("server error");
@@ -51,22 +51,23 @@ router.post("/signup",verifyInfo,async (req,res)=>{
 
 //login route
 
-router.post("/signin",verifyInfo,async (req,res)=>{
+router.post("/signin", verifyInfo, async (req, res) => {
     try {
         //structing
-        const{email, password} = req.body;
+        const { email, password } = req.body;
 
         //check whether user exsist or not
-        const user = await pool.query("SELECT * FROM users WHERE user_email =$1",[email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_email =$1", [email]);
 
-        if(user.rows.length === 0){
+        if (user.rows.length === 0) {
             return res.status(401).json("User doesnt exsist");
         };
 
         // checking password
-        const validPassword = await bcrypt.compare(password,user.rows[0].user_password);
+        const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
+        console.log(user.rows[0])
         // console.log(validPassword)
-        if (!validPassword){
+        if (!validPassword) {
             return res.status(401).json("Password or Email is incorrect");
         }
         //jwtoken
@@ -82,12 +83,12 @@ router.post("/signin",verifyInfo,async (req,res)=>{
     }
 })
 
-router.get("/verify/:id",tokenReturn,async(req,res)=>{
+router.get("/verify/:id", tokenReturn, async (req, res) => {
     try {
         // console.log(req.user)
         // console.log(authorization)
         res.json(true);
-        
+
     } catch (err) {
         console.error(err.message);
         res.status(500).json("server error");
@@ -95,19 +96,19 @@ router.get("/verify/:id",tokenReturn,async(req,res)=>{
 });
 
 //getting the user data by token
-router.get("/userdata/:id",tokenReturn,async (req,res)=>{
+router.get("/userdata/:id", tokenReturn, async (req, res) => {
     try {
         // console.log(req.user)
         userID = req.user
         // check whether the user id is valid
-        const id = await pool.query("SELECT * FROM users WHERE user_id = $1",[userID]);
-        
-        if(id.rows.length===0){
+        const id = await pool.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+
+        if (id.rows.length === 0) {
             return res.status(401).json("INVALID ID");
         };
-        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1",[userID])
+        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1", [userID])
         res.json(userData.rows)
-        
+
     } catch (err) {
         console.error(err.message);
         res.status(500).json("server error");
@@ -115,46 +116,87 @@ router.get("/userdata/:id",tokenReturn,async (req,res)=>{
 })
 
 //updting the user data
-router.put("/userdata/:id",verifyInfo,tokenReturn,async (req,res)=>{
+router.put("/userdata/:id", verifyInfo, tokenReturn, async (req, res) => {
     try {
 
-        const{firstname, lastname, phone , password}  = req.body;
+        const { firstname, lastname, email, phone } = req.body;
         //check if phone no. exsist
         // console.log(req.user)
-        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1 AND NOT user_id =$2",[phone , req.user]);
-        if(phone_no.rows.length<<0){
+        // check if user exsist
+        const user = await pool.query("SELECT * FROM users WHERE user_email = $1 AND NOT user_id = $2", [email, req.user]);
+        if (user.rows.length << 0) {
+            return res.status(401).json("USER ALREADY EXSIST");
+        };
+        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1 AND NOT user_id =$2", [phone, req.user]);
+        if (phone_no.rows.length << 0) {
             return res.status(401).json("Phone no. in use");
         }
         // console.log(req.user)
-        
-        //bcrypting password
-        const saltRound = 9 ;//no. of time to bcrypt password
-        const Salt = bcrypt.genSalt(saltRound)
-        const bcryptPassword = await bcrypt.hash(password,saltRound)
 
-        const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_phone=$3,user_password=$4 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone",[firstname, lastname, phone , bcryptPassword, req.user])
+        //bcrypting password
+        const saltRound = 9;//no. of time to bcrypt password
+        const Salt = bcrypt.genSalt(saltRound)
+        const bcryptPassword = await bcrypt.hash(password, saltRound)
+
+        const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_email=$4,user_phone=$3 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone", [firstname, lastname, phone, email, req.user])
         // res.json(updateUser.rows)
         res.json(updateUser.rows)
-        
-        
+
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json("server error");
+    };
+})
+//change password
+router.put("/changePass/:id", verifyInfo, tokenReturn, async (req, res) => {
+    try {
+
+        const { currentPassword, newPassword } = req.body;
+        // console.log(currentPassword)
+        //check whether user exsist or not
+        const user = await pool.query("SELECT * FROM users WHERE user_id =$1", [req.user]);
+
+        // checking current password
+        const validPassword = await bcrypt.compare(currentPassword, user.rows[0].user_password);
+        if (!validPassword) {
+            return res.status(401).json("Current Password Entered is incorrect");
+        };
+
+        // check whether current is same a new Password
+        const samePassword = await await bcrypt.compare(newPassword, user.rows[0].user_password);
+        // console.log(samePassword);
+        if(samePassword){
+            return res.status(401).json(" your new Password is same as Current password")
+        };
+        //bcrypting password
+        const saltRound = 9;//no. of time to bcrypt password
+        const Salt = bcrypt.genSalt(saltRound)
+        const bcryptPassword = await bcrypt.hash(newPassword, saltRound)
+
+        const updatePassword = await pool.query("UPDATE users SET user_password = $1 WHERE user_id=$2 RETURNING user_email", [bcryptPassword, req.user])
+        // res.json(updateUser.rows)
+        res.json(updatePassword.rows)
+
+
     } catch (err) {
         console.error(err.message);
         res.status(500).json("server error");
     };
 })
 // for user verification
-router.get("/userVerification/:id",async (req,res)=>{
+router.get("/userVerification/:id", async (req, res) => {
     try {
         console.log("hi");
         const email = req.params.id;
         // console.log(email)
         //check whether user exsist or not
-        const user = await pool.query("SELECT * FROM users WHERE user_email =$1",[email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_email =$1", [email]);
 
-        if(user.rows.length === 0){
+        if (user.rows.length === 0) {
             return res.status(401).json("User doesnt exsist");
         };
-        const verifyUpdate = await pool.query("UPDATE users SET user_verification = true WHERE user_email = $1 RETURNING user_email,user_verification",[email] );
+        const verifyUpdate = await pool.query("UPDATE users SET user_verification = true WHERE user_email = $1 RETURNING user_email,user_verification", [email]);
         res.json(verifyUpdate.rows);
     } catch (err) {
         console.error(err.message);
@@ -162,4 +204,4 @@ router.get("/userVerification/:id",async (req,res)=>{
     };
 })
 
-module.exports = router ;
+module.exports = router;
