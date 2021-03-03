@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Menus from "../Menu";
 import "./navigation.css";
-import { getToken, logout } from "../../utils/index"
+import { isLoggedin, logout } from "../../utils/index"
 
 
 class Index extends Component {
@@ -11,20 +11,29 @@ class Index extends Component {
     super(props);
 
     this.state = {
-        isLogin: getToken()
+        token: null
     }
+};
+
+changeNav() { setTimeout(() => {
+  this.setState({
+    token: isLoggedin()
+  })
+  
+}, 5000);
+}
+
+componentDidMount(){
+  this.changeNav()
 }
 
 handleLogout = () => {
     logout();
-    this.setState({
-        isLogin: false
-    })
-}
-  
+};
+// https://imgur.com/sh6C9YQ
 
-  render() {
-    return this.state.isLogin ? (
+  render () {
+    return this.state.token ? (
       <div style={{ background_color: "red" }} className="nav-container">
         <ul className="lists">
           <li>

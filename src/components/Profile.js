@@ -42,7 +42,7 @@ class Profile extends Component {
   clickSubmit = (firstname, lastname, email, phone) => {
     console.log("Running Submit");
     updateUser({ firstname, lastname, email, phone }).then((data) => {
-      if (data.length == 16) {
+      if (data.length === 16) {
         console.log("Error Updating");
       } else {
         this.setState({

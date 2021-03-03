@@ -18,4 +18,20 @@ export const getToken = () => {
   return false;
 }
 
+export const isLoggedin = () => {
+  if(localStorage.getItem(TOKEN_KEY)){
+    return true;
+  }
+}
+
+// export const isLoggedin = async() => {
+//   if(!localStorage.getItem(TOKEN_KEY)){
+//     return true
+//   }
+//   await(() =>  {
+//     if(localStorage.getItem(TOKEN_KEY)){
+//       return true
+//     }
+//   })
+// }
 
