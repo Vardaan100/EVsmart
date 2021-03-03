@@ -1,4 +1,5 @@
 module.exports = function (req, res, next){
+    // console.log("hi verify")
     const{email, firstname, lastname, phone, password} =  req.body;
     function validEmail(userEmail){
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -6,16 +7,23 @@ module.exports = function (req, res, next){
     function validPhone(phoneNo){
         return /^[6-9]\d{9}$/.test(phoneNo);
     };
+<<<<<<< HEAD
 
     if(req.path === "/signup"){
 	   // console.log(req.path)
         //console.log(!email.length);
+=======
+    // console.log(req.path)
+    if(req.path === "/signup"){
+        // console.log(!email.length);
+>>>>>>> 84266b95fadde28b5943d7fa70b591b7fafd2970
         if (![email,firstname,lastname,phone,password].every(Boolean)){
             return res.status(401).json("missing Email password phone no. or name");
-        }else if (!validEmail(email)){
-            return res.status(401).json("Invalid Email");
         }else if (!validPhone(phone)){
             return res.status(401).json("Invalid Phone no.")
+        }else if (!validEmail(email)){
+            return res.status(401).json("Invalid Email");
+        
         };
     } else if (req.path=== "/signin"){
         if(![email,password].every(Boolean)){
