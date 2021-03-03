@@ -1,0 +1,13 @@
+.profiles {
+  max-width: 600px;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10%;
+}
+
+.profile {
+  background-color: #f8f9fa;
+
+  margin-top: -15px;
+}

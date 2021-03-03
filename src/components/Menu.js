@@ -1,73 +1,124 @@
 import React from "react";
-import { Menu } from "antd";
-// var Menu = require('antd/lib/menu')
-
-import {
-  IdcardTwoTone,
-  FileUnknownTwoTone,
-  UnlockTwoTone,
-  EuroTwoTone,
-  HomeTwoTone,
-} from "@ant-design/icons";
-import "antd/dist/antd.css";
-import "./Menu.css";
 import { Link } from "react-router-dom";
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@material-ui/core";
+// import Link from '@material-ui/core/Link';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Profile from "@material-ui/icons/PersonOutline";
+import Help from "@material-ui/icons/HelpOutline";
+import EvStationIcon from "@material-ui/icons/EvStation";
+import AddLocationIcon from "@material-ui/icons/AddLocation";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 
-const { SubMenu } = Menu;
+const StyledMenu = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
 
-class Menus extends React.Component {
-  handleClick = (e) => {
-    console.log("click ", e);
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+
+export default function CustomizedMenus() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  render() {
-    return (
-      <Menu
-        onClick={this.handleClick}
-        style={{ width: 200 }}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        className="More"
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button
+        aria-controls="customized-menu"
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
       >
-        <SubMenu
-          key="sub2"
-          className="main"
-          icon={<HomeTwoTone />}
-          title="Menu"
-          style={{ fontSize: "20px" }}
+        <ListItemIcon>
+          <MenuOpenIcon fontSize="small" style={{ color: "white" }} />
+        </ListItemIcon>
+        <ListItemText primary="Open Menu" />
+      </Button>
+      <StyledMenu
+        id="customized-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <Link
+          style={{ textDecoration: "none", color: "black" }}
+          to={"./profile"}
         >
-          <Link to={"./profile"}>
-          <Menu.Item key="5" className="sub">
-            <IdcardTwoTone />
-            <strong>Profile</strong>
-          </Menu.Item>
-          </Link>
-
-          <Link to={"./help"}>
-          <Menu.Item key="6" className="sub">
-            <FileUnknownTwoTone />
-            <strong>Help</strong>
-          </Menu.Item>
-          </Link>
-          
-          <Link to={"./list"}>
-          <Menu.Item key="7" className="sub">
-            <EuroTwoTone />
-            <strong>Station List</strong>
-          </Menu.Item>
-          </Link>
-
-          <Link to={"./station"}>
-            <Menu.Item key="5" className="sub">
-              <UnlockTwoTone />
-              <strong>Add Station</strong>
-            </Menu.Item>
-          </Link>
-
-        </SubMenu>
-      </Menu>
-    );
-  }
+          <StyledMenuItem>
+            <ListItemIcon>
+              <Profile fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </StyledMenuItem>
+        </Link>
+        <Link style={{ textDecoration: "none", color: "black" }} to={"./help"}>
+          <StyledMenuItem>
+            <ListItemIcon>
+              <Help fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Help" />
+          </StyledMenuItem>
+        </Link>
+        <Link
+          style={{ textDecoration: "none", color: "black" }}
+          to={"./station"}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <EvStationIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Add Station" />
+          </StyledMenuItem>
+        </Link>
+        <Link
+          style={{ textDecoration: "none", color: "black" }}
+          to={"./station-profile"}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <AddLocationIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Station Profile" />
+          </StyledMenuItem>
+        </Link>
+      </StyledMenu>
+    </div>
+  );
 }
-export default Menus;

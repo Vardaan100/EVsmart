@@ -4,8 +4,13 @@ import "./footer.css";
 
 function Footer() {
   return (
-    <div className="footer_container fixed-bottom col-12">
+    <div className="footer_container col-12 my-4">
       <ul className="footer_lists">
+        <li>
+          <Link className="footer_list" to="/home">
+            Home
+          </Link>
+        </li>
         <li>
           <Link className="footer_list" to="/about">
             About
@@ -23,7 +28,7 @@ function Footer() {
         </li>
 
         <li>
-          <Link className="footer_list" to="/signup">
+          <Link className="footer_list" to="/sign-up">
             Signup
           </Link>
         </li>

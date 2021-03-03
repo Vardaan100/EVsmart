@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navigation from "./components/navigation";
-// import Footer from "./components/navigation/Footer";
+import Footer from "./components/navigation/Footer";
 import Home from "./components/home components/Home";
 import Contact from "./components/contacttus";
 import Profile from "./components/Profile";
@@ -12,7 +12,7 @@ import Signin from "./components/Signin";
 import Dashboard from "./components/Dashboard";
 import Map from "./components/Map";
 import SignUp from "./components/Signup";
-import Station from "./components/Station"
+import Station from "./components/Station";
 import { Fragment } from "react";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
@@ -23,8 +23,8 @@ function App() {
       <Navigation />
       <Switch className="App">
         <Fragment>
-          <PublicRoute exact path="/"  component={Home} />
-          <PublicRoute exact path="/home"  component={Home} />
+          <PublicRoute exact path="/" component={Home} />
+          <PublicRoute exact path="/home" component={Home} />
           <PublicRoute path="/contact" component={Contact} />
           <PrivateRoute path="/help" component={Help} />
           <PrivateRoute path="/profile" component={Profile} />
@@ -37,7 +37,7 @@ function App() {
           <PrivateRoute path="/dashboard" component={Dashboard} />
         </Fragment>
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }

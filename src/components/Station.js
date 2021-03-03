@@ -2,63 +2,63 @@ import React, { Component } from "react";
 import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
+import "./station.css";
 class Station extends Component {
-  
   render() {
-
     const { RangePicker } = TimePicker;
 
     return (
-      <form>
-        <h3>Add Your Station</h3>
+      <div className="station">
+        <form className="station__container">
+          <h3>Add Your Station</h3>
 
-        <div className="form-group">
-          <label>Phone Number</label>
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Enter phone number for station"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Working Hours</label>
-          <div>
-            <RangePicker bordered={true} />
+          <div className="form-group">
+            <label>Phone Number</label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter phone number for station"
+            />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Charges per Hour (in Rs)</label>
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Enter charges"
-          />
-        </div>
+          <div className="form-group">
+            <label>Working Hours</label>
+            <div>
+              <RangePicker bordered={true} />
+            </div>
+          </div>
 
-        <div className="form-group">
-          <label>Location</label>
-          <input
-            value={this.props.location}
-            className="form-control"
-            placeholder="Latitude"
-            disabled={true}
-          />
-          {/* <input
+          <div className="form-group">
+            <label>Charges per Hour (in Rs)</label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter charges"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Location</label>
+            <input
+              value={this.props.location}
+              className="form-control"
+              placeholder="Latitude"
+              disabled={true}
+            />
+            {/* <input
             value={this.props.location}
             className="form-control"
             placeholder="Longitude"
             disabled={true}
           /> */}
-          <Link to="/map">Set Your Location Manually</Link>
-        </div>
+            <Link to="/map">Set Your Location Manually</Link>
+          </div>
 
-        <button type="submit" className="btn btn-primary btn-block">
-          Save
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary btn-block">
+            Save
+          </button>
+        </form>
+      </div>
     );
   }
 }

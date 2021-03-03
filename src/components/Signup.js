@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signup } from "../fetchingData/api_calls";
+import "./signup.css";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -31,7 +32,7 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      if (data.length==16) {
+      if (data.length == 16) {
         setValues({ ...values, error: data, success: false });
       } else {
         setValues({
@@ -42,7 +43,7 @@ const Signup = () => {
           phone: "",
           password: "",
           error: "",
-          success: true
+          success: true,
         });
         console.log("SignUp Successfully");
       }
@@ -50,7 +51,7 @@ const Signup = () => {
   };
 
   const signUpForm = () => (
-    <form>
+    <form className="signup__container">
       <h3>Sign Up</h3>
 
       <div className="form-group">
@@ -118,7 +119,7 @@ const Signup = () => {
       <p className="forgot-password text-right">
         Already registered{" "}
         <Link className="nav-link" to={"/sign-in"}>
-          sign in?
+          <span className="signup__login"> sign in?</span>
         </Link>
       </p>
     </form>
@@ -141,7 +142,7 @@ const Signup = () => {
   );
 
   return (
-    <div>
+    <div className="signup">
       {showSuccess()}
       {showError()}
       {signUpForm()}
