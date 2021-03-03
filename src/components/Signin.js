@@ -28,9 +28,12 @@ const Signin = () => {
         data == "User doesnt exsist" ||
         data == "Password or Email is incorrect" ||
         data == "Please Enter email and password" ||
-        data == "Invalid Email"
+        data == "Invalid Email" ||
+        data == undefined
       ) {
-        console.log("Failed");
+        if(data==undefined){
+          data = "Down for Maintenance";
+        }
         setValues({ ...values, error: data, loading: false });
       } else {
         authenticate(data);

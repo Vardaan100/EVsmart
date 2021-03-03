@@ -32,7 +32,11 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      if (data.length == 16) {
+      console.log(data);
+      if (data==undefined || data.length == 16 ) {
+        if(data==undefined){
+          data= "Down for Maintenance";
+        }
         setValues({ ...values, error: data, success: false });
       } else {
         setValues({
