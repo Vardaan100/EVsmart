@@ -24,7 +24,6 @@ export const isLoggedin = () => {
   }
 }
 
-
 export const getToke = () => {
   if(typeof window !=='undefined'){
     localStorage.getItem(TOKEN_KEY, JSON.stringify());

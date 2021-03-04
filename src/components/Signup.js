@@ -5,9 +5,9 @@ import "./signup.css";
 
 const Signup = () => {
   const [values, setValues] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
+    firstname: "Vardaan",
+    lastname: "Magon",
+    email: "vardaanmagon1@gmail.com",
     phone: "",
     password: "",
     error: "",
