@@ -3,7 +3,9 @@ import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
+
 class Station extends Component {
+  
   render() {
     const { RangePicker } = TimePicker;
 
@@ -23,9 +25,9 @@ class Station extends Component {
 
           <div className="form-group">
             <label>Working Hours</label>
-            <div>
+            {/* <div> */}
               <RangePicker bordered={true} />
-            </div>
+            {/* </div> */}
           </div>
 
           <div className="form-group">
@@ -42,7 +44,7 @@ class Station extends Component {
             <input
               value={this.props.location}
               className="form-control"
-              placeholder="Latitude"
+              placeholder="Latitude, Longitude"
               disabled={true}
             />
             {/* <input
@@ -80,3 +82,5 @@ const msp = (state) => ({
 // }
 
 export default connect(msp, null)(Station);
+
+

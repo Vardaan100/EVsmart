@@ -5,11 +5,11 @@ import "./signup.css";
 
 const Signup = () => {
   const [values, setValues] = useState({
-    firstname: "Vardaan",
-    lastname: "Magon",
-    email: "vardaanmagon@yahoo.com",
-    phone: "9999640326",
-    password: "hellohello",
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    password: "",
     error: "",
     success: false,
   });
@@ -136,7 +136,7 @@ const Signup = () => {
       className="alert alert-info"
       style={{ display: success ? "" : "none" }}
     >
-      New account is created. Please <Link to="/signin">Signin</Link>
+      New account is created. Please <Link to="/sign-in">Signin</Link>
     </div>
   );
   const showError = () => (
