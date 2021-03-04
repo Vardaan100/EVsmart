@@ -24,14 +24,4 @@ export const isLoggedin = () => {
   }
 }
 
-// export const isLoggedin = async() => {
-//   if(!localStorage.getItem(TOKEN_KEY)){
-//     return true
-//   }
-//   await(() =>  {
-//     if(localStorage.getItem(TOKEN_KEY)){
-//       return true
-//     }
-//   })
-// }
 

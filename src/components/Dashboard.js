@@ -1,7 +1,17 @@
 import React, { Component } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 import cities from "../cities.json";
+import L from "leaflet";
+
+var img = window.location.origin + "/marker.png"
+
+const markerIcon = new L.Icon({
+  iconUrl: img,
+  iconSize: [40, 40],
+  iconAnchor: [17, 46], //[left/right, top/bottom]
+  popupAnchor: [0, -46], //[left/right, top/bottom]
+});
 
 class Dashboard extends Component {
   constructor(props) {
@@ -43,16 +53,31 @@ class Dashboard extends Component {
         {!this.props.coords ? (
           <div>Loading</div>
         ) : (
-          <Circle center={[this.state.lat, this.state.lng]} radius={200} />
+          <Marker 
+          position={[this.state.lat, this.state.lng]}
+          icon={markerIcon}
+          >
+            <Popup>
+              You are here
+            </Popup>
+          </Marker>
         )}
 
         {cities.map((city, idx) => (
           <Marker position={[city.lat, city.lng]} key={idx}>
             <Popup>
               <div>
-                <b>
+                <ul>
+                <li>
                   {city.city}, {city.country}
-                </b>
+                </li>
+                <li>
+                  {city.population}
+                </li>
+                <li>
+                  {city.population_proper}
+                </li>
+                </ul>
               </div>
               <button
                 onClick={() => {

@@ -58,9 +58,6 @@ class Profile extends Component {
     });
   };
   render() {
-    // if (!this.props.islogin) {
-    //   return <Redirect to={"/sign-in"} />;
-    // }
     const buttonText = this.state.edit
       ? "Edit your profile"
       : "Back to profile";
@@ -70,6 +67,7 @@ class Profile extends Component {
           <button onClick={this.clickHandler}>{buttonText}</button>
 
           {this.state.edit ? (
+            
             <form>
               <div className="form-group">
                 <label className="text-muted">First name</label>
