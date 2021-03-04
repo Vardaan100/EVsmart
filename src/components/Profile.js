@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { updateUser, userData } from "../fetchingData/api_calls";
+import { updateUser, userData, validToken } from "../fetchingData/api_calls";
 import { authenticate, getToke } from "../utils/index"
 import "./profile.css";
 
