@@ -126,6 +126,22 @@ export const deleteCS = (token) => {
     });
 }
 
+export const getallCS = () =>{
+  return fetch(`${API}/cs/csall`,{
+    method:"GET",
+    headers:{
+      Accept:"application/json",
+    },
+  })
+  .then((response)=>{
+    console.log(response);
+    return response.json();
+  })
+  .catch((err)=> {
+    console.log(err);
+  });
+}
+
 //Get data from API for Profile
 export const getDash = (token) =>{
   return fetch(`${API}/dashboard/${token}`,{
