@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 import cities from "../cities.json";
 import L from "leaflet";
+import { Link } from 'react-router-dom'
 
 var img = window.location.origin + "/marker.png"
 
@@ -80,11 +81,8 @@ class Dashboard extends Component {
                 </ul>
               </div>
               <button
-                onClick={() => {
-                  window.location.href = `https://www.google.com/maps/search/?api=1&query=${parseFloat(
-                    city.lat
-                  )},${parseFloat(city.lng)}`;
-                }}
+                onClick={()=> window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${parseFloat(city.lat)},${parseFloat(city.lng)}`, "_blank")}
               >
                 Get Directions
               </button>
