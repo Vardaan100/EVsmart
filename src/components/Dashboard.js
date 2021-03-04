@@ -19,6 +19,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lat: 19.7514798,
       lng: 75.7138884,
       zoom: 6,
     };

@@ -41,35 +41,32 @@ class Profile extends Component {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
-  clickSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("Running Submit");
-    const { firstname,lastname, email,phone} = this.state;
-    updateUser({ firstname, lastname, email, phone }).then((data) => {
-      if (data.length === 16) {
-
-    const { firstname, lastname, email, phone } = this.state;
-    const token = localStorage
-      .getItem("jwt", JSON.stringify())
+clickSubmit = (e) => {
+  e.preventDefault();
+  console.log("Running Submit");
+  const {firstname,lastname, email,phone } = this.state;
+  updateUser({firstname,lastname, email,phone}).then((data) =>{
+    if (data.length === 16){
+      const {firstname,lastname, email,phone} = this.state;
+      const token =localStorage.getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
       console.log(token);
-    updateUser({firstname, lastname, phone, email},token).then((data) => {
-      if (data.length==16 || data=="Phone no. in use") {
-        console.log(data);
-        console.log("Error Updating");
-      } else {
-        this.setState({
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          phone: phone,
-        });
-        console.log("Profile Updated");
-      }
-    });
+      updateUser({firstname,lastname, email,phone}).then((data) => {
+        if (data.length==16 || data=="Phone no. in use") 
+        {  console.log(data);
+           console.log("Error Updating")}
+           else {
+            this.setState({
+                       firstname: firstname,
+                       lastname: lastname,
+                       email: email,
+                       phone: phone,
+                      });
+            console.log("Profile Updated")
+           }
+      })
     }
-  }
+  })
 }
   render() {
     const buttonText = this.state.edit

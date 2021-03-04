@@ -5,7 +5,7 @@ import { getToken, getToke } from '../../utils/index';
 const PublicRoute = ({component: Component, restricted, ...rest}) => {
     return (
         <Route {...rest} render={props => (
-            getToken() && restricted && getToke() ?
+            getToken() && restricted  ?
                 <Redirect to="/home" />
             : <Component {...props} />
         )} />
