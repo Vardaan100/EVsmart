@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { TimePicker } from "antd";
+// import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
+import TextField from '@material-ui/core/TextField';
 
 class Station extends Component {
-  
+
   render() {
-    const { RangePicker } = TimePicker;
 
     return (
       <div className="station">
@@ -25,9 +25,31 @@ class Station extends Component {
 
           <div className="form-group">
             <label>Working Hours</label>
-            {/* <div> */}
-              <RangePicker bordered={true} />
-            {/* </div> */}
+
+            <div>
+            <TextField
+            id="time"
+            ampm= {false}
+            type="time"
+            defaultValue="00:00"
+            InputLabelProps={{
+            shrink: true,
+            }}
+        inputProps={{
+          step: 300, // 5 min
+        }} />
+       <TextField
+            id="time"
+            ampm={false}
+            type="time"
+            defaultValue="00:00"
+            InputLabelProps={{
+            shrink: true,
+            }}
+        inputProps={{
+          step: 300, // 5 min
+        }} />
+            </div>
           </div>
 
           <div className="form-group">

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import "./stationprofile.css";
+import TextField from '@material-ui/core/TextField';
 
 export default class StationProfile extends Component {
   constructor(props) {
@@ -19,7 +19,6 @@ export default class StationProfile extends Component {
   };
 
   render() {
-    const { RangePicker } = TimePicker;
 
     const buttonText = this.state.edit
       ? "Edit your profile"
@@ -50,7 +49,7 @@ export default class StationProfile extends Component {
             </form>
           ) : (
             <form>
-              <h3>Edit your profile</h3>
+              <h3>Edit your station profile</h3>
 
               <div className="form-group">
                 <label>Phone Number</label>
@@ -62,11 +61,33 @@ export default class StationProfile extends Component {
               </div>
 
               <div className="form-group">
-                <label>Working Hours</label>
-                <div>
-                  <RangePicker bordered={true} />
-                </div>
-              </div>
+            <label>Working Hours</label>
+
+            <div>
+            <TextField
+            id="time"
+            ampm= {false}
+            type="time"
+            defaultValue="00:00"
+            InputLabelProps={{
+            shrink: true,
+            }}
+        inputProps={{
+          step: 300, // 5 min
+        }} />
+       <TextField
+            id="time"
+            ampm={false}
+            type="time"
+            defaultValue="00:00"
+            InputLabelProps={{
+            shrink: true,
+            }}
+        inputProps={{
+          step: 300, // 5 min
+        }} />
+            </div>
+          </div>
 
               <div className="form-group">
                 <label>Charges per Hour (in Rs)</label>
