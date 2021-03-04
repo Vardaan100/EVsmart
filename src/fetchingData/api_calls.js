@@ -58,12 +58,13 @@ export const updateUser = (user,token) =>{
     method:"PUT",
     headers:{
       Accept:"application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
   })
   .then((response)=>{
     console.log(response);
-    return response;
+    return response.json();
   })
   .catch((err)=> {
     console.log(err);
@@ -123,6 +124,22 @@ export const deleteCS = (token) => {
     .catch((err) => {
       console.log(err);
     });
+}
+
+export const getallCS = () =>{
+  return fetch(`${API}/cs/csall`,{
+    method:"GET",
+    headers:{
+      Accept:"application/json",
+    },
+  })
+  .then((response)=>{
+    console.log(response);
+    return response.json();
+  })
+  .catch((err)=> {
+    console.log(err);
+  });
 }
 
 //Get data from API for Profile

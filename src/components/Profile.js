@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { updateUser, userData } from "../fetchingData/api_calls";
+import { authenticate, getToke } from "../utils/index"
 import "./profile.css";
 
 class Profile extends Component {
@@ -25,7 +26,7 @@ class Profile extends Component {
         firstname: data[0].user_firstname,
         lastname: data[0].user_lastname,
         phone: data[0].user_phone,
-        email: data[0].user_email
+        email: data[0].user_email,
       }));
     });
   }
@@ -42,20 +43,30 @@ class Profile extends Component {
 
   clickSubmit = (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     console.log("Running Submit");
     const { firstname,lastname, email,phone} = this.state;
     updateUser({ firstname, lastname, email, phone }).then((data) => {
       if (data.length === 16) {
+=======
+    const { firstname, lastname, email, phone } = this.state;
+    const token = localStorage
+      .getItem("jwt", JSON.stringify())
+      .replaceAll('"', "");
+      console.log(token);
+    updateUser({firstname, lastname, phone, email},token).then((data) => {
+      if (data.length==16 || data=="Phone no. in use") {
+        console.log(data);
+>>>>>>> d02984ba7c11bf4cae5ac279bfac2b01e5dac0ac
         console.log("Error Updating");
       } else {
         this.setState({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          password: "",
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phone: phone,
         });
-        console.log("SignUp Successfully");
+        console.log("Profile Updated");
       }
     });
   };

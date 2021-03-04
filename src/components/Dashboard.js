@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 import cities from "../cities.json";
+<<<<<<< HEAD
 import L from "leaflet";
 import { Link } from 'react-router-dom'
 
@@ -13,11 +14,13 @@ const markerIcon = new L.Icon({
   iconAnchor: [17, 46], //[left/right, top/bottom]
   popupAnchor: [0, -46], //[left/right, top/bottom]
 });
+=======
+import { getallCS } from "../fetchingData/api_calls";
+>>>>>>> d02984ba7c11bf4cae5ac279bfac2b01e5dac0ac
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       lat: 19.7514798,
       lng: 75.7138884,
@@ -36,6 +39,11 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getLatLng();
+    getallCS().then((data)=>{
+      console.log(data); //viewing all the data
+      console.log(data.length);
+      console.log(data[0].cs_longitude, data[0].cs_latitude); //showing the long and lat to the user of the first station
+    })
   }
 
   render() {
