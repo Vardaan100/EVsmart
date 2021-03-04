@@ -43,12 +43,12 @@ class Profile extends Component {
 
   clickSubmit = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
+
     console.log("Running Submit");
     const { firstname,lastname, email,phone} = this.state;
     updateUser({ firstname, lastname, email, phone }).then((data) => {
       if (data.length === 16) {
-=======
+
     const { firstname, lastname, email, phone } = this.state;
     const token = localStorage
       .getItem("jwt", JSON.stringify())
@@ -57,7 +57,6 @@ class Profile extends Component {
     updateUser({firstname, lastname, phone, email},token).then((data) => {
       if (data.length==16 || data=="Phone no. in use") {
         console.log(data);
->>>>>>> d02984ba7c11bf4cae5ac279bfac2b01e5dac0ac
         console.log("Error Updating");
       } else {
         this.setState({
@@ -69,7 +68,8 @@ class Profile extends Component {
         console.log("Profile Updated");
       }
     });
-  };
+  }
+  ;
   render() {
     const buttonText = this.state.edit
       ? "Edit your profile"
