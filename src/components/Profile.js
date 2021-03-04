@@ -25,7 +25,7 @@ class Profile extends Component {
         firstname: data[0].user_firstname,
         lastname: data[0].user_lastname,
         phone: data[0].user_phone,
-        email: data[0].user_email,
+        email: data[0].user_email
       }));
     });
   }
@@ -40,8 +40,10 @@ class Profile extends Component {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
-  clickSubmit = (firstname, lastname, email, phone) => {
+  clickSubmit = (e) => {
+    e.preventDefault();
     console.log("Running Submit");
+    const { firstname,lastname, email,phone} = this.state;
     updateUser({ firstname, lastname, email, phone }).then((data) => {
       if (data.length === 16) {
         console.log("Error Updating");
