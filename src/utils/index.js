@@ -18,7 +18,6 @@ export const getToken = () => {
   return false;
 }
 
-<<<<<<< HEAD
 export const isLoggedin = () => {
   if(localStorage.getItem(TOKEN_KEY)){
     return true;
@@ -26,10 +25,8 @@ export const isLoggedin = () => {
 }
 
 
-=======
 export const getToke = () => {
   if(typeof window !=='undefined'){
     localStorage.getItem(TOKEN_KEY, JSON.stringify());
   }
 }
->>>>>>> d02984ba7c11bf4cae5ac279bfac2b01e5dac0ac

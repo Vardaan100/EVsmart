@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { updateUser, userData, validToken } from "../fetchingData/api_calls";
-import { authenticate, getToke } from "../utils/index"
+import { updateUser, userData } from "../fetchingData/api_calls";
 import "./profile.css";
 
 class Profile extends Component {
@@ -43,12 +42,6 @@ class Profile extends Component {
 
   clickSubmit = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    console.log("Running Submit");
-    const { firstname,lastname, email,phone} = this.state;
-    updateUser({ firstname, lastname, email, phone }).then((data) => {
-      if (data.length === 16) {
-=======
     const { firstname, lastname, email, phone } = this.state;
     const token = localStorage
       .getItem("jwt", JSON.stringify())
@@ -57,7 +50,6 @@ class Profile extends Component {
     updateUser({firstname, lastname, phone, email},token).then((data) => {
       if (data.length==16 || data=="Phone no. in use") {
         console.log(data);
->>>>>>> d02984ba7c11bf4cae5ac279bfac2b01e5dac0ac
         console.log("Error Updating");
       } else {
         this.setState({
@@ -71,6 +63,9 @@ class Profile extends Component {
     });
   };
   render() {
+    // if (!this.props.islogin) {
+    //   return <Redirect to={"/sign-in"} />;
+    // }
     const buttonText = this.state.edit
       ? "Edit your profile"
       : "Back to profile";
@@ -80,7 +75,6 @@ class Profile extends Component {
           <button onClick={this.clickHandler}>{buttonText}</button>
 
           {this.state.edit ? (
-            
             <form>
               <div className="form-group">
                 <label className="text-muted">First name</label>
