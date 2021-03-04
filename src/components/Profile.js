@@ -68,8 +68,9 @@ class Profile extends Component {
         console.log("Profile Updated");
       }
     });
+    }
   }
-  ;
+}
   render() {
     const buttonText = this.state.edit
       ? "Edit your profile"
@@ -174,5 +175,6 @@ class Profile extends Component {
     );
   }
 }
+
 
 export default Profile;
