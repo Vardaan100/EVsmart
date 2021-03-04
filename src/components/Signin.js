@@ -23,7 +23,6 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
-      console.log(data);
       if (
         data == "User doesnt exsist" ||
         data == "Password or Email is incorrect" ||
