@@ -1,18 +1,18 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 import { getToken } from "../../utils/index";
 
-const PrivateRoute = ({component: Component, ...rest}) => {
-    return (
-
-        // Show the component only when the user is logged in
-        // Otherwise, redirect the user to /signin page
-        <Route {...rest} render={props => (
-            getToken() ?
-                <Component {...props} />
-            : <Redirect to="/sign-in" />
-        )} />
-    );
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  return (
+    // Show the component only when the user is logged in
+    // Otherwise, redirect the user to /signin page
+    <Route
+      {...rest}
+      render={(props) =>
+        getToken() ? <Component {...props} /> : <Redirect to="/sign-in" />
+      }
+    />
+  );
 };
 
 export default PrivateRoute;

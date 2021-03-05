@@ -13,6 +13,7 @@ import Help from "@material-ui/icons/HelpOutline";
 import EvStationIcon from "@material-ui/icons/EvStation";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
 const StyledMenu = withStyles({
   paper: {
@@ -116,6 +117,17 @@ export default function CustomizedMenus() {
               <AddLocationIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary="Station Profile" />
+          </StyledMenuItem>
+        </Link>
+        <Link
+          style={{ textDecoration: "none", color: "black" }}
+          to={"./dashboard"}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <DashboardIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
           </StyledMenuItem>
         </Link>
       </StyledMenu>

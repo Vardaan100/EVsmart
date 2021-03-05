@@ -2,29 +2,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Menus from "../Menu";
 import "./navigation.css";
-import { getToken, logout } from "../../utils/index"
-
+import { logout } from "../../utils/index";
+import { connect } from "react-redux";
 
 class Index extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        isLogin: getToken()
-    }
-}
-
-handleLogout = () => {
+  handleLogout = () => {
     logout();
-    this.setState({
-        isLogin: false
-    })
-}
-  
+    let action = {
+      type: "menu",
+      payload: false,
+    };
+    this.props.dispatch(action);
+  };
 
   render() {
-    return this.state.isLogin ? (
+    return this.props.menu ? (
       <div style={{ background_color: "red" }} className="nav-container">
         <ul className="lists">
           <li>
@@ -42,7 +34,7 @@ handleLogout = () => {
               Contact us
             </Link>
           </li>
-          
+
           <li className="menu">
             <Menus />
           </li>
@@ -50,7 +42,7 @@ handleLogout = () => {
             <Link onClick={this.handleLogout} className="list" to="/sign-in">
               Logout
             </Link>
-            </li>
+          </li>
         </ul>
       </div>
     ) : (
@@ -69,10 +61,10 @@ handleLogout = () => {
                   </Link>
                 </li>
                 <li>
-                <Link className="list" to="/home">
-                Home
-              </Link>
-              </li>
+                  <Link className="list" to="/home">
+                    Home
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link className="list nav-link" to="/about">
                     About
@@ -102,4 +94,15 @@ handleLogout = () => {
   }
 }
 
-export default Index
+function msp(state) {
+  return {
+    menu: state.menu,
+  };
+}
+function mdp(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(msp, mdp)(Index);
