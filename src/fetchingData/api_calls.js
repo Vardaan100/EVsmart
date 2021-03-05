@@ -178,12 +178,10 @@ export const getAllDash = (token) => {
       Accept: "application/json",
     },
   })
-  .then((response)=>{
-    console.log(response);
-    console.log(response.json());
-    return response;
-  })
-  .catch((err)=>{
-    console.log(err);
-  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
