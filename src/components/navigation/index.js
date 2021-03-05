@@ -16,7 +16,8 @@ class Index extends Component {
   };
 
   render() {
-    return this.props.menu ? (
+    // return this.props.menu ? (
+    return localStorage.getItem("jwt") ? (
       <div style={{ background_color: "red" }} className="nav-container">
         <ul className="lists">
           <li>
@@ -52,7 +53,7 @@ class Index extends Component {
             <div style={{ background_color: "red" }} className="nav-container ">
               <ul className="lists ">
                 <li>
-                  <Link className="navbar-brand" to="/">
+                  <Link className="navbar-brand" to="/dashboard">
                     <img
                       className="navigation__logo"
                       src="./logo.png"
@@ -60,6 +61,7 @@ class Index extends Component {
                     />
                   </Link>
                 </li>
+
                 <li>
                   <Link className="list" to="/home">
                     Home
@@ -70,16 +72,19 @@ class Index extends Component {
                     About
                   </Link>
                 </li>
+
                 <li className="nav-item">
                   <Link className="list nav-link" to="/contact">
                     Contact Us
                   </Link>
                 </li>
+
                 <li className="nav-item">
                   <Link className="nav-link" to={"/sign-in"}>
                     Sign In
                   </Link>
                 </li>
+
                 <li className="nav-item">
                   <Link className="nav-link" to={"/sign-up"}>
                     Sign up

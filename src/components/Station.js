@@ -1,12 +1,24 @@
 import React, { Component } from "react";
-import { TimePicker } from "antd";
+// import { TimePicker } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
-class Station extends Component {
-  render() {
-    const { RangePicker } = TimePicker;
+import TextField from "@material-ui/core/TextField";
 
+class Station extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      phone: "",
+      open: "",
+      close: "",
+      long: "",
+      lati: "",
+      cost: "",
+    };
+  }
+
+  render() {
     return (
       <div className="station">
         <form className="station__container">
@@ -23,8 +35,32 @@ class Station extends Component {
 
           <div className="form-group">
             <label>Working Hours</label>
+
             <div>
-              <RangePicker bordered={true} />
+              <TextField
+                id="time"
+                ampm={false}
+                type="time"
+                defaultValue="00:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300, // 5 min
+                }}
+              />
+              <TextField
+                id="time"
+                ampm={false}
+                type="time"
+                defaultValue="00:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300, // 5 min
+                }}
+              />
             </div>
           </div>
 
@@ -42,7 +78,7 @@ class Station extends Component {
             <input
               value={this.props.location}
               className="form-control"
-              placeholder="Latitude"
+              placeholder="Latitude, Longitude"
               disabled={true}
             />
             {/* <input
@@ -54,7 +90,11 @@ class Station extends Component {
             <Link to="/map">Set Your Location Manually</Link>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block">
+          <button
+            onClick={(e) => e.preventDefault()}
+            type="submit"
+            className="btn btn-primary btn-block"
+          >
             Save
           </button>
         </form>

@@ -1,16 +1,27 @@
 import React, { Component } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
-import cities from "../cities.json";
+// import cities from "../cities.json";
+import L from "leaflet";
+import { getallCS } from "../fetchingData/api_calls";
+
+var img = window.location.origin + "/marker.png";
+
+const markerIcon = new L.Icon({
+  iconUrl: img,
+  iconSize: [40, 40],
+  iconAnchor: [17, 46], //[left/right, top/bottom]
+  popupAnchor: [0, -46], //[left/right, top/bottom]
+});
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       lat: 19.7514798,
       lng: 75.7138884,
       zoom: 6,
+      stations: [],
     };
   }
 
@@ -25,11 +36,16 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getLatLng();
+    getallCS().then((data) => {
+      data.map((cs_id, idx) => {
+        this.setState({
+          stations: data,
+        });
+      });
+    });
   }
 
   render() {
-    console.log(this.state.lat, this.state.lng);
-
     return (
       <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
         <MapContainer
@@ -44,23 +60,38 @@ class Dashboard extends Component {
           {!this.props.coords ? (
             <div>Loading</div>
           ) : (
-            <Circle center={[this.state.lat, this.state.lng]} radius={200} />
+            <Marker
+              position={[this.state.lat, this.state.lng]}
+              icon={markerIcon}
+            >
+              <Popup>You are here</Popup>
+            </Marker>
           )}
 
-          {cities.map((city, idx) => (
-            <Marker position={[city.lat, city.lng]} key={idx}>
+          {this.state.stations.map((cs_id, idx) => (
+            <Marker
+              position={[cs_id.cs_latitude, cs_id.cs_longitude]}
+              key={idx}
+            >
               <Popup>
                 <div>
-                  <b>
-                    {city.city}, {city.country}
-                  </b>
+                  <ul>
+                    <li>
+                      {cs_id.cs_openat}, {cs_id.cs_closeat}
+                    </li>
+                    <li>{cs_id.cs_phone}</li>
+                    <li>{cs_id.cs_cost}</li>
+                  </ul>
                 </div>
                 <button
-                  onClick={() => {
-                    window.location.href = `https://www.google.com/maps/search/?api=1&query=${parseFloat(
-                      city.lat
-                    )},${parseFloat(city.lng)}`;
-                  }}
+                  onClick={() =>
+                    window.open(
+                      `https://www.google.com/maps/search/?api=1&query=${parseFloat(
+                        cs_id.cs_latitude
+                      )},${parseFloat(cs_id.cs_longitude)}`,
+                      "_blank"
+                    )
+                  }
                 >
                   Get Directions
                 </button>

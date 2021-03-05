@@ -7,9 +7,9 @@ const Signup = () => {
   const [values, setValues] = useState({
     firstname: "Vardaan",
     lastname: "Magon",
-    email: "vardaanmagon@yahoo.com",
-    phone: "9999640326",
-    password: "hellohello",
+    email: "vardaanmagon1@gmail.com",
+    phone: "",
+    password: "",
     error: "",
     success: false,
   });
@@ -32,7 +32,19 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      if (data.length == 16) {
+      console.log(data);
+      if (
+        data == undefined ||
+        data.length == 16 ||
+        data == "missing Email password phone no. or name" ||
+        data == "USER ALREADY EXSIST"
+      ) {
+        if (data == "missing Email password phone no. or name") {
+          data = "Missing Fields";
+        }
+        if (data == undefined) {
+          data = "Down for Maintenance";
+        }
         setValues({ ...values, error: data, success: false });
       } else {
         setValues({
@@ -129,7 +141,7 @@ const Signup = () => {
       className="alert alert-info"
       style={{ display: success ? "" : "none" }}
     >
-      New account is created. Please <Link to="/signin">Signin</Link>
+      New account is created. Please <Link to="/sign-in">Signin</Link>
     </div>
   );
   const showError = () => (

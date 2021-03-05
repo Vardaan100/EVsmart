@@ -40,20 +40,24 @@ class Profile extends Component {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
-  clickSubmit = (firstname, lastname, email, phone) => {
-    console.log("Running Submit");
-    updateUser({ firstname, lastname, email, phone }).then((data) => {
-      if (data.length == 16) {
+  clickSubmit = (e) => {
+    e.preventDefault();
+    const { firstname, lastname, email, phone } = this.state;
+    const token = localStorage
+      .getItem("jwt", JSON.stringify())
+      .replaceAll('"', "");
+    updateUser({firstname, lastname, phone, email},token).then((data) => {
+      if (data.length==16 || data=="Phone no. in use") {
+        console.log(data);
         console.log("Error Updating");
       } else {
         this.setState({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          password: "",
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phone: phone,
         });
-        console.log("SignUp Successfully");
+        console.log("Profile Updated");
       }
     });
   };
@@ -163,5 +167,6 @@ class Profile extends Component {
     );
   }
 }
+
 
 export default Profile;

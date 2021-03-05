@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Navigation from "./components/navigation";
 import Footer from "./components/navigation/Footer";
 import Home from "./components/home components/Home";
@@ -13,6 +13,7 @@ import Dashboard from "./components/Dashboard";
 import Map from "./components/Map";
 import SignUp from "./components/Signup";
 import Station from "./components/Station";
+import AdminDash from "./components/adminDash";
 import { Fragment } from "react";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
@@ -35,6 +36,7 @@ function App() {
           <PublicRoute path="/sign-up" component={SignUp} />
           <PrivateRoute path="/station" component={Station} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/admindash" component={AdminDash}/>
         </Fragment>
       </Switch>
       <Footer />

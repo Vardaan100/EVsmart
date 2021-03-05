@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { getToken } from "../../utils/index";
+import { validToken } from "../../fetchingData/api_calls";
+import { getToke } from "../../utils/index";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -9,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        getToken() ? <Component {...props} /> : <Redirect to="/sign-in" />
+        validToken() ? <Component {...props} /> : <Redirect to="/sign-in" />
       }
     />
   );
