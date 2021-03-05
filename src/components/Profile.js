@@ -48,7 +48,6 @@ class Profile extends Component {
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-      console.log(token);
     updateUser({firstname, lastname, phone, email},token).then((data) => {
       if (data.length==16 || data=="Phone no. in use") {
         console.log(data);
