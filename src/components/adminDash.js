@@ -9,8 +9,9 @@ class AdminDash extends Component {
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
       getAllDash(token).then((data) => {
-          console.log(data);
-    
+        console.log(data);
+        console.log(data.length);
+        console.log(data[5].user_firstname);
     });
   }
 
