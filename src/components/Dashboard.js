@@ -5,7 +5,8 @@ import { geolocated } from "react-geolocated";
 import L from "leaflet";
 import { getallCS } from "../fetchingData/api_calls";
 
-var img = window.location.origin + "/marker.png"
+var img = window.location.origin + "/marker.png";
+var img2 = window.location.origin + "/station.png";
 
 const markerIcon = new L.Icon({
   iconUrl: img,
@@ -14,6 +15,12 @@ const markerIcon = new L.Icon({
   popupAnchor: [0, -46], //[left/right, top/bottom]
 });
 
+const markericon = new L.Icon({
+  iconUrl: img2,
+  iconSize: [40, 40],
+  iconAnchor: [17, 46], //[left/right, top/bottom]
+  popupAnchor: [0, -46], //[left/right, top/bottom]
+});
 
 class Dashboard extends Component {
   constructor(props) {
@@ -73,7 +80,8 @@ class Dashboard extends Component {
         )}
 
         {this.state.stations.map((cs_id, idx) => (
-          <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}>
+          <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}
+          icon={markericon}>
             <Popup>
               <div>
                 <ul>

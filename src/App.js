@@ -14,6 +14,7 @@ import Map from "./components/Map";
 import SignUp from "./components/Signup";
 import Station from "./components/Station";
 import { Fragment } from "react";
+import AdminDashboard from "./components/AdminDashboard"
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 
@@ -35,6 +36,7 @@ function App() {
           <PublicRoute path="/sign-up" component={SignUp} />
           <PrivateRoute path="/station" component={Station} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/admin" component = {AdminDashboard} />
         </Fragment>
       </Switch>
       <Footer />
