@@ -78,7 +78,6 @@ export const updateUser = (user, token) => {
     body: JSON.stringify(user),
   })
     .then((response) => {
-      console.log(response);
       return response.json();
     })
     .catch((err) => {
@@ -95,6 +94,7 @@ export const addCS = (chargingD, token) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(chargingD),
   })
     .then((response) => {
       return response;
@@ -168,4 +168,22 @@ export const getDash = (token) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+//Getting all data for users to Admin Dashboard
+export const getAllDash = (token) => {
+  return fetch(`${API}/admin/allusers/${token}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  })
+  .then((response)=>{
+    console.log(response);
+    console.log(response.json());
+    return response;
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 };

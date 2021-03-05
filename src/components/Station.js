@@ -3,12 +3,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
 class Station extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      phone: "",
+      open: "",
+      close: "",
+      long: "",
+      lati: "",
+      cost: "",
+    };
+  }
 
   render() {
-
     return (
       <div className="station">
         <form className="station__container">
@@ -20,6 +30,7 @@ class Station extends Component {
               type="number"
               className="form-control"
               placeholder="Enter phone number for station"
+              
             />
           </div>
 
@@ -27,28 +38,30 @@ class Station extends Component {
             <label>Working Hours</label>
 
             <div>
-            <TextField
-            id="time"
-            ampm= {false}
-            type="time"
-            defaultValue="00:00"
-            InputLabelProps={{
-            shrink: true,
-            }}
-        inputProps={{
-          step: 300, // 5 min
-        }} />
-       <TextField
-            id="time"
-            ampm={false}
-            type="time"
-            defaultValue="00:00"
-            InputLabelProps={{
-            shrink: true,
-            }}
-        inputProps={{
-          step: 300, // 5 min
-        }} />
+              <TextField
+                id="time"
+                ampm={false}
+                type="time"
+                defaultValue="00:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300, // 5 min
+                }}
+              />
+              <TextField
+                id="time"
+                ampm={false}
+                type="time"
+                defaultValue="00:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300, // 5 min
+                }}
+              />
             </div>
           </div>
 
@@ -104,5 +117,3 @@ const msp = (state) => ({
 // }
 
 export default connect(msp, null)(Station);
-
-

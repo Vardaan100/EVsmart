@@ -33,12 +33,17 @@ const Signup = () => {
     setValues({ ...values, error: false });
     signup({ firstname, lastname, email, phone, password }).then((data) => {
       console.log(data);
-      if (data==undefined || data.length == 16 || data=="missing Email password phone no. or name") {
-        if(data=="missing Email password phone no. or name"){
-          data="Missing Fields";
+      if (
+        data == undefined ||
+        data.length == 16 ||
+        data == "missing Email password phone no. or name" ||
+        data == "USER ALREADY EXSIST"
+      ) {
+        if (data == "missing Email password phone no. or name") {
+          data = "Missing Fields";
         }
-        if(data==undefined){
-          data= "Down for Maintenance";
+        if (data == undefined) {
+          data = "Down for Maintenance";
         }
         setValues({ ...values, error: data, success: false });
       } else {

@@ -10,10 +10,11 @@ const Signin = () => {
     password: "hellohello",
     error: "",
     loading: false,
+    user: true,
     redirectToReferrer: false,
   });
 
-  const { email, password, loading, error, redirectToReferrer } = values;
+  const { email, password, loading, error, user, redirectToReferrer } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -23,6 +24,7 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
+      console.log(data.user);
       if (
         data == "User doesnt exsist" ||
         data == "Password or Email is incorrect" ||
@@ -30,16 +32,29 @@ const Signin = () => {
         data == "Invalid Email" ||
         data == undefined
       ) {
-        if(data==undefined){
+        if (data == undefined) {
           data = "Down for Maintenance";
         }
         setValues({ ...values, error: data, loading: false });
       } else {
         authenticate(data);
-        setValues({
-          ...values,
-          redirectToReferrer: true,
-        });
+        if(data.user=="user"){
+          console.log("User is user");
+          setValues({
+            ...values,
+            user:true,
+            redirectToReferrer: true,
+          });
+        } 
+        if(data.user=="admin"){
+          console.log("User is admin");
+          setValues({
+            ...values,
+            user:false,
+            redirectToReferrer: true,
+          });
+        } 
+        
         console.log("Login Succesfull");
       }
     });
@@ -91,9 +106,13 @@ const Signin = () => {
       </div>
     );
 
-  const redirectUser = () => {
+  const redirectUser = (user) => {
     if (redirectToReferrer) {
-      return <Redirect to="/dashboard" />;
+      if (user) {
+        return <Redirect to="/dashboard" />;
+      } else {
+        return <Redirect to="/profile" />;
+      }
     }
   };
 
@@ -101,7 +120,7 @@ const Signin = () => {
     <div className="login">
       {showLoading()}
       {showError()}
-      {redirectUser()}
+      {redirectUser(user)}
       {signInForm()}
     </div>
   );
