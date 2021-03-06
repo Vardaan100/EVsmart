@@ -13,7 +13,7 @@ class Station extends Component {
       phone: "",
       open: "",
       close: "",
-      location: "",
+      location: this.props.location,
       cost: "",
     };
   }
@@ -24,12 +24,12 @@ class Station extends Component {
 
   clickSubmit = (e) => {
     e.preventDefault();
+    this.setState((state) => ({ location:this.props.location }));
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-    this.setState((state) => ({ location:this.props.location }));
-    console.log(phone);
+    console.log(open);
     addCS({ phone, open, close, location, cost }, token).then((data) => {
 
       if (data.length == 16 || data == "Phone no. in use") {
