@@ -30,7 +30,6 @@ class Station extends Component {
               type="number"
               className="form-control"
               placeholder="Enter phone number for station"
-              
             />
           </div>
 
@@ -91,7 +90,11 @@ class Station extends Component {
             <Link to="/map">Set Your Location Manually</Link>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block">
+          <button
+            onClick={(e) => e.preventDefault()}
+            type="submit"
+            className="btn btn-primary btn-block"
+          >
             Save
           </button>
         </form>

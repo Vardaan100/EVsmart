@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { updateUser, userData } from "../fetchingData/api_calls";
 import "./profile.css";
 
+// const Token_key = 'jwt'
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -65,6 +67,7 @@ class Profile extends Component {
     // if (!this.props.islogin) {
     //   return <Redirect to={"/sign-in"} />;
     // }
+
     const buttonText = this.state.edit
       ? "Edit your profile"
       : "Back to profile";

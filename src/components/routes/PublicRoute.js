@@ -13,4 +13,4 @@ const PublicRoute = ({component: Component, restricted, ...rest}) => {
     );
 };
 
-export default PublicRoute
+export default PublicRoute;

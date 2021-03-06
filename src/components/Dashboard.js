@@ -5,7 +5,8 @@ import { geolocated } from "react-geolocated";
 import L from "leaflet";
 import { getallCS } from "../fetchingData/api_calls";
 
-var img = window.location.origin + "/marker.png"
+var img = window.location.origin + "/marker.png";
+var img2 = window.location.origin + "/station.png";
 
 const markerIcon = new L.Icon({
   iconUrl: img,
@@ -14,6 +15,12 @@ const markerIcon = new L.Icon({
   popupAnchor: [0, -46], //[left/right, top/bottom]
 });
 
+const markericon = new L.Icon({
+  iconUrl: img2,
+  iconSize: [40, 40],
+  iconAnchor: [17, 46], //[left/right, top/bottom]
+  popupAnchor: [0, -46], //[left/right, top/bottom]
+});
 
 class Dashboard extends Component {
   constructor(props) {
@@ -22,7 +29,7 @@ class Dashboard extends Component {
       lat: 19.7514798,
       lng: 75.7138884,
       zoom: 6,
-      stations: []
+      stations: [],
     };
   }
 
@@ -37,43 +44,41 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getLatLng();
-    getallCS().then((data)=>{
-    data.map((cs_id, idx) => {
-      this.setState({
-        stations: data
-      })
-    })
-    
-    })
+    getallCS().then((data) => {
+      data.map((cs_id, idx) => {
+        this.setState({
+          stations: data,
+        });
+      });
+    });
   }
 
   render() {
-
     return (
-      <MapContainer
-        center={[this.state.lat, this.state.lng]}
-        zoom={this.state.zoom}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
+        <MapContainer
+          center={[this.state.lat, this.state.lng]}
+          zoom={this.state.zoom}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        {!this.props.coords ? (
-          <div>Loading</div>
-        ) : (
-          <Marker 
-          position={[this.state.lat, this.state.lng]}
-          icon={markerIcon}
-          >
-            <Popup>
-              You are here
-            </Popup>
-          </Marker>
-        )}
+          {!this.props.coords ? (
+            <div>Loading</div>
+          ) : (
+            <Marker
+              position={[this.state.lat, this.state.lng]}
+              icon={markerIcon}
+            >
+              <Popup>You are here</Popup>
+            </Marker>
+          )}
 
         {this.state.stations.map((cs_id, idx) => (
-          <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}>
+          <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}
+          icon={markericon}>
             <Popup>
               <div>
                 <ul>
@@ -97,7 +102,8 @@ class Dashboard extends Component {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
+        </MapContainer>
+      </div>
     );
   }
 }
