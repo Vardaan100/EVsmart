@@ -37,13 +37,18 @@ const Signup = () => {
         data == undefined ||
         data.length == 16 ||
         data == "missing Email password phone no. or name" ||
-        data == "USER ALREADY EXSIST"
+        data == "USER ALREADY EXSIST" || 
+        data == "Invalid Phone no."
       ) {
         if (data == "missing Email password phone no. or name") {
           data = "Missing Fields";
         }
         if (data == undefined) {
           data = "Down for Maintenance";
+        }
+        if(data == "Invalid Phone no.")
+        {
+          data ="Enter Valid Number";
         }
         setValues({ ...values, error: data, success: false });
       } else {
