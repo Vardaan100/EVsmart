@@ -17,11 +17,13 @@ class AdminDash extends Component {
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
     getAllDash(token).then((data) => {
-      data.map((user_id, idx) => {
-        this.setState({
-          users: data,
+      if (data.users == "admin") {
+        data.map((user_id, idx) => {
+          return this.setState({
+            users: data,
+          });
         });
-      });
+      }
     });
   }
 

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./stationprofile.css";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 export default class StationProfile extends Component {
   constructor(props) {
@@ -19,10 +20,15 @@ export default class StationProfile extends Component {
   };
 
   render() {
-
-    const buttonText = this.state.edit
-      ? "Edit your profile"
-      : "Back to profile";
+    const buttonText = this.state.edit ? (
+      <Button variant="contained" color="primary">
+        Edit your profile
+      </Button>
+    ) : (
+      <Button variant="contained" color="primary">
+        Back to profile
+      </Button>
+    );
     return (
       <div className="station__profile">
         <div className="station__profiles">
@@ -61,33 +67,35 @@ export default class StationProfile extends Component {
               </div>
 
               <div className="form-group">
-            <label>Working Hours</label>
+                <label>Working Hours</label>
 
-            <div>
-            <TextField
-            id="time"
-            ampm= {false}
-            type="time"
-            defaultValue="00:00"
-            InputLabelProps={{
-            shrink: true,
-            }}
-        inputProps={{
-          step: 300, // 5 min
-        }} />
-       <TextField
-            id="time"
-            ampm={false}
-            type="time"
-            defaultValue="00:00"
-            InputLabelProps={{
-            shrink: true,
-            }}
-        inputProps={{
-          step: 300, // 5 min
-        }} />
-            </div>
-          </div>
+                <div>
+                  <TextField
+                    id="time"
+                    ampm={false}
+                    type="time"
+                    defaultValue="00:00"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                  />
+                  <TextField
+                    id="time"
+                    ampm={false}
+                    type="time"
+                    defaultValue="00:00"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                  />
+                </div>
+              </div>
 
               <div className="form-group">
                 <label>Charges per Hour (in Rs)</label>

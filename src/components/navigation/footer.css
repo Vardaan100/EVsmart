@@ -1,8 +1,9 @@
 .footer_container {
   background-color: rgb(158, 158, 158);
-  position: absolute;
+  /* position: absolute; */
   /* bottom: 0; */
   width: 100%;
+  color: white;
 }
 .footer_container > ul {
   display: flex;
@@ -21,9 +22,11 @@
 
 .footer_list {
   text-decoration: none;
+  color: white;
 }
 .footer_list:hover {
   color: rgb(175, 40, 40);
+  text-decoration: none;
 }
 
 .privacy {

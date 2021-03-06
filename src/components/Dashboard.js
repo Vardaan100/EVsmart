@@ -4,6 +4,10 @@ import { geolocated } from "react-geolocated";
 // import cities from "../cities.json";
 import L from "leaflet";
 import { getallCS } from "../fetchingData/api_calls";
+import "./dashboard.css";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import PhoneIcon from "@material-ui/icons/Phone";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 var img = window.location.origin + "/marker.png";
 var img2 = window.location.origin + "/station.png";
@@ -46,7 +50,7 @@ class Dashboard extends Component {
     this.getLatLng();
     getallCS().then((data) => {
       data.map((cs_id, idx) => {
-        this.setState({
+        return this.setState({
           stations: data,
         });
       });
@@ -76,32 +80,46 @@ class Dashboard extends Component {
             </Marker>
           )}
 
-        {this.state.stations.map((cs_id, idx) => (
-          <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}
-          icon={markericon}>
-            <Popup>
-              <div>
-                <ul>
-                  <li>
-                    {cs_id.cs_openat}, {cs_id.cs_closeat}
-                  </li>
-                  <li>
-                  {cs_id.cs_phone}
-                  </li>
-                  <li>
-                  {cs_id.cs_cost}
-                  </li>
-                </ul>
-              </div>
-              <button
-                onClick={()=> window.open(
-                  `https://www.google.com/maps/search/?api=1&query=${parseFloat(cs_id.cs_latitude)},${parseFloat(cs_id.cs_longitude)}`, "_blank")}
-              >
-                Get Directions
-              </button>
-            </Popup>
-          </Marker>
-        ))}
+          {this.state.stations.map((cs_id, idx) => (
+            <Marker
+              position={[cs_id.cs_latitude, cs_id.cs_longitude]}
+              key={idx}
+              icon={markericon}
+            >
+              <Popup>
+                <div className="popups">
+                  <ul>
+                    <li>
+                      <AccessTimeIcon />
+                      {cs_id.cs_openat} To {cs_id.cs_closeat}
+                    </li>
+                    <li>
+                      {" "}
+                      <PhoneIcon /> {cs_id.cs_phone}
+                    </li>
+                    <li>
+                      {" "}
+                      <AttachMoneyIcon />
+                      <strong> {cs_id.cs_cost}</strong>
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  className="dashboard__getdirection"
+                  onClick={() =>
+                    window.open(
+                      `https://www.google.com/maps/search/?api=1&query=${parseFloat(
+                        cs_id.cs_latitude
+                      )},${parseFloat(cs_id.cs_longitude)}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  Get Directions
+                </button>
+              </Popup>
+            </Marker>
+          ))}
         </MapContainer>
       </div>
     );

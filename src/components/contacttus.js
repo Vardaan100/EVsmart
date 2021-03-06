@@ -3,14 +3,7 @@ import emailjs from "emailjs-com";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import "./contactus.css";
-// import image from "./imgs/ev.jpg";
 
-// var backgroundImage = {
-//   width: "100%",
-//   height: "400px",
-//   // backgroundImage: "url(" + { image } + ")",
-//   backgroundImage: `url(${image}) `,
-// };
 const Contact = () => {
   const { register, errors, handleSubmit, reset } = useForm();
 
@@ -180,7 +173,7 @@ const Contact = () => {
                   type="submit"
                 >
                   {" "}
-                  <div className="submit__text">Submit</div>
+                  <div className="submit__text">SUBMIT</div>
                 </button>
               </form>
             </div>

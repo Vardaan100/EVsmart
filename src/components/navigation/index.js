@@ -4,6 +4,7 @@ import CustomizedMenus from "../Menu";
 import "./navigation.css";
 import { isLoggedin, logout } from "../../utils/index";
 import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
 
 class Index extends Component {
   //   constructor(props) {
@@ -68,13 +69,17 @@ class Index extends Component {
 
                 <li className="nav-item">
                   <Link className="nav-link" to={"/sign-in"}>
-                    Sign In
+                    <Button variant="contained" color="primary">
+                      Sign In
+                    </Button>
                   </Link>
                 </li>
 
                 <li className="nav-item">
                   <Link className="nav-link" to={"/sign-up"}>
-                    Sign up
+                    <Button variant="contained" color="primary">
+                      Sign up
+                    </Button>
                   </Link>
                 </li>
               </ul>
@@ -91,6 +96,11 @@ class Index extends Component {
             </Link>
           </li>
 
+          <li>
+            <Link className="list" to="/">
+              Home
+            </Link>
+          </li>
           <li>
             <Link className="list" to="/about">
               About
@@ -109,7 +119,9 @@ class Index extends Component {
 
           <li>
             <Link onClick={this.handleLogout} className="list" to="/sign-in">
-              Logout
+              <Button variant="contained" color="primary">
+                Logout
+              </Button>
             </Link>
           </li>
         </ul>

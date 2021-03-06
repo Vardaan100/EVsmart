@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 class Station extends Component {
   constructor(props) {
@@ -87,7 +88,13 @@ class Station extends Component {
             placeholder="Longitude"
             disabled={true}
           /> */}
-            <Link to="/map">Set Your Location Manually</Link>
+            <Button
+              className="station__setlocation station__location"
+              variant="contained"
+              color="primary"
+            >
+              <Link to="/map"> Set Your Location Manually</Link>
+            </Button>{" "}
           </div>
 
           <button
@@ -102,21 +109,9 @@ class Station extends Component {
     );
   }
 }
-// const msp = async (state) => {
-//   return await {
-//     clg: console.log("station state", state),
-//     location: state.location,
-//   };
-// };
 const msp = (state) => ({
   clg: console.log("station state", state),
   location: state.location,
 });
-// async function msp(state) {
-//   console.log("station state", state);
-//   return await {
-//     location: state.location,
-//   };
-// }
 
 export default connect(msp, null)(Station);

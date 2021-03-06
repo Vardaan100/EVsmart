@@ -8,10 +8,10 @@ function Start() {
       <h4>Ready To start?</h4>
       <br></br>
       <p>
-        Our motto is to provide charging stations at best prices, which will be available throughout
-        the world
+        Our motto is to provide charging stations at best prices, which will be
+        available throughout the world
       </p>
-      <Button> Start Free Trial </Button>
+      <Button> Start With us </Button>
     </div>
   );
 }
