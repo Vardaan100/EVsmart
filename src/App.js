@@ -15,7 +15,6 @@ import SignUp from "./components/Signup";
 import Station from "./components/Station";
 import AdminDash from "./components/adminDash";
 import { Fragment } from "react";
-import AdminDashboard from "./components/AdminDashboard"
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 
