@@ -97,11 +97,27 @@ export const addCS = (chargingD, token) => {
     body: JSON.stringify(chargingD),
   })
     .then((response) => {
-      return response;
+      return response.json();
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+export const getCS = (token) => {
+  return fetch(`${API}/cs/csdata/${token}`,{
+    method:"GET",
+    headers:{
+      Accept:"application/json"
+    },
+  })
+  .then((response)=>{
+    return response.json();
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
+
 };
 
 export const updateCS = (chargingD, token) => {

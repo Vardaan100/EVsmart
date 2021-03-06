@@ -24,15 +24,16 @@ class Station extends Component {
 
   clickSubmit = (e) => {
     e.preventDefault();
-    this.setState((state) => ({ location:this.props.location }));
+    this.setState((state) => ({ location: this.props.location }));
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-    console.log(open);
-    addCS({ phone, open, close, location, cost }, token).then((data) => {
-
-      if (data.length == 16 || data == "Phone no. in use") {
+    const lati=location[0];
+    const long=location[1];
+    addCS({ phone, open, close, long, lati, cost }, token).then((data) => {
+      console.log(data);
+      if (data.length == 16 || data == "YOU CAN ONLY ADD ONE CHARGING STATION.") {
         console.log(data);
         console.log("Error Updating");
       } else {
@@ -40,7 +41,7 @@ class Station extends Component {
           phone: "",
           open: "",
           close: "",
-          location:"",
+          location: "",
           cost: "",
         });
         console.log("Station added");
@@ -53,6 +54,16 @@ class Station extends Component {
         <form className="station__container">
           <h3>Add Your Station</h3>
 
+          <div className="form-group">
+            <label>Location</label>
+            <input
+              value={this.props.location}
+              className="form-control"
+              placeholder="Latitude, Longitude"
+              disabled={true}
+            />
+            <Link to="/map">Set Your Location Manually</Link>
+          </div>
           <div className="form-group">
             <label>Phone Number</label>
             <input
@@ -108,17 +119,6 @@ class Station extends Component {
               onChange={this.handleChange("cost")}
               value={this.state.cost}
             />
-          </div>
-
-          <div className="form-group">
-            <label>Location</label>
-            <input
-              value={this.props.location}
-              className="form-control"
-              placeholder="Latitude, Longitude"
-              disabled={true}
-            />
-            <Link to="/map">Set Your Location Manually</Link>
           </div>
 
           <button
