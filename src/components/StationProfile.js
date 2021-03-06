@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./stationprofile.css";
 import TextField from "@material-ui/core/TextField";
 import { getCS, updateCS } from "../fetchingData/api_calls";
 
-export default class StationProfile extends Component {
+class StationProfile extends Component {
   constructor(props) {
     super(props);
 
@@ -127,7 +128,7 @@ export default class StationProfile extends Component {
                   className="form-control"
                   placeholder="Location"
                   disabled="true"
-                  value={this.state.location}
+                  value={this.props.location}
                 />
                 <Link to="/map">Set Your Location Manually</Link>
               </div>
@@ -202,3 +203,9 @@ export default class StationProfile extends Component {
     );
   }
 }
+
+const msp = (state) => ({
+  location: state.location
+});
+
+export default connect(msp, null)(StationProfile);
