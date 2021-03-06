@@ -111,7 +111,7 @@ const Signin = () => {
       if (user) {
         return <Redirect to="/dashboard" />;
       } else {
-        return <Redirect to="/profile" />;
+        return <Redirect to="/admindash" />;
       }
     }
   };
