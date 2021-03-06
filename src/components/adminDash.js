@@ -37,3 +37,31 @@ class AdminDash extends Component {
 }
 
 export default AdminDash;
+
+
+// import * as React from "react";
+// import { Admin, Resource, ListGuesser } from 'react-admin';
+// import jsonServerProvider from 'ra-data-json-server';
+// import { createHashHistory } from "history";
+// import adminStore from "./CreateadminStore";
+// import { Provider } from "react-redux";
+
+// const dataProvider = jsonServerProvider
+//  (
+// 'https://jsonplaceholder.typicode.com'
+//  );
+
+//  const history = createHashHistory();
+
+// const adminDash = () => 
+// <Provider
+// store={adminStore({
+//     dataProvider,
+//     history,
+// })}
+// >
+// <Admin dataProvider={dataProvider} history={history}/>;
+
+// </Provider>
+
+// export default adminDash
