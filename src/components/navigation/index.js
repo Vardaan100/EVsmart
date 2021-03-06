@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CustomizedMenus from "../Menu";
 import "./navigation.css";
-import { isLoggedin, logout } from "../../utils/index";
+import { logout } from "../../utils/index";
 import { connect } from "react-redux";
 
 class Index extends Component {

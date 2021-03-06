@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
+import { addCS } from "../fetchingData/api_calls";
 
 class Station extends Component {
   constructor(props) {
@@ -12,12 +13,40 @@ class Station extends Component {
       phone: "",
       open: "",
       close: "",
-      long: "",
-      lati: "",
+      location: this.props.location,
       cost: "",
     };
   }
 
+  handleChange = (name) => (event) => {
+    this.setState((state) => ({ [name]: event.target.value }));
+  };
+
+  clickSubmit = (e) => {
+    e.preventDefault();
+    this.setState((state) => ({ location:this.props.location }));
+    const { phone, open, close, location, cost } = this.state;
+    const token = localStorage
+      .getItem("jwt", JSON.stringify())
+      .replaceAll('"', "");
+    console.log(open);
+    addCS({ phone, open, close, location, cost }, token).then((data) => {
+
+      if (data.length == 16 || data == "Phone no. in use") {
+        console.log(data);
+        console.log("Error Updating");
+      } else {
+        this.setState({
+          phone: "",
+          open: "",
+          close: "",
+          location:"",
+          cost: "",
+        });
+        console.log("Station added");
+      }
+    });
+  };
   render() {
     return (
       <div className="station">
@@ -30,6 +59,8 @@ class Station extends Component {
               type="number"
               className="form-control"
               placeholder="Enter phone number for station"
+              value={this.state.phone}
+              onChange={this.handleChange("phone")}
             />
           </div>
 
@@ -49,6 +80,8 @@ class Station extends Component {
                 inputProps={{
                   step: 300, // 5 min
                 }}
+                onChange={this.handleChange("open")}
+                value={this.state.open}
               />
               To: 
               <TextField
@@ -62,6 +95,8 @@ class Station extends Component {
                 inputProps={{
                   step: 300, // 5 min
                 }}
+                onChange={this.handleChange("close")}
+                value={this.state.close}
               />
             </div>
           </div>
@@ -72,6 +107,8 @@ class Station extends Component {
               type="number"
               className="form-control"
               placeholder="Enter charges"
+              onChange={this.handleChange("cost")}
+              value={this.state.cost}
             />
           </div>
 
@@ -83,19 +120,13 @@ class Station extends Component {
               placeholder="Latitude, Longitude"
               disabled={true}
             />
-            {/* <input
-            value={this.props.location}
-            className="form-control"
-            placeholder="Longitude"
-            disabled={true}
-          /> */}
             <Link to="/map">Set Your Location Manually</Link>
           </div>
 
           <button
-            onClick={(e) => e.preventDefault()}
             type="submit"
             className="btn btn-primary btn-block"
+            onClick={this.clickSubmit}
           >
             Save
           </button>
