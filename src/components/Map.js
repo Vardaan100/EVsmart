@@ -62,7 +62,8 @@ class Map extends Component {
         </MapContainer>
         <div>
           <button onClick={getlocation}>Save location</button>
-          <Link to="/station"> back to station </Link>
+          <Link to="/station"> Back to station </Link>
+          <Link to="/station-profile"> Back to station profile </Link>
         </div>
       </div>
     );
