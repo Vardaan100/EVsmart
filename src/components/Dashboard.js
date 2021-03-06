@@ -29,7 +29,7 @@ class Dashboard extends Component {
       lat: 19.7514798,
       lng: 75.7138884,
       zoom: 6,
-      stations: []
+      stations: [],
     };
   }
 
@@ -44,40 +44,37 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getLatLng();
-    getallCS().then((data)=>{
-    data.map((cs_id, idx) => {
-      this.setState({
-        stations: data
-      })
-    })
-    
-    })
+    getallCS().then((data) => {
+      data.map((cs_id, idx) => {
+        this.setState({
+          stations: data,
+        });
+      });
+    });
   }
 
   render() {
-
     return (
-      <MapContainer
-        center={[this.state.lat, this.state.lng]}
-        zoom={this.state.zoom}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
+        <MapContainer
+          center={[this.state.lat, this.state.lng]}
+          zoom={this.state.zoom}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        {!this.props.coords ? (
-          <div>Loading</div>
-        ) : (
-          <Marker 
-          position={[this.state.lat, this.state.lng]}
-          icon={markerIcon}
-          >
-            <Popup>
-              You are here
-            </Popup>
-          </Marker>
-        )}
+          {!this.props.coords ? (
+            <div>Loading</div>
+          ) : (
+            <Marker
+              position={[this.state.lat, this.state.lng]}
+              icon={markerIcon}
+            >
+              <Popup>You are here</Popup>
+            </Marker>
+          )}
 
         {this.state.stations.map((cs_id, idx) => (
           <Marker position={[cs_id.cs_latitude, cs_id.cs_longitude]} key={idx}
@@ -105,7 +102,8 @@ class Dashboard extends Component {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
+        </MapContainer>
+      </div>
     );
   }
 }

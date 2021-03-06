@@ -1,6 +1,7 @@
 let iniatialState = {
   islogin: false,
   getlocation: [],
+  menu: false,
 };
 function Redux(state = iniatialState, action) {
   switch (action.type) {
@@ -9,6 +10,11 @@ function Redux(state = iniatialState, action) {
       return {
         ...state,
         islogin: action.payload,
+      };
+    case "menu":
+      return {
+        ...state.menu,
+        menu: action.payload,
       };
     case "get_location":
       return {

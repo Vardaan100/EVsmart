@@ -6,7 +6,7 @@ import Footer from "./navigation/Footer";
 
 function About() {
   return (
-    <div>
+    <div style={{ marginTop: "-16px" }}>
       <Customer />
       <Price />
       <Start />

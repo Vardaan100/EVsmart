@@ -6,13 +6,16 @@ import Customer from "./customer";
 import "./Home.css";
 import Price from "./Price";
 import Start from "./Start";
+let TOKEN_KEY = "jwt";
 
 function Home() {
   return (
     <div>
       <div className="home ">
-        <div className="home__text">
-          <h1>Charging location near me</h1>
+        <div className="home__text row">
+          <h1 className="col-12 col-sm-6 col-md-12">
+            Charging location near me
+          </h1>
           <br></br>
           <br></br>
           <p>
@@ -26,15 +29,23 @@ function Home() {
             <br></br>
             Be the change for better tomorrow
           </p>
-          <Link style={{ textDecoration: "none" }} to="/sign-in">
-            <Button className="home__chargingpoint" vairent="contained">
-              Find Charging point
-            </Button>
-          </Link>
+          {localStorage.getItem(TOKEN_KEY) ? (
+            <Link style={{ textDecoration: "none" }} to="/dashboard">
+              <Button className="home__chargingpoint" vairent="contained">
+                locate charging station
+              </Button>
+            </Link>
+          ) : (
+            <Link style={{ textDecoration: "none" }} to="/sign-in">
+              <Button className="home__chargingpoint" vairent="contained">
+                Find Charging point
+              </Button>
+            </Link>
+          )}
         </div>
-        <div className="home__image">
+        <div className="home__image row">
           <img
-            className="home__charging"
+            className="home__charging col-sm-12 col-12 col-md-12"
             src="./images/car.jpg"
             alt="car_image"
           />
