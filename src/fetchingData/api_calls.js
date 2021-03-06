@@ -123,7 +123,7 @@ export const getCS = (token) => {
 export const updateCS = (chargingD, token) => {
   // console.log(name,email, password);
   return fetch(`${API}/cs/csdata/${token}`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export const updateCS = (chargingD, token) => {
     body: JSON.stringify(chargingD),
   })
     .then((response) => {
-      return response;
+      return response.json();
     })
     .catch((err) => {
       console.log(err);
