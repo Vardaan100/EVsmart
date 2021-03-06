@@ -4,61 +4,62 @@ import "./profile.css";
 import { JsonToTable } from "react-json-to-table";
 
 class AdminDash extends Component {
-
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       users : []
-    }
+      users: [],
+    };
   }
-  
-  
+
   componentDidMount() {
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-      getAllDash(token).then((data) => {
-        data.map((user_id, idx) => {
-          this.setState({
-            users: data
-          })
-        })
+    getAllDash(token).then((data) => {
+      data.map((user_id, idx) => {
+        this.setState({
+          users: data,
+        });
+      });
     });
   }
 
   render() {
-
     return (
       <div className="adminDash">
-          <JsonToTable json={this.state.users} />
+        <JsonToTable json={this.state.users} />
       </div>
     );
   }
 }
 
-
 export default AdminDash;
 
-// import React, { Component } from 'react';
-// import { Admin, Resource } from "react-admin";
-// import restProvider from "ra-data-simple-rest";
-// import { getAllDash } from "../fetchingData/api_calls";
-// import UserList from "./UserList"
 
-// export default class adminDash extends Component {
-  
-  
-//   render(props) {
+// import * as React from "react";
+// import { Admin, Resource, ListGuesser } from 'react-admin';
+// import jsonServerProvider from 'ra-data-json-server';
+// import { createHashHistory } from "history";
+// import adminStore from "./CreateadminStore";
+// import { Provider } from "react-redux";
 
-//     const { history } = this.props
+// const dataProvider = jsonServerProvider
+//  (
+// 'https://jsonplaceholder.typicode.com'
+//  );
 
-//     return (
-//     <Admin dataProvider={restProvider(getAllDash)} {...history} >
-//       <Resource name="user" list={UserList} />
-//     </Admin>
-//     )
-//   }
-// }
+//  const history = createHashHistory();
 
+// const adminDash = () => 
+// <Provider
+// store={adminStore({
+//     dataProvider,
+//     history,
+// })}
+// >
+// <Admin dataProvider={dataProvider} history={history}/>;
 
+// </Provider>
+
+// export default adminDash

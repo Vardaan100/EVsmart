@@ -3,38 +3,41 @@ import { Link } from "react-router-dom";
 import CustomizedMenus from "../Menu";
 import "./navigation.css";
 import { isLoggedin, logout } from "../../utils/index";
-
+import { connect } from "react-redux";
 
 class Index extends Component {
+  //   constructor(props) {
+  //     super(props);
 
-//   constructor(props) {
-//     super(props);
+  //     this.state = {
+  //         token: isLoggedin()
+  //     }
+  // };
 
-//     this.state = {
-//         token: isLoggedin()
-//     }
-// };
+  // componentDidUpdate(prevState, prevProps) {
+  //   if(!this.state.token){
+  //     this.setState({
+  //       token : !isLoggedin()
+  //     })
+  //   }
+  // }
 
-// componentDidUpdate(prevState, prevProps) {
-//   if(!this.state.token){
-//     this.setState({
-//       token : !isLoggedin()
-//     })
-//   }
-// }
-
-handleLogout = () => {
+  handleLogout = () => {
     logout();
-};
+    let action = {
+      type: "menu",
+      payload: false,
+    };
+    this.props.dispatch(action);
+  };
 
-  render () {
-    return !localStorage.getItem('jwt') ? (
+  render() {
+    return !localStorage.getItem("jwt") ? (
       <nav className="">
         <div>
           <div style={{ background_color: "blue" }}>
             <div style={{ background_color: "red" }} className="nav-container ">
               <ul className="lists ">
-
                 <li>
                   <Link className="navbar-brand" to="/dashboard">
                     <img
@@ -46,9 +49,9 @@ handleLogout = () => {
                 </li>
 
                 <li>
-                <Link className="list" to="/home">
-                Home
-                </Link>
+                  <Link className="list" to="/home">
+                    Home
+                  </Link>
                 </li>
 
                 <li className="nav-item">
@@ -74,7 +77,6 @@ handleLogout = () => {
                     Sign up
                   </Link>
                 </li>
-
               </ul>
             </div>
           </div>
@@ -83,7 +85,6 @@ handleLogout = () => {
     ) : (
       <div style={{ background_color: "red" }} className="nav-container">
         <ul className="lists">
-
           <li>
             <Link to="/dashboard">
               <img className="navigation__logo" src="./logo.png" alt="logo" />
@@ -101,7 +102,7 @@ handleLogout = () => {
               Contact us
             </Link>
           </li>
-          
+
           <li className="menu">
             <CustomizedMenus />
           </li>
@@ -110,12 +111,22 @@ handleLogout = () => {
             <Link onClick={this.handleLogout} className="list" to="/sign-in">
               Logout
             </Link>
-            </li>
-
+          </li>
         </ul>
       </div>
-    )
+    );
   }
 }
 
-export default Index
+function msp(state) {
+  return {
+    menu: state.menu,
+  };
+}
+function mdp(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(msp, mdp)(Index);
