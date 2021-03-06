@@ -4,38 +4,34 @@ import "./profile.css";
 import { JsonToTable } from "react-json-to-table";
 
 class AdminDash extends Component {
-
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       users : []
-    }
+      users: [],
+    };
   }
-  
-  
+
   componentDidMount() {
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-      getAllDash(token).then((data) => {
-        data.map((user_id, idx) => {
-          this.setState({
-            users: data
-          })
-        })
+    getAllDash(token).then((data) => {
+      data.map((user_id, idx) => {
+        this.setState({
+          users: data,
+        });
+      });
     });
   }
 
   render() {
-
     return (
       <div className="adminDash">
-          <JsonToTable json={this.state.users} />
+        <JsonToTable json={this.state.users} />
       </div>
     );
   }
 }
-
 
 export default AdminDash;
