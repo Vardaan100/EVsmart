@@ -39,3 +39,26 @@ class AdminDash extends Component {
 
 
 export default AdminDash;
+
+// import React, { Component } from 'react';
+// import { Admin, Resource } from "react-admin";
+// import restProvider from "ra-data-simple-rest";
+// import { getAllDash } from "../fetchingData/api_calls";
+// import UserList from "./UserList"
+
+// export default class adminDash extends Component {
+  
+  
+//   render(props) {
+
+//     const { history } = this.props
+
+//     return (
+//     <Admin dataProvider={restProvider(getAllDash)} {...history} >
+//       <Resource name="user" list={UserList} />
+//     </Admin>
+//     )
+//   }
+// }
+
+

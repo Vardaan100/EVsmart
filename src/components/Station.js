@@ -37,6 +37,7 @@ class Station extends Component {
             <label>Working Hours</label>
 
             <div>
+              From :
               <TextField
                 id="time"
                 ampm={false}
@@ -49,6 +50,7 @@ class Station extends Component {
                   step: 300, // 5 min
                 }}
               />
+              To: 
               <TextField
                 id="time"
                 ampm={false}
