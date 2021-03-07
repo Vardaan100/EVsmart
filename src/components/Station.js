@@ -66,8 +66,15 @@ class Station extends Component {
               placeholder="Latitude, Longitude"
               disabled={true}
             />
-            <Link to="/map">Set Your Location Manually</Link>
+               <Button
+              className="station__setlocation station__location"
+              variant="contained"
+              color="primary"
+            >
+              <Link to="/map"> Set Your Location Manually</Link>
+            </Button>{" "}
           </div>
+
           <div className="form-group">
             <label>Phone Number</label>
             <input
@@ -125,29 +132,6 @@ class Station extends Component {
               onChange={this.handleChange("cost")}
               value={this.state.cost}
             />
-          </div>
-
-          <div className="form-group">
-            <label>Location</label>
-            <input
-              value={this.props.location}
-              className="form-control"
-              placeholder="Latitude, Longitude"
-              disabled={true}
-            />
-            {/* <input
-            value={this.props.location}
-            className="form-control"
-            placeholder="Longitude"
-            disabled={true}
-          /> */}
-            <Button
-              className="station__setlocation station__location"
-              variant="contained"
-              color="primary"
-            >
-              <Link to="/map"> Set Your Location Manually</Link>
-            </Button>{" "}
           </div>
 
           <button
