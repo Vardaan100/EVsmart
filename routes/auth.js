@@ -16,6 +16,9 @@ function validPhone(phoneNo) {
 // router.param("id",useridReturn);
 
 //signup andd register
+app.get("/signin", (req, res) => {
+    res.send("hello EVSMARTAUTH")
+});
 router.post("/signup", verifyInfo, async (req, res) => {
     try {
         const { firstname, lastname, phone, email, password } = req.body;//structing
