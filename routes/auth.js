@@ -16,7 +16,7 @@ function validPhone(phoneNo) {
 // router.param("id",useridReturn);
 
 //signup andd register
-app.get("/signin", (req, res) => {
+router.get("/", (req, res) => {
     res.send("hello EVSMARTAUTH")
 });
 router.post("/signup", verifyInfo, async (req, res) => {
@@ -116,7 +116,7 @@ router.get("/userdata/:id", isAuth, async (req, res) => {
 //updting the user data
 router.put("/userdata/:id", verifyInfo, isAuth, async (req, res) => {
     try {
-        // console.log(req.userID)
+        console.log(req.userID)
         const { firstname, lastname, email, phone } = req.body;
         if (![email, firstname, lastname, phone].every(Boolean)) {
             return res.status(401).json("missing Email password phone no. or name");

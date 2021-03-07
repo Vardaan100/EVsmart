@@ -36,6 +36,7 @@ const pool = require("../db");
 exports.isAuth = async (req, res, next) => {
     try {
         const jwtToken = req.params.id;
+        console.log(jwtToken);
         if (!jwtToken) {
             return res.status(403).json("Provide token")
         };
