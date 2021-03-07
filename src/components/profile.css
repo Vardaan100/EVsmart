@@ -5,6 +5,11 @@
   margin-right: auto;
   padding-top: 10%;
 }
+.profile__editbutton {
+  border: 0;
+  outline: 0;
+  border-radius: 4px;
+}
 
 .profile {
   background-color: #f8f9fa;

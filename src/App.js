@@ -36,7 +36,7 @@ function App() {
           <PublicRoute path="/sign-up" component={SignUp} />
           <PrivateRoute path="/station" component={Station} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/admindash" component={AdminDash}/>
+          <PrivateRoute path="/admindash" component={AdminDash} />
         </Fragment>
       </Switch>
       <Footer />

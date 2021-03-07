@@ -1,6 +1,7 @@
 .nav-container {
   /* width: 100%; */
-  background-color: antiquewhite;
+  /* background-color: antiquewhite; */
+  background-color: #c5aa6a;
 }
 .nav-container > ul {
   display: flex;
@@ -18,7 +19,9 @@
 
 .list {
   text-decoration: none;
+  color: white;
 }
 .list:hover {
   color: gray;
+  text-decoration: none;
 }

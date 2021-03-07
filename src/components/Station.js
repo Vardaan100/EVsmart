@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { addCS } from "../fetchingData/api_calls";
 
 class Station extends Component {
@@ -29,11 +30,14 @@ class Station extends Component {
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-    const lati=location[0];
-    const long=location[1];
+    const lati = location[0];
+    const long = location[1];
     addCS({ phone, open, close, long, lati, cost }, token).then((data) => {
       console.log(data);
-      if (data.length == 16 || data == "YOU CAN ONLY ADD ONE CHARGING STATION.") {
+      if (
+        data.length == 16 ||
+        data == "YOU CAN ONLY ADD ONE CHARGING STATION."
+      ) {
         console.log(data);
         console.log("Error Updating");
       } else {
@@ -62,8 +66,15 @@ class Station extends Component {
               placeholder="Latitude, Longitude"
               disabled={true}
             />
-            <Link to="/map">Set Your Location Manually</Link>
+               <Button
+              className="station__setlocation station__location"
+              variant="contained"
+              color="primary"
+            >
+              <Link to="/map"> Set Your Location Manually</Link>
+            </Button>{" "}
           </div>
+
           <div className="form-group">
             <label>Phone Number</label>
             <input
@@ -94,7 +105,7 @@ class Station extends Component {
                 onChange={this.handleChange("open")}
                 value={this.state.open}
               />
-              To: 
+              To:
               <TextField
                 id="time"
                 ampm={false}
@@ -135,21 +146,9 @@ class Station extends Component {
     );
   }
 }
-// const msp = async (state) => {
-//   return await {
-//     clg: console.log("station state", state),
-//     location: state.location,
-//   };
-// };
 const msp = (state) => ({
   clg: console.log("station state", state),
   location: state.location,
 });
-// async function msp(state) {
-//   console.log("station state", state);
-//   return await {
-//     location: state.location,
-//   };
-// }
 
 export default connect(msp, null)(Station);

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { updateUser, userData } from "../fetchingData/api_calls";
+import Button from "@material-ui/core/Button";
 import "./profile.css";
 
 // const Token_key = 'jwt'
@@ -48,8 +49,8 @@ class Profile extends Component {
     const token = localStorage
       .getItem("jwt", JSON.stringify())
       .replaceAll('"', "");
-    updateUser({firstname, lastname, phone, email},token).then((data) => {
-      if (data.length==16 || data=="Phone no. in use") {
+    updateUser({ firstname, lastname, phone, email }, token).then((data) => {
+      if (data.length == 16 || data == "Phone no. in use") {
         console.log(data);
         console.log("Error Updating");
       } else {
@@ -68,9 +69,24 @@ class Profile extends Component {
     //   return <Redirect to={"/sign-in"} />;
     // }
 
-    const buttonText = this.state.edit
-      ? "Edit your profile"
-      : "Back to profile";
+    const buttonText = this.state.edit ? (
+      // <button className="profile__edit profile__editbutton">Edit your profile</button>
+      <Button
+        className="profile__editbutton"
+        variant="contained"
+        color="primary"
+      >
+        Edit your profile
+      </Button>
+    ) : (
+      <Button
+        className="profile__editbutton"
+        variant="contained"
+        color="primary"
+      >
+        Back to profile
+      </Button>
+    );
     return (
       <div className="profile">
         <div className="profiles">
@@ -160,9 +176,14 @@ class Profile extends Component {
                 />
               </div>
 
-              <button className="btn btn-primary" onClick={this.clickSubmit}>
+              <Button
+                className="profile__editbutton"
+                variant="contained"
+                color="primary"
+                onClick={this.clickSubmit}
+              >
                 Save Changes
-              </button>
+              </Button>
             </form>
           )}
         </div>
@@ -170,6 +191,5 @@ class Profile extends Component {
     );
   }
 }
-
 
 export default Profile;

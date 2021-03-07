@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./stationprofile.css";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { getCS, updateCS } from "../fetchingData/api_calls";
 
 class StationProfile extends Component {
@@ -77,9 +78,15 @@ class StationProfile extends Component {
   };
 
   render() {
-    const buttonText = this.state.edit
-      ? "Edit your profile"
-      : "Back to profile";
+    const buttonText = this.state.edit ? (
+      <Button variant="contained" color="primary">
+        Edit your profile
+      </Button>
+    ) : (
+      <Button variant="contained" color="primary">
+        Back to profile
+      </Button>
+    );
     return (
       <div className="station__profile">
         <div className="station__profiles">
@@ -130,7 +137,13 @@ class StationProfile extends Component {
                   disabled="true"
                   value={this.props.location}
                 />
-                <Link to="/map">Set Your Location Manually</Link>
+                     <Button
+              className="station__setlocation station__location"
+              variant="contained"
+              color="primary"
+            >
+              <Link to="/map"> Set Your Location Manually</Link>
+            </Button>{" "}
               </div>
               <div className="form-group">
                 <label>Phone Number</label>
@@ -147,6 +160,8 @@ class StationProfile extends Component {
                 <label>Working Hours</label>
 
                 <div>
+                  From:
+
                   <TextField
                     id="time"
                     ampm={false}
@@ -161,6 +176,9 @@ class StationProfile extends Component {
                     onChange={this.handleChange("open")}
                     value={this.state.open}
                   />
+
+                  To: 
+                  
                   <TextField
                     id="time"
                     ampm={false}
@@ -205,7 +223,7 @@ class StationProfile extends Component {
 }
 
 const msp = (state) => ({
-  location: state.location
+  location: state.location,
 });
 
 export default connect(msp, null)(StationProfile);

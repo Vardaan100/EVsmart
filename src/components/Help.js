@@ -1,5 +1,7 @@
 import React from "react";
 import Faq from "react-faq-component";
+import "./help.css";
+import Add from "@material-ui/icons/AddCircleOutline";
 
 const data = {
   title: "How To Use EVSmart",
@@ -40,6 +42,7 @@ const data = {
 
 const styles = {
   bgColor: "black",
+  // padding: "200px",
   titleTextColor: "white",
   rowTitleColor: "white",
   rowContentColor: "white",
@@ -48,19 +51,22 @@ const styles = {
 
 const config = {
   animate: true,
-  arrowIcon: "V",
+  // arrowIcon: Add,
   tabFocus: true,
 };
 
 function Help() {
   return (
     <div>
-      <Faq data={data} styles={styles} config={config} />
+      <div className="help">
+        <Faq data={data} styles={{ styles, padding: "5%" }} config={config} />
+      </div>
       <div>
         <iframe
           title="Charge your car with EVSmart"
           width="100%"
           height="315"
+          className="help__iframe"
           src="https://www.youtube.com/embed/8w64Mg0ih1E"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
