@@ -137,7 +137,13 @@ class StationProfile extends Component {
                   disabled="true"
                   value={this.props.location}
                 />
-                <Link to="/map">Set Your Location Manually</Link>
+                     <Button
+              className="station__setlocation station__location"
+              variant="contained"
+              color="primary"
+            >
+              <Link to="/map"> Set Your Location Manually</Link>
+            </Button>{" "}
               </div>
               <div className="form-group">
                 <label>Phone Number</label>

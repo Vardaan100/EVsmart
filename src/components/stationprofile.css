@@ -11,3 +11,11 @@
 
   margin-top: -15px;
 }
+
+.station__location {
+  margin-top: 15;
+}
+.station__setlocation :hover {
+  text-decoration: none !important;
+  color: white;
+}
