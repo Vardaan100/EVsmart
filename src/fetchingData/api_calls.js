@@ -202,7 +202,7 @@ export const getAllDash = (token) => {
     });
 };
 
-//Getting all data for users to Admin Dashboard
+//Updating user via admin dashboard
 export const updateUserAdmin = (token) => {
   return fetch(`${API}/admin/updateUser/${token}`, {
     method: "PUT",
