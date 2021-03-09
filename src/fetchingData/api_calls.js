@@ -201,19 +201,3 @@ export const getAllDash = (token) => {
       console.log(err);
     });
 };
-
-//Updatin user via admin dashboard
-export const updateUserAdmin = (token) => {
-  return fetch(`${API}/admin/updateUser/${token}`, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};

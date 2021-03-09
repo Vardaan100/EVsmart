@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 // import cities from "../cities.json";
 import L from "leaflet";
-import { getallCS } from "../fetchingData/api_calls";
+import { getallCS, userData } from "../fetchingData/api_calls";
 import "./dashboard.css";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PhoneIcon from "@material-ui/icons/Phone";
@@ -34,6 +34,16 @@ class Dashboard extends Component {
       lng: 75.7138884,
       zoom: 6,
       stations: [],
+      route : "v3",
+      sender_id : "TXTIND",
+      message_text :"",
+      language : "english",
+      flash : 0,
+      user_number: "",
+      provider_number: "",
+      numbers : "",
+      username: "",
+      providername: ""
     };
   }
 
@@ -47,7 +57,17 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    const token = localStorage
+    .getItem("jwt", JSON.stringify())
+    .replaceAll('"', "");userData(token).then((data) => {
+      this.setState((state) => ({
+        user_number: data[0].user_phone,
+        username: data[0].user_firstname,
+      }));
+    });
+
     this.getLatLng();
+
     getallCS().then((data) => {
       data.map((cs_id, idx) => {
         return this.setState({
@@ -117,10 +137,16 @@ class Dashboard extends Component {
                 >
                   Get Directions
                 </button>
+                {/* <button className="dashboard__getdirection"
+                onClick={() => {
+                  this.state.stations.map(cs_id => {
+                    console.log(cs_id)
+                  })
+                }}>Book charging station</button> */}
               </Popup>
             </Marker>
           ))}
-        </MapContainer>
+        </MapContainer>=
       </div>
     );
   }
