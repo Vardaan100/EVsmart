@@ -34,14 +34,14 @@ class Dashboard extends Component {
       lng: 75.7138884,
       zoom: 6,
       stations: [],
-      route : "v3",
-      sender_id : "TXTIND",
-      message_text :"",
-      language : "english",
-      flash : 0,
+      route: "v3",
+      sender_id: "TXTIND",
+      message_text: "",
+      language: "english",
+      flash: 0,
       user_number: "",
       provider_number: "",
-      numbers : "",
+      numbers: "",
       username: "",
       providername: ""
     };
@@ -58,8 +58,8 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const token = localStorage
-    .getItem("jwt", JSON.stringify())
-    .replaceAll('"', "");userData(token).then((data) => {
+      .getItem("jwt");
+    userData(token).then((data) => {
       this.setState((state) => ({
         user_number: data[0].user_phone,
         username: data[0].user_firstname,
@@ -92,13 +92,13 @@ class Dashboard extends Component {
           {!this.props.coords ? (
             <div>Loading</div>
           ) : (
-            <Marker
-              position={[this.state.lat, this.state.lng]}
-              icon={markerIcon}
-            >
-              <Popup>You are here</Popup>
-            </Marker>
-          )}
+              <Marker
+                position={[this.state.lat, this.state.lng]}
+                icon={markerIcon}
+              >
+                <Popup>You are here</Popup>
+              </Marker>
+            )}
 
           {this.state.stations.map((cs_id, idx) => (
             <Marker

@@ -28,8 +28,7 @@ class Station extends Component {
     this.setState((state) => ({ location: this.props.location }));
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt");
     const lati = location[0];
     const long = location[1];
     addCS({ phone, open, close, long, lati, cost }, token).then((data) => {

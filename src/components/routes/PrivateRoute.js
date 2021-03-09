@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { validToken } from "../../fetchingData/api_calls";
 import { getToken } from "../../utils/index";
-
+const TOKEN_KEY = "jwt";
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     // Show the component only when the user is logged in
@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        validToken() && getToken() ? <Component {...props} /> : <Redirect to="/sign-in" />
+        validToken(localStorage.getItem(TOKEN_KEY)) && getToken() ? <Component {...props} /> : <Redirect to="/sign-in" />
       }
     />
   );
