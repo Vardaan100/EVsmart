@@ -1,4 +1,4 @@
-import { API } from "../config";
+import { API, MSG } from "../config";
 
 // Token is valid or not
 export const validToken = (token) => {
@@ -201,3 +201,20 @@ export const getAllDash = (token) => {
       console.log(err);
     });
 };
+
+export const sendMessage = () => {
+ return fetch(`${MSG}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}

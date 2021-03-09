@@ -8,6 +8,8 @@ import "./dashboard.css";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PhoneIcon from "@material-ui/icons/Phone";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { Language } from "@material-ui/icons";
+import { MSG } from "../config"
 
 var img = window.location.origin + "/marker.png";
 var img2 = window.location.origin + "/station.png";
@@ -34,16 +36,9 @@ class Dashboard extends Component {
       lng: 75.7138884,
       zoom: 6,
       stations: [],
-      route : "v3",
-      sender_id : "TXTIND",
-      message_text :"",
-      language : "english",
-      flash : 0,
       user_number: "",
       provider_number: "",
-      numbers : "",
       username: "",
-      providername: ""
     };
   }
 
@@ -77,7 +72,40 @@ class Dashboard extends Component {
     });
   }
 
+clickSubmit = () => {
+
+  const { user_number, provider_number, username } = this.state;
+
+  fetch(`${MSG}`, { 
+      
+    // Adding method type 
+    method: "POST", 
+      
+    // Adding body or contents to send 
+    body: JSON.stringify({ 
+      route: "v3",
+      sender_id: "TXTIND",
+      langauge: "english",
+      flash: 0,
+      numbers: provider_number,
+      message_text: `Hi, ${username} has booked at your station. His number is ${user_number}`
+    }), 
+      
+    // Adding headers to the request 
+    headers: { 
+        "Content-type": "application/json; charset=UTF-8"
+    } 
+})  
+
+// Converting to JSON 
+.then(response => response.json()) 
+  
+// Displaying results to console 
+.then(json => console.log(json)); 
+}
+
   render() {
+   
     return (
       <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
         <MapContainer
@@ -137,12 +165,16 @@ class Dashboard extends Component {
                 >
                   Get Directions
                 </button>
-                {/* <button className="dashboard__getdirection"
-                onClick={() => {
-                  this.state.stations.map(cs_id => {
-                    console.log(cs_id)
+                <button className="dashboard__getdirection"
+                onClick={async() => {
+                  this.state.stations.filter((id, index) => {
+                    if (id === cs_id){
+                      this.setState({
+                        provider_number: this.state.stations[index].cs_phone
+                      })
+                    }
                   })
-                }}>Book charging station</button> */}
+                }}>Book charging station</button>
               </Popup>
             </Marker>
           ))}
