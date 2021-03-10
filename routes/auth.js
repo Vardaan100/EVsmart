@@ -99,12 +99,12 @@ router.get("/userdata/:id", isAuth, async (req, res) => {
         // console.log(req.user)
         userID = req.userID
         // check whether the user id is valid
-        const id = await pool.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1", [userID])
 
-        if (id.rows.length === 0) {
+        if (userData.rows.length === 0) {
             return res.status(401).json("INVALID ID");
         };
-        const userData = await pool.query("SELECT user_firstname,user_lastname,user_email,user_phone FROM users WHERE user_id = $1", [userID])
+        
         res.json(userData.rows)
 
     } catch (err) {

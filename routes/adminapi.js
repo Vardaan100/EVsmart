@@ -160,8 +160,6 @@ router.put("/userRole/:id", isAuth, isAdmin, async (req, res) => {
     };
 });
 
-module.exports = router;
-
 // Admin can create charging station
 router.post("/newcs/:id", isAuth, isAdmin, async (req, res) => {
     try {
@@ -266,3 +264,6 @@ router.get("/verifycs/:id", isAuth, isAdmin, async (req, res) => {
         res.status(500).json("server error");
     };
 });
+
+
+module.exports = router;

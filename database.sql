@@ -42,9 +42,10 @@ CREATE TABLE charging_station(
   cs_latitude NUMERIC(12,9) NOT NULL,
   cs_cost NUMERIC(9,2) NOT NULL,
   cs_verification BOOLEAN NOT NULL DEFAULT false,
+  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
   cs_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  cs_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id)
+  cs_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  
 );
 
 
@@ -68,10 +69,11 @@ CREATE TABLE review(
   review_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
   review_star NUMERIC(2,1) NOT NULL,
   review_comment VARCHAR(245) NOT NULL,
-  review_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  review_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   cs_id uuid UNIQUE NOT NULL REFERENCES charging_station (cs_id),
-  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id) 
+  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id) ,
+  review_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  review_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  
 );
 
 --timestamp trigger for review table
@@ -88,6 +90,62 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON review
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp_review();
+
+--table for message format 
+CREATE TABLE message_format(
+    message_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
+    message_name VARCHAR(245) NOT NULL UNIQUE,
+    message_format VARCHAR(245) NOT NULL,
+    user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
+    message_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    message_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+--timestamp trigger for message_format table
+CREATE OR REPLACE FUNCTION trigger_set_timestamp_message()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.rmessage_updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger for message_format table
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON review
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp_message();
+
+--Table for res. from api sms
+CREATE TABLE message_res(
+    res_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
+    res_return BOOLEAN NOT NULL,
+    req_id VARCHAR(245) NOT NULL UNIQUE,
+    res_message VARCHAR(245) NOT NULL,
+    message_sent VARCHAR(245) NOT NULL UNIQUE,
+    cs_phone BIGINT NOT NULL ,
+    user_phone BIGINT NOT NULL ,
+    user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
+    cs_id uuid UNIQUE NOT NULL REFERENCES charging_station (cs_id),
+    message_name uuid UNIQUE NOT NULL REFERENCES message_format (message_id),
+    res_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    res_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+--timestamp trigger for message_res table
+CREATE OR REPLACE FUNCTION trigger_set_timestamp_message()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.rmessage_updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+--trigger for message_res table
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON review
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp_message();
 
 
 -- test chargins station
@@ -125,8 +183,8 @@ ALTER COLUMN user_role VARCHAR(255) NOT NUll DEFAULT 'Normal',;
 -- ALTER TABLE users
 -- ADD user_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
-ALTER TABLE users
-ALTER COLUMN user_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4();
+ALTER TABLE message_format
+ADD user_id uuid UNIQUE NOT NULL REFERENCES users (user_id);
 
 ALTER TABLE charging_station
 ALTER COLUMN cs_longitude NUMERIC(12,9) NOT NULL;
@@ -138,3 +196,7 @@ ALTER COLUMN user_id uuid FOREIGN KEY UNIQUE NOT NULL REFERENCES users (user_id)
 -- UPDATE users
 -- SET user_password = 123456789
 -- WHERE user_email = 'guptanaman40@gmail.com';
+
+
+INSERT INTO message_format(message_name,message_format,user_id)
+VALUES("booked","Hi Suraj ,Naman Gupta ${name}has Choosed Your Charging station to Charge Car Please Contact him Regarding Any Issue below mentioned number (9990372304)","0e1c73f7-b174-4c4a-a9a7-aa3e68280690");

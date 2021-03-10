@@ -17,6 +17,7 @@ app.use("/api/auth", require("./routes/auth")) //auth route
 app.use("/api/cs", require("./routes/cs")) //cs route
 app.use("/api/admin", require("./routes/adminapi")) //admin route
 app.use("/api/review", require("./routes/review")) //REVIEW route
+app.use("/api/message", require("./routes/message")) //sms route
 app.get("/", (req, res) => {
     res.send("hello EvSmart")
 });
