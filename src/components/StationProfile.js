@@ -22,8 +22,7 @@ class StationProfile extends Component {
 
   componentDidMount() {
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt")
     getCS(token).then((data) => {
       console.log(data);
       console.log(data[0].cs_closeat);
@@ -52,8 +51,7 @@ class StationProfile extends Component {
     this.setState((state) => ({ location: this.props.location }));
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt")
     const lati = location[0];
     const long = location[1];
     updateCS({ phone, open, close, long, lati, cost }, token).then((data) => {

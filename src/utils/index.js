@@ -2,7 +2,7 @@ const TOKEN_KEY = "jwt";
 
 export const authenticate = (data) => {
   if (typeof window !== "undefined") {
-    localStorage.setItem(TOKEN_KEY, JSON.stringify(data.token));
+    localStorage.setItem(TOKEN_KEY,data.token);
     console.log("Setting token");
   }
 };
@@ -26,7 +26,7 @@ export const isLoggedin = () => {
 
 export const getToke = () => {
   if (typeof window !== "undefined") {
-    localStorage.getItem(TOKEN_KEY, JSON.stringify());
+    localStorage.getItem(TOKEN_KEY);
   }
 };
 

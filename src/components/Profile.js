@@ -21,8 +21,7 @@ class Profile extends Component {
 
   componentDidMount() {
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt")
     userData(token).then((data) => {
       this.setState((state) => ({
         firstname: data[0].user_firstname,
@@ -47,8 +46,7 @@ class Profile extends Component {
     e.preventDefault();
     const { firstname, lastname, email, phone } = this.state;
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt")
     updateUser({ firstname, lastname, phone, email }, token).then((data) => {
       if (data.length == 16 || data == "Phone no. in use") {
         console.log(data);

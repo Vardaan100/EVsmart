@@ -10,12 +10,11 @@ class AdminDash extends Component {
     this.state = {
       users: [],
     };
-  }
+  } 
 
   componentDidMount() {
     const token = localStorage
-      .getItem("jwt", JSON.stringify())
-      .replaceAll('"', "");
+      .getItem("jwt");
       getAllDash(token).then((data) => {
         data.map((user_id, idx) => {
           this.setState({
@@ -82,8 +81,7 @@ export default AdminDash;
 
 //   useEffect(() => {
 //     const token = localStorage
-//       .getItem("jwt", JSON.stringify())
-//       .replaceAll('"', "");
+//       .getItem("jwt")
 
 //     getAllDash(token).then((data) => {
 //       data.map((user_id, idx) => {

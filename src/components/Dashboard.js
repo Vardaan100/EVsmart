@@ -9,7 +9,7 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PhoneIcon from "@material-ui/icons/Phone";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { Language } from "@material-ui/icons";
-import { MSG } from "../config"
+import { MSG, auth } from "../config"
 
 var img = window.location.origin + "/marker.png";
 var img2 = window.location.origin + "/station.png";
@@ -53,8 +53,8 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const token = localStorage
-    .getItem("jwt", JSON.stringify())
-    .replaceAll('"', "");userData(token).then((data) => {
+      .getItem("jwt");
+    userData(token).then((data) => {
       this.setState((state) => ({
         user_number: data[0].user_phone,
         username: data[0].user_firstname,
@@ -79,7 +79,7 @@ clickSubmit = () => {
   fetch(`${MSG}`, { 
       
     // Adding method type 
-    method: "POST", 
+    method: "POST",
       
     // Adding body or contents to send 
     body: JSON.stringify({ 
@@ -88,12 +88,14 @@ clickSubmit = () => {
       langauge: "english",
       flash: 0,
       numbers: provider_number,
-      message_text: `Hi, ${username} has booked at your station. His number is ${user_number}`
+      message_text: `Hi, ${username} has booked at your station. For any queries
+      you can contact him. His number is ${user_number}`
     }), 
       
     // Adding headers to the request 
     headers: { 
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json",
+        "authorization": auth
     } 
 })  
 
@@ -120,13 +122,13 @@ clickSubmit = () => {
           {!this.props.coords ? (
             <div>Loading</div>
           ) : (
-            <Marker
-              position={[this.state.lat, this.state.lng]}
-              icon={markerIcon}
-            >
-              <Popup>You are here</Popup>
-            </Marker>
-          )}
+              <Marker
+                position={[this.state.lat, this.state.lng]}
+                icon={markerIcon}
+              >
+                <Popup>You are here</Popup>
+              </Marker>
+            )}
 
           {this.state.stations.map((cs_id, idx) => (
             <Marker
@@ -166,15 +168,16 @@ clickSubmit = () => {
                   Get Directions
                 </button>
                 <button className="dashboard__getdirection"
-                onClick={async() => {
-                  this.state.stations.filter((id, index) => {
-                    if (id === cs_id){
-                      this.setState({
-                        provider_number: this.state.stations[index].cs_phone
-                      })
-                    }
-                  })
-                }}>Book charging station</button>
+                // onClick={async() => {
+                //   this.state.stations.filter((id, index) => {
+                //     if (id === cs_id){
+                //       this.setState({
+                //         provider_number: this.state.stations[index].cs_phone
+                //       })
+                //     }
+                //   })
+                // }}
+                onClick={this.clickSubmit}>Book charging station</button>
               </Popup>
             </Marker>
           ))}
