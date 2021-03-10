@@ -37,7 +37,7 @@ class AdminDash extends Component {
           };
         } else {
           console.log("state is else", this.state.edit);
-          return csid;
+          return csid, !this.state.edit;
         }
       }),
     }));
@@ -97,7 +97,7 @@ class AdminDash extends Component {
             <input placeholder={cs_status} disabled={!this.state.edit} />{" "}
           </td>
           <td>
-            <button onClick={() => this.editbtn(data)}>
+            <button onClick={() => this.editbtn(data)} key={data.user_id}>
               {this.state.edit ? "save changes" : "edit"}
             </button>
           </td>
