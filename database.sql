@@ -94,9 +94,9 @@ EXECUTE PROCEDURE trigger_set_timestamp_review();
 --table for message format 
 CREATE TABLE message_format(
     message_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
-    message_name VARCHAR(245) NOT NULL UNIQUE,
+    message_name VARCHAR(245) NOT NULL ,
     message_format VARCHAR(245) NOT NULL,
-    user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
+    user_id uuid NOT NULL REFERENCES users (user_id),
     message_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     message_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -120,14 +120,14 @@ EXECUTE PROCEDURE trigger_set_timestamp_message();
 CREATE TABLE message_res(
     res_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     res_return BOOLEAN NOT NULL,
-    req_id VARCHAR(245) NOT NULL UNIQUE,
+    req_id VARCHAR(245) NOT NULL ,
     res_message VARCHAR(245) NOT NULL,
-    message_sent VARCHAR(245) NOT NULL UNIQUE,
+    message_sent VARCHAR(245) NOT NULL ,
     cs_phone BIGINT NOT NULL ,
     user_phone BIGINT NOT NULL ,
-    user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
-    cs_id uuid UNIQUE NOT NULL REFERENCES charging_station (cs_id),
-    message_name uuid UNIQUE NOT NULL REFERENCES message_format (message_id),
+    user_id uuid NOT NULL REFERENCES users (user_id),
+    cs_id uuid  NOT NULL REFERENCES charging_station (cs_id),
+    message_name  VARCHAR(245) NOT NULL,
     res_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     res_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -167,8 +167,8 @@ VALUES('naman','gupta',99996420326,'guptanaman401@gmail.com','123456');
 ALTER TABLE charging_station
 ADD user_email VARCHAR(245) NOT NULL REFERENCES users (user_email) DEFAULT users (user_email);
 
-ALTER TABLE users
-ALTER COLUMN user_role VARCHAR(255) NOT NUll DEFAULT 'Normal',;
+ALTER TABLE message_res
+ADD COLUMN message_name VARCHAR(255) NOT NUll ;
 
 -- --ALTER TABLE users
 -- ALTER TABLE users
