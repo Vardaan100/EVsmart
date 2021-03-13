@@ -1,0 +1,8 @@
+.map__setlocation:hover {
+  text-decoration: none !important;
+  color: white;
+}
+.map__setlocation {
+  color: black;
+  text-decoration: none;
+}
