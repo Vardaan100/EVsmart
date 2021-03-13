@@ -72,42 +72,42 @@ class Dashboard extends Component {
     });
   }
 
-clickSubmit = () => {
+  clickSubmit = () => {
+      const { user_number, provider_number, username } = this.state;
 
-  const { user_number, provider_number, username } = this.state;
+      fetch(`${MSG}`, { 
+          
+        // Adding method type 
+        method: "POST",
+          
+        // Adding body or contents to send 
+        body: JSON.stringify({ 
+          route: "v3",
+          sender_id: "TXTIND",
+          langauge: "english",
+          flash: 0,
+          numbers: provider_number,
+          message_text: `Hi, ${username} has booked at your station. For any queries
+          you can contact him. His number is ${user_number}`
+        }), 
+          
+        // Adding headers to the request 
+        headers: { 
+            "Content-type": "application/json",
+            "authorization": auth
+        } 
+    })  
+    
+    // Converting to JSON 
+    .then(response => response.json()) 
+      
+    // Displaying results to console 
+    .then(json => console.log(json)); 
+  }
 
-  fetch(`${MSG}`, { 
-      
-    // Adding method type 
-    method: "POST",
-      
-    // Adding body or contents to send 
-    body: JSON.stringify({ 
-      route: "v3",
-      sender_id: "TXTIND",
-      langauge: "english",
-      flash: 0,
-      numbers: provider_number,
-      message_text: `Hi, ${username} has booked at your station. For any queries
-      you can contact him. His number is ${user_number}`
-    }), 
-      
-    // Adding headers to the request 
-    headers: { 
-        "Content-type": "application/json",
-        "authorization": auth
-    } 
-})  
-
-// Converting to JSON 
-.then(response => response.json()) 
-  
-// Displaying results to console 
-.then(json => console.log(json)); 
-}
 
   render() {
-   
+  
     return (
       <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
         <MapContainer
@@ -163,21 +163,22 @@ clickSubmit = () => {
                       )},${parseFloat(cs_id.cs_longitude)}`,
                       "_blank"
                     )
-                  }
-                >
+                  } >
                   Get Directions
                 </button>
-                <button className="dashboard__getdirection"
-                // onClick={async() => {
-                //   this.state.stations.filter((id, index) => {
-                //     if (id === cs_id){
-                //       this.setState({
-                //         provider_number: this.state.stations[index].cs_phone
-                //       })
-                //     }
-                //   })
-                // }}
-                onClick={this.clickSubmit}>Book charging station</button>
+                <div>
+                  <button className="dashboard__getdirection"
+                  onMouseOverCapture={() => {this.state.stations.filter((id, index) => {
+                    if (id === cs_id){
+                      this.setState({
+                      provider_number: this.state.stations[index].cs_phone
+                       })
+                     }
+                     console.log(this.state.provider_number)
+                   })}}
+
+                  onClick={this.clickSubmit}>Book now</button>
+                </div>
               </Popup>
             </Marker>
           ))}
