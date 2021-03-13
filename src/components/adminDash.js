@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllDash } from "../fetchingData/api_calls";
+import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
 import "./profile.css";
 import { Table } from "reactstrap";
 
@@ -10,7 +10,16 @@ class AdminDash extends Component {
     this.state = {
       users: [],
       edit: false,
+      firstname: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      error: false,
+      verification: false,
+      role: "user",
+      input: "",
     };
+    this.editbtn = this.editbtn.bind(this);
   }
 
   componentDidMount() {
@@ -29,17 +38,21 @@ class AdminDash extends Component {
       // edit: !this.state.edit,
       users: state.users.map((csid) => {
         if (csid.user_id === id.user_id) {
+          console.log(id.user_id);
           return {
             ...csid,
-            edit: this.state.edit,
-            log: console.log("state is if", this.state.edit),
+            edit: !state.edit,
+            log: console.log("state is if", !state.edit),
             // edit: this.state.edit,
           };
         } else {
           console.log("state is else", this.state.edit);
-          return csid, !this.state.edit;
+          return csid;
         }
       }),
+      edit: !this.state.edit,
+      // log: console.log("state is edit", !this.state.edit),
+      // edit:state.edit
     }));
   };
   renderTableData() {
@@ -61,27 +74,53 @@ class AdminDash extends Component {
           <td> {user_id}</td>
           <td>
             {" "}
-            <input placeholder={user_firstname} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_lastname} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_email} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_role} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_phone} disabled={!this.state.edit} />
+            <input
+              value={this.state.firstname}
+              onChange={(e) => this.setState({ firstname: e.target.value })}
+              placeholder={user_firstname}
+              disabled={!this.state.edit}
+            />
           </td>
           <td>
             {" "}
             <input
+              value={this.state.input}
+              onChange={(e) => this.setState(e.target.value)}
+              placeholder={user_lastname}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.input}
+              onChange={(e) => this.setState(e.target.value)}
+              placeholder={user_email}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.input}
+              placeholder={user_role}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.input}
+              onChange={(e) => this.setState(e.target.value)}
+              placeholder={user_phone}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.input}
+              onChange={(e) => this.setState(e.target.value)}
               placeholder={user_verification}
               disabled={!this.state.edit}
             />
@@ -94,12 +133,18 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input placeholder={cs_status} disabled={!this.state.edit} />{" "}
+            <input
+              onChange={(e) => this.setState(e.target.value)}
+              value={this.state.input}
+              placeholder={cs_status}
+              disabled={!this.state.edit}
+            />{" "}
           </td>
           <td>
             <button onClick={() => this.editbtn(data)} key={data.user_id}>
-              {this.state.edit ? "save changes" : "edit"}
+              {this.state.edit ? "Cancel" : "edit"}
             </button>
+            <button>Save changes</button>
           </td>
         </tr>
       );

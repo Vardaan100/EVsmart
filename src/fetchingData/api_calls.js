@@ -105,19 +105,18 @@ export const addCS = (chargingD, token) => {
 };
 
 export const getCS = (token) => {
-  return fetch(`${API}/cs/csdata/${token}`,{
-    method:"GET",
-    headers:{
-      Accept:"application/json"
+  return fetch(`${API}/cs/csdata/${token}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
     },
   })
-  .then((response)=>{
-    return response.json();
-  })
-  .catch((err)=>{
-    console.log(err);
-  });
-
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const updateCS = (chargingD, token) => {
@@ -203,7 +202,7 @@ export const getAllDash = (token) => {
 };
 
 export const sendMessage = () => {
- return fetch(`${MSG}`, {
+  return fetch(`${MSG}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -217,4 +216,21 @@ export const sendMessage = () => {
     .catch((err) => {
       console.log(err);
     });
-}
+};
+
+export const updateAdminUser = (user, token, user_id) => {
+  return fetch(`${API}/auth/userdata/${token}?userid=${user_id}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
