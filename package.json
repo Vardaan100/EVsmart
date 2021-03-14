@@ -13,7 +13,6 @@
     "bootstrap": "^4.6.0",
     "emailjs-com": "^2.6.4",
     "express": "^4.17.1",
-    "fast2sms": "^1.0.3",
     "hawk": "^9.0.0",
     "leaflet": "^1.7.1",
     "react": "^17.0.1",

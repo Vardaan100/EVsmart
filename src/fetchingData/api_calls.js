@@ -201,24 +201,6 @@ export const getAllDash = (token) => {
     });
 };
 
-export const bookNow = (token) => {
-  // console.log(name,email, password);
-  return fetch(`${API}/message/booked/${token}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 export const updateAdminUser = (user, token, user_id) => {
   return fetch(`${API}/auth/userdata/${token}?userid=${user_id}`, {
     method: "PUT",
