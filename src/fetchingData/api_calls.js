@@ -1,4 +1,4 @@
-import { API, MSG } from "../config";
+import { API } from "../config";
 
 // Token is valid or not
 export const validToken = (token) => {
@@ -201,8 +201,9 @@ export const getAllDash = (token) => {
     });
 };
 
-export const sendMessage = () => {
-  return fetch(`${MSG}`, {
+export const bookNow = (token) => {
+  // console.log(name,email, password);
+  return fetch(`${API}/message/booked/${token}`, {
     method: "POST",
     headers: {
       Accept: "application/json",

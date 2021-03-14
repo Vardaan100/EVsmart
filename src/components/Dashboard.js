@@ -3,13 +3,12 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
 // import cities from "../cities.json";
 import L from "leaflet";
-import { getallCS, userData } from "../fetchingData/api_calls";
+import { getallCS } from "../fetchingData/api_calls";
 import "./dashboard.css";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PhoneIcon from "@material-ui/icons/Phone";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { Language } from "@material-ui/icons";
-import { MSG, auth } from "../config"
+import { API } from "../config";
 
 var img = window.location.origin + "/marker.png";
 var img2 = window.location.origin + "/station.png";
@@ -36,9 +35,7 @@ class Dashboard extends Component {
       lng: 75.7138884,
       zoom: 6,
       stations: [],
-      user_number: "",
-      provider_number: "",
-      username: "",
+      station_id: ""
     };
   }
 
@@ -52,14 +49,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const token = localStorage
-      .getItem("jwt");
-    userData(token).then((data) => {
-      this.setState((state) => ({
-        user_number: data[0].user_phone,
-        username: data[0].user_firstname,
-      }));
-    });
 
     this.getLatLng();
 
@@ -72,39 +61,31 @@ class Dashboard extends Component {
     });
   }
 
+
+  
   clickSubmit = () => {
-      const { user_number, provider_number, username } = this.state;
+    const { station_id } = this.state;
+    const token = localStorage.getItem("jwt")
+    // bookNow({station_id}, token).then((data) => {
+    //  csid:station_id
+    // })
 
-      fetch(`${MSG}`, { 
-          
-        // Adding method type 
-        method: "POST",
-          
-        // Adding body or contents to send 
-        body: JSON.stringify({ 
-          route: "v3",
-          sender_id: "TXTIND",
-          langauge: "english",
-          flash: 0,
-          numbers: provider_number,
-          message_text: `Hi, ${username} has booked at your station. For any queries
-          you can contact him. His number is ${user_number}`
-        }), 
-          
-        // Adding headers to the request 
-        headers: { 
-            "Content-type": "application/json",
-            "authorization": auth
-        } 
-    })  
-    
-    // Converting to JSON 
-    .then(response => response.json()) 
-      
-    // Displaying results to console 
-    .then(json => console.log(json)); 
+    fetch(`${API}/message/booked/${token}`, {
+  method: 'POST', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({csid : station_id}),
+  })
+  .then(response => response.json())
+  .then(data => {
+  console.log('Success:', data);
+  })
+  .catch((error) => {
+  console.error('Error:', error);
+  });
+
   }
-
 
   render() {
   
@@ -154,6 +135,8 @@ class Dashboard extends Component {
                     </li>
                   </ul>
                 </div>
+                <div className="buttons">
+                <div>
                 <button
                   className="dashboard__getdirection"
                   onClick={() =>
@@ -166,18 +149,20 @@ class Dashboard extends Component {
                   } >
                   Get Directions
                 </button>
+                </div>
                 <div>
-                  <button className="dashboard__getdirection"
+                  <button className="dashboard__getdirections"
                   onMouseOverCapture={() => {this.state.stations.filter((id, index) => {
                     if (id === cs_id){
                       this.setState({
-                      provider_number: this.state.stations[index].cs_phone
+                      station_id: this.state.stations[index].cs_id
                        })
                      }
-                     console.log(this.state.provider_number)
+                     console.log(this.state.station_id)
                    })}}
 
                   onClick={this.clickSubmit}>Book now</button>
+                </div>
                 </div>
               </Popup>
             </Marker>
