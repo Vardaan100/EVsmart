@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
 import "./profile.css";
-import { Button, Modal, Table } from "reactstrap";
-import { Input, makeStyles } from "@material-ui/core";
-import { API } from "../config"
+import { Button, Table } from "reactstrap";
+import { Input } from "@material-ui/core";
+import { API } from "../config";
 
 class AdminDash extends Component {
   constructor(props) {
@@ -13,7 +13,6 @@ class AdminDash extends Component {
       users: [],
       edit: null,
       uid: "",
-      // edit: false,
       firstname: "",
       lastname: "",
       phone: "",
@@ -21,20 +20,9 @@ class AdminDash extends Component {
       error: false,
       verification: false,
       role: "user",
-      input: "",
+      Input: "",
     };
   }
-
-  // componentDidMount() {
-  //   const token = localStorage.getItem("jwt");
-  //   getAllDash(token).then((data) => {
-  //     data.map((user_id, idx) => {
-  //       this.setState({
-  //         users: data,
-  //       });
-  //     });
-  //   });
-  // }
 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
@@ -161,10 +149,10 @@ class AdminDash extends Component {
       return (
         <tr key={user_id}>
           <td> {++index}</td>
-          <td> {user_id}</td>
+          <td size="sm"> {user_id}</td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.firstname : user_firstname}
               onChange={(e) => this.setState({ firstname: e.target.value })}
               placeholder={user_firstname}
@@ -173,7 +161,7 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.lastname : user_lastname}
               onChange={(e) => this.setState({ lastname: e.target.value })}
               placeholder={user_lastname}
@@ -182,7 +170,7 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.email : user_email}
               onChange={(e) => this.setState({ email: e.target.value })}
               placeholder={user_email}
@@ -191,7 +179,7 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.role : user_role}
               onChange={(e) => this.setState({ role: e.target.value })}
               placeholder={user_role}
@@ -200,7 +188,7 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.phone : user_phone}
               onChange={(e) => this.setState({ phone: e.target.value })}
               placeholder={user_phone}
@@ -209,7 +197,7 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
+            <Input
               value={isEditable ? this.state.verification : user_verification}
               onChange={(e) => this.setState({ verification: e.target.value })}
               placeholder={user_verification}
@@ -224,42 +212,30 @@ class AdminDash extends Component {
           </td>
           <td>
             {" "}
-            <input
-              value={isEditable ? this.state.input : cs_status}
-              onChange={(e) => this.setState({ input: e.target.value })}
+            <Input
+              value={isEditable ? this.state.Input : cs_status}
+              onChange={(e) => this.setState({ Input: e.target.value })}
               // onChange={(e) => this.setState(e.target.value)}
-              // value={this.state.input}
+              // value={this.state.Input}
               placeholder={cs_status}
               disabled={!isEditable}
             />{" "}
           </td>
           <td>
-            <button onClick={() => this.editbtn(data)} key={data.user_id}>
+            <Button onClick={() => this.editbtn(data)} key={data.user_id}>
               {isEditable ? "Cancel" : "edit"}
-            </button>
-            <button onClick={this.saveData}>Save changes</button>
+            </Button>
+            <Button onClick={this.saveData}>Save changes</Button>
           </td>
         </tr>
       );
     });
   }
-  useStyles = makeStyles((theme) => ({
-    paper: {
-      position: "absolute",
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      top: "35%",
-      left: "30%",
-    },
-  }));
 
   render() {
     return (
       <div className="adminDash">
-        <Table>
+        <Table striped bordered hover size="sm" variant="dark">
           <thead>
             <tr>
               <th id="number">No.</th>
