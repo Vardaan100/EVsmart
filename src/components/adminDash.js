@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
 import "./profile.css";
-import { Table } from "reactstrap";
+import { Button, Modal, Table } from "reactstrap";
+import { Input, makeStyles } from "@material-ui/core";
 
 class AdminDash extends Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class AdminDash extends Component {
 
     this.state = {
       users: [],
-      edit: false,
+      edit: null,
+      uid: "",
+      // edit: false,
       firstname: "",
       lastname: "",
       phone: "",
@@ -22,38 +25,102 @@ class AdminDash extends Component {
     this.editbtn = this.editbtn.bind(this);
   }
 
+  // componentDidMount() {
+  //   const token = localStorage.getItem("jwt");
+  //   getAllDash(token).then((data) => {
+  //     data.map((user_id, idx) => {
+  //       this.setState({
+  //         users: data,
+  //       });
+  //     });
+  //   });
+  // }
+
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     getAllDash(token).then((data) => {
-      data.map((user_id, idx) => {
-        this.setState({
-          users: data,
-        });
-      });
+      this.setState({ users: data });
     });
   }
-  editbtn = (id) => {
-    console.log("id is..", id);
-    this.setState((state) => ({
-      // edit: !this.state.edit,
-      users: state.users.map((csid) => {
-        if (csid.user_id === id.user_id) {
-          console.log(id.user_id);
-          return {
-            ...csid,
-            edit: !state.edit,
-            log: console.log("state is if", !state.edit),
-            // edit: this.state.edit,
-          };
-        } else {
-          console.log("state is else", this.state.edit);
-          return csid;
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.edit !== this.state.edit) {
+      if (this.state.edit) {
+        const user = this.state.users.find(
+          (user) => user.user_id === this.state.edit
+        );
+
+        if (user) {
+          this.setState({
+            uid: user.user_id,
+            firstname: user.user_firstname,
+            lastname: user.user_lastname,
+            phone: user.user_phone,
+            email: user.user_email,
+            verification: user.user_verification,
+            role: user.user_role,
+          });
         }
-      }),
-      edit: !this.state.edit,
-      // log: console.log("state is edit", !this.state.edit),
-      // edit:state.edit
+      } else {
+        this.setState((prevState) => ({
+          firstname: "",
+          lastname: "",
+          phone: "",
+          email: "",
+          verification: false,
+          role: "user",
+        }));
+      }
+    }
+  }
+
+  editbtn = (data) => {
+    const { user_id } = data;
+    this.setState((prevState) => ({
+      edit: prevState.edit === user_id ? null : user_id,
     }));
+  };
+  saveData = () => {
+    this.setState((prevState) => ({
+      users: prevState.users.map((user) =>
+        user.user_id === prevState.edit
+          ? {
+              ...user,
+              user_firstname: prevState.firstname,
+              user_lastname: prevState.lastname,
+              user_phone: prevState.phone,
+              user_email: prevState.email,
+              user_role: prevState.role,
+              user_verification: prevState.verification,
+            }
+          : user
+      ),
+      edit: null,
+      firstname: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      verification: false,
+      role: "user",
+    }));
+    let {
+      uid,
+      firstname,
+      lastname,
+      phone,
+      email,
+      verification,
+      role,
+    } = this.state;
+    let token = localStorage.getItem("jwt");
+    updateAdminUser(
+      { firstname, lastname, email, phone, verification, role },
+      token,
+      uid
+    );
+
+    console.log("User id", uid);
+    console.log("updateAdminUser", updateAdminUser);
   };
   renderTableData() {
     return this.state.users.map((data, index) => {
@@ -67,7 +134,7 @@ class AdminDash extends Component {
         user_verification,
         cs_status,
       } = data; //destructuring
-
+      const isEditable = this.state.edit === user_id;
       return (
         <tr key={user_id}>
           <td> {++index}</td>
@@ -75,54 +142,55 @@ class AdminDash extends Component {
           <td>
             {" "}
             <input
-              value={this.state.firstname}
+              value={isEditable ? this.state.firstname : user_firstname}
               onChange={(e) => this.setState({ firstname: e.target.value })}
               placeholder={user_firstname}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
           </td>
           <td>
             {" "}
             <input
-              value={this.state.input}
-              onChange={(e) => this.setState(e.target.value)}
+              value={isEditable ? this.state.lastname : user_lastname}
+              onChange={(e) => this.setState({ lastname: e.target.value })}
               placeholder={user_lastname}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
           </td>
           <td>
             {" "}
             <input
-              value={this.state.input}
-              onChange={(e) => this.setState(e.target.value)}
+              value={isEditable ? this.state.email : user_email}
+              onChange={(e) => this.setState({ email: e.target.value })}
               placeholder={user_email}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
           </td>
           <td>
             {" "}
             <input
-              value={this.state.input}
+              value={isEditable ? this.state.role : user_role}
+              onChange={(e) => this.setState({ role: e.target.value })}
               placeholder={user_role}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
           </td>
           <td>
             {" "}
             <input
-              value={this.state.input}
-              onChange={(e) => this.setState(e.target.value)}
+              value={isEditable ? this.state.phone : user_phone}
+              onChange={(e) => this.setState({ phone: e.target.value })}
               placeholder={user_phone}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
           </td>
           <td>
             {" "}
             <input
-              value={this.state.input}
-              onChange={(e) => this.setState(e.target.value)}
+              value={isEditable ? this.state.verification : user_verification}
+              onChange={(e) => this.setState({ verification: e.target.value })}
               placeholder={user_verification}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />
             {/* {console.log(
               "verification",
@@ -134,22 +202,36 @@ class AdminDash extends Component {
           <td>
             {" "}
             <input
-              onChange={(e) => this.setState(e.target.value)}
-              value={this.state.input}
+              value={isEditable ? this.state.input : cs_status}
+              onChange={(e) => this.setState({ input: e.target.value })}
+              // onChange={(e) => this.setState(e.target.value)}
+              // value={this.state.input}
               placeholder={cs_status}
-              disabled={!this.state.edit}
+              disabled={!isEditable}
             />{" "}
           </td>
           <td>
             <button onClick={() => this.editbtn(data)} key={data.user_id}>
-              {this.state.edit ? "Cancel" : "edit"}
+              {isEditable ? "Cancel" : "edit"}
             </button>
-            <button>Save changes</button>
+            <button onClick={this.saveData}>Save changes</button>
           </td>
         </tr>
       );
     });
   }
+  useStyles = makeStyles((theme) => ({
+    paper: {
+      position: "absolute",
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: "2px solid #000",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+      top: "35%",
+      left: "30%",
+    },
+  }));
 
   render() {
     return (
@@ -176,172 +258,3 @@ class AdminDash extends Component {
 }
 
 export default AdminDash;
-
-// import React, { useEffect, useState } from "react";
-// import { getAllDash } from "../fetchingData/api_calls";
-// import { Table } from "reactstrap";
-// import { API } from "../config";
-
-// function AdminDash() {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     const token = localStorage
-//       .getItem("jwt")
-
-//     getAllDash(token).then((data) => {
-//       data.map((user_id, idx) => {
-//         setData(data);
-//       });
-//     });
-//   }, []);
-
-//   const [inEditMode, setInEditMode] = useState({
-//     status: false,
-//     rowKey: null,
-//   });
-
-//   const [firstname, setFirstname] = useState(null);
-//   const [lastname, setLastname] = useState(null);
-//   const [phone, setPhone] = useState(null);
-//   const [email, setEmail] = useState(null);
-//   const [role, setRole] = useState(null);
-//   const [verification, setVerification] = useState(null);
-
-//   /**
-//    *
-//    * @param id - The id of the product
-//    * @param currentUnitPrice - The current unit price of the product
-//    */
-//   const onEdit = ({
-//     user_id,
-//     currentFirstname,
-//     // lastname,
-//     // phone,
-//     // email,
-//     // role,
-//     // verification,
-//   }) => {
-//     setInEditMode({
-//       status: true,
-//       rowKey: user_id,
-//     });
-//     setFirstname(currentFirstname);
-//     // setLastname(lastname);
-//     // setPhone(phone);
-//     // setEmail(email);
-//     // setRole(role);
-//     // setVerification(verification);
-//   };
-
-//   const updateUser = (user_id, token, newFirstname) => {
-//     fetch(`${API}/admin/updateuser/${token}?${user_id}`, {
-//       method: "PUT",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(user_id),
-//     })
-//       .then((response) => {
-//         return response.json();
-//       })
-//       .then(json => {
-//           onCancel()
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
-//   /**
-//    *
-//    * @param id -The id of the product
-//    * @param newUnitPrice - The new unit price of the product
-//    */
-//    const onSave = ({id, newUnitPrice}) => {
-//        updateInventory({id, newUnitPrice});
-//    }
-
-// //   // const onCancel = () => {
-// //   //     // reset the inEditMode state value
-// //   //     setInEditMode({
-// //   //         status: false,
-// //   //         rowKey: null
-// //   //     })
-// //   //     // reset the unit price state value
-// //   //     setUnitPrice(null);
-// //   // }
-
-// //   return (
-// //     <div className="container">
-// //       <h1>User Data</h1>
-// //       <Table>
-// //         <thead>
-// //           <tr>
-// //             <th>User Id</th>
-// //             <th>User First Name</th>
-// //             <th>User Last Name</th>
-// //             <th>User Email</th>
-// //             <th>User Role</th>
-// //             <th>User Phone</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {data.map((data) => (
-// //             <tr key={data.user_id}>
-// //               <td>{data.user_id}</td>
-// //               <td>{data.user_firstname}</td>
-// //               <td>{data.user_lastname}</td>
-// //               <td>{data.user_email}</td>
-// //               <td>{data.user_role}</td>
-// //               <td>{data.user_phone}</td>
-// //               {/* <td>
-// //                                 {
-// //                                     inEditMode.status && inEditMode.rowKey === item.id ? (
-// //                                         <input value={unitPrice}
-// //                                                onChange={(event) => setUnitPrice(event.target.value)}
-// //                                         />
-// //                                     ) : (
-// //                                         item.unit_price
-// //                                     )
-// //                                 }
-// //                             </td> */}
-// //               {/* <td>
-// //                                 {
-// //                                     inEditMode.status && inEditMode.rowKey === item.id ? (
-// //                                         <React.Fragment>
-// //                                             <button
-// //                                                 className={"btn-success"}
-// //                                                 onClick={() => onSave({id: item.id, newUnitPrice: unitPrice})}
-// //                                             >
-// //                                                 Save
-// //                                             </button>
-
-// //                                             <button
-// //                                                 className={"btn-secondary"}
-// //                                                 style={{marginLeft: 8}}
-// //                                                 onClick={() => onCancel()}
-// //                                             >
-// //                                                 Cancel
-// //                                             </button>
-// //                                         </React.Fragment>
-// //                                     ) : (
-// //                                         <button
-// //                                             className={"btn-primary"}
-// //                                             onClick={() => onEdit({id: item.id, currentUnitPrice: item.unit_price})}
-// //                                         >
-// //                                             Edit
-// //                                         </button>
-// //                                     )
-// //                                 }
-// //                             </td> */}
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </Table>
-// //     </div>
-// //   );
-// // }
-
-// // export default AdminDash;
