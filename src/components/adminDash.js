@@ -22,7 +22,6 @@ class AdminDash extends Component {
       role: "user",
       input: "",
     };
-    this.editbtn = this.editbtn.bind(this);
   }
 
   // componentDidMount() {
@@ -79,6 +78,7 @@ class AdminDash extends Component {
     this.setState((prevState) => ({
       edit: prevState.edit === user_id ? null : user_id,
     }));
+    this.editbtn = this.editbtn.bind(this);
   };
   saveData = () => {
     this.setState((prevState) => ({

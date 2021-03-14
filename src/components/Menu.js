@@ -14,6 +14,7 @@ import EvStationIcon from "@material-ui/icons/EvStation";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import { userData } from "../fetchingData/api_calls";
 
 const StyledMenu = withStyles({
   paper: {
@@ -48,6 +49,14 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function CustomizedMenus() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [name, setName] = React.useState("");
+  const token = localStorage.getItem("jwt");
+
+  React.useEffect(() => {
+    userData(token).then((data)=>{
+      setName(data[0].user_firstname)
+    })
+  },[])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,7 +78,7 @@ export default function CustomizedMenus() {
         <ListItemIcon>
           <MenuOpenIcon style={{ fontSize: 1 }} style={{ color: "white" }} />
         </ListItemIcon>
-        <ListItemText primary="Menu" />
+        <ListItemText primary={name} />
       </Button>
       <StyledMenu
         id="customized-menu"

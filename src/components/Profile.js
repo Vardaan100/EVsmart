@@ -16,6 +16,7 @@ class Profile extends Component {
       password: "",
       error: false,
       edit: true,
+      error: ""
     };
   }
 
@@ -48,9 +49,15 @@ class Profile extends Component {
     const token = localStorage
       .getItem("jwt")
     updateUser({ firstname, lastname, phone, email }, token).then((data) => {
-      if (data.length == 16 || data == "Phone no. in use") {
-        console.log(data);
-        console.log("Error Updating");
+      if (data.length == 16 || 
+        data == "Phone no. in use" ||
+        data == "missing Email password phone no. or name" ||
+        data == "USER ALREADY EXSIST" ||
+        data == "Invalid Phone no." ||
+        data == "Invalid Email") {
+        this.setState({
+          error:data
+        })
       } else {
         this.setState({
           firstname: firstname,
@@ -89,7 +96,7 @@ class Profile extends Component {
       <div className="profile">
         <div className="profiles">
           <button onClick={this.clickHandler}>{buttonText}</button>
-
+         
           {this.state.edit ? (
             <form>
               <div className="form-group">
@@ -183,6 +190,7 @@ class Profile extends Component {
                 Save Changes
               </Button>
             </form>
+            
           )}
         </div>
       </div>
