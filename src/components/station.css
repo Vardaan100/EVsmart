@@ -11,7 +11,7 @@
   margin-top: -15px;
 }
 .station__location {
-  margin-top: 15;
+  margin-top: 15px !important;
 }
 .station__setlocation :hover {
   text-decoration: none !important;

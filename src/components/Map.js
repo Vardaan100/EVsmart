@@ -4,6 +4,8 @@ import { geolocated } from "react-geolocated";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import "./map.css";
 // import { fuel } from "../../public/images/fuel.png"
 // import { marker } from "./images/marker.png"
 
@@ -54,16 +56,26 @@ class Map extends Component {
             <div>Loading...</div>
           ) : (
             <Marker position={[latitude, longitude]}>
-              <Popup>
-               You are here
-              </Popup>
+              <Popup>You are here</Popup>
             </Marker>
           )}
         </MapContainer>
         <div>
-          <button onClick={getlocation}>Save location</button>
-          <Link to="/station"> Back to station </Link>
-          <Link to="/station-profile"> Back to station profile </Link>
+          <Button className="primary map__setlocation" onClick={getlocation}>
+            Save location
+          </Button>
+          <Button className="primary ">
+            <Link className="map__setlocation" to="/station">
+              {" "}
+              Back to station{" "}
+            </Link>
+          </Button>
+          <Button className="primary ">
+            <Link className="map__setlocation" to="/station-profile">
+              {" "}
+              Back to station profile{" "}
+            </Link>
+          </Button>
         </div>
       </div>
     );

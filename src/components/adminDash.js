@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllDash } from "../fetchingData/api_calls";
+import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
 import "./profile.css";
 import { Table } from "reactstrap";
 
@@ -10,6 +10,14 @@ class AdminDash extends Component {
     this.state = {
       users: [],
       edit: false,
+      firstname: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      error: false,
+      verification: false,
+      role: "user",
+      input: "",
     };
   }
 
@@ -29,18 +37,23 @@ class AdminDash extends Component {
       // edit: !this.state.edit,
       users: state.users.map((csid) => {
         if (csid.user_id === id.user_id) {
+          console.log(id.user_id);
           return {
             ...csid,
-            edit: this.state.edit,
-            log: console.log("state is if", this.state.edit),
+            edit: !state.edit,
+            log: console.log("state is if", !state.edit),
             // edit: this.state.edit,
           };
         } else {
           console.log("state is else", this.state.edit);
-          return csid, !this.state.edit;
+          return csid;
         }
       }),
+      edit: !this.state.edit,
+      // log: console.log("state is edit", !this.state.edit),
+      // edit:state.edit
     }));
+    this.editbtn = this.editbtn.bind(this);
   };
   renderTableData() {
     return this.state.users.map((data, index) => {
@@ -52,7 +65,6 @@ class AdminDash extends Component {
         user_email,
         user_role,
         user_verification,
-        cs_status,
       } = data; //destructuring
 
       return (
@@ -61,45 +73,63 @@ class AdminDash extends Component {
           <td> {user_id}</td>
           <td>
             {" "}
-            <input placeholder={user_firstname} disabled={!this.state.edit}  />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_lastname} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_email} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_role} disabled={!this.state.edit} />
-          </td>
-          <td>
-            {" "}
-            <input placeholder={user_phone} disabled={!this.state.edit} />
+            <input
+              value={this.state.firstname}
+              onChange={(e) => {
+                this.setState({ firstname: e.target.value })}}
+              placeholder={user_firstname}
+              disabled={!this.state.edit}
+            />
           </td>
           <td>
             {" "}
             <input
-              placeholder={user_verification}
+              value={this.state.lastname}
+              onChange={(e) => this.setState({ lastname: e.target.value })}
+              placeholder={user_lastname}
               disabled={!this.state.edit}
             />
-            {/* {console.log(
-              "verification",
-              user_verification,
-              "status",
-              cs_status
-            )} */}
           </td>
           <td>
             {" "}
-            <input placeholder={cs_status} disabled={!this.state.edit} />{" "}
+            <input
+              value={this.state.email}
+              onChange={(e) => this.setState({ email: e.target.value })}
+              placeholder={user_email}
+              disabled={!this.state.edit}
+            />
           </td>
           <td>
-            <button onClick={() => this.editbtn(data)} key={data.user_id}>
-              {this.state.edit ? "save changes" : "edit"}
+            {" "}
+            <input
+            value={this.state.role}
+            // onChange={(e) => this.setState({ firstname: e.target.value })}
+              placeholder={user_role}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.phone}
+              onChange={(e) => this.setState({ phone: e.target.value })}
+              placeholder={user_phone}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            {" "}
+            <input
+              value={this.state.verification}
+              placeholder={user_verification}
+              disabled={!this.state.edit}
+            />
+          </td>
+          <td>
+            <button onClick={(e) => this.editbtn(data, e)} key={data.user_id}>
+              {this.state.edit ? "Cancel" : "edit"}
             </button>
+            <button>Save changes</button>
           </td>
         </tr>
       );
