@@ -3,6 +3,7 @@ import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
 import "./profile.css";
 import { Button, Modal, Table } from "reactstrap";
 import { Input, makeStyles } from "@material-ui/core";
+import { API } from "../config"
 
 class AdminDash extends Component {
   constructor(props) {
@@ -113,14 +114,36 @@ class AdminDash extends Component {
       role,
     } = this.state;
     let token = localStorage.getItem("jwt");
-    updateAdminUser(
-      { firstname, lastname, email, phone, verification, role },
-      token,
-      uid
-    );
 
-    console.log("User id", uid);
-    console.log("updateAdminUser", updateAdminUser);
+    fetch(`${API}/admin/updateuser/${token}?userid=${uid}`, {
+      method: 'PUT', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstname: firstname,
+        lastname: lastname,
+        phone: phone,
+        email: email,
+        verification: verification,
+        role: role
+      }),
+      })
+      .then(response => response.json())
+      .then(data => {
+      console.log('Success:', data);
+      })
+      .catch((error) => {
+      console.error('Error:', error);
+      });
+  //   updateAdminUser(
+  //     { firstname, lastname, email, phone, verification, role },
+  //     token,
+  //     uid
+  //   );
+
+  //   console.log("User id", uid);
+  //   console.log("updateAdminUser", updateAdminUser);
   };
   renderTableData() {
     return this.state.users.map((data, index) => {
@@ -247,7 +270,7 @@ class AdminDash extends Component {
               <th>User Role</th>
               <th>User Phone</th>
               <th>user verification</th>
-              <th>User status</th>
+              <th>Charging station status</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData()}</tbody>
