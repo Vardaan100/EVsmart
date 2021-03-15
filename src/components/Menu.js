@@ -53,10 +53,10 @@ export default function CustomizedMenus() {
   const token = localStorage.getItem("jwt");
 
   React.useEffect(() => {
-    userData(token).then((data)=>{
-      setName(data[0].user_firstname)
-    })
-  },[])
+    userData(token).then((data) => {
+      setName(data[0].user_firstname);
+    });
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -74,9 +74,10 @@ export default function CustomizedMenus() {
         variant="contained"
         color="primary"
         onClick={handleClick}
+        style={{ height: "36px", marginRight: "10px" }}
       >
         <ListItemIcon>
-          <MenuOpenIcon style={{ fontSize: 1 }} style={{ color: "white" }} />
+          <MenuOpenIcon style={{ color: "white" }} />
         </ListItemIcon>
         <ListItemText primary={name} />
       </Button>
