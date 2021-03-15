@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllDash, updateAdminUser } from "../fetchingData/api_calls";
+import { getAllDash } from "../fetchingData/api_calls";
 import "./profile.css";
 import { Button, Table } from "reactstrap";
 import { Input } from "@material-ui/core";
@@ -124,15 +124,8 @@ class AdminDash extends Component {
       .catch((error) => {
       console.error('Error:', error);
       });
-  //   updateAdminUser(
-  //     { firstname, lastname, email, phone, verification, role },
-  //     token,
-  //     uid
-  //   );
-
-  //   console.log("User id", uid);
-  //   console.log("updateAdminUser", updateAdminUser);
   };
+
   renderTableData() {
     return this.state.users.map((data, index) => {
       const {
@@ -203,29 +196,28 @@ class AdminDash extends Component {
               placeholder={user_verification}
               disabled={!isEditable}
             />
-            {/* {console.log(
-              "verification",
-              user_verification,
-              "status",
-              cs_status
-            )} */}
+
           </td>
           <td>
             {" "}
             <Input
               value={isEditable ? this.state.Input : cs_status}
               onChange={(e) => this.setState({ Input: e.target.value })}
-              // onChange={(e) => this.setState(e.target.value)}
-              // value={this.state.Input}
               placeholder={cs_status}
               disabled={!isEditable}
             />{" "}
           </td>
           <td>
+            <div style={{display:"flex"}}>
+            <div style={{marginRight:"10%"}}>
             <Button onClick={() => this.editbtn(data)} key={data.user_id}>
               {isEditable ? "Cancel" : "edit"}
             </Button>
+            </div>
+            <div>
             <Button onClick={this.saveData}>Save changes</Button>
+            </div>
+            </div>
           </td>
         </tr>
       );

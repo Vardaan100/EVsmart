@@ -21,7 +21,9 @@ const Contact = () => {
   };
 
   const REACT_APP_SERVICE_ID = "service_99smg2h";
+
   const REACT_APP_TEMPLATE_ID = "template_x636xcg";
+
   const REACT_APP_USER_ID = "user_8OSbcGGMSuhSSdAxAI41a";
 
   const onSubmit = async (data) => {

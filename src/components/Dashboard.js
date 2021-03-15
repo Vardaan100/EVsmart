@@ -80,6 +80,7 @@ class Dashboard extends Component {
   .then(response => response.json())
   .then(data => {
   console.log('Success:', data);
+  alert(`Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`)
   })
   .catch((error) => {
   console.error('Error:', error);
