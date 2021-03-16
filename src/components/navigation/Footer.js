@@ -1,42 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./footer.css";
+import { Container, Row, Col } from "reactstrap";
 
 function Footer() {
   return (
-    <div className="footer_container col-12 my-4">
-      <ul className="footer_lists">
-        <li>
+    <Container className="footer_container col-12 my-4">
+      <Row>
+        {/* <Col> */}
+        {/* <ul className="footer_lists"> */}
+        <Col>
           <Link className="footer_list" to="/home">
             Home
           </Link>
-        </li>
-        <li>
+        </Col>
+        <Col>
           <Link className="footer_list" to="/about">
             About
           </Link>
-        </li>
-        <li>
+        </Col>
+        <Col>
           <Link to="/">
             <img className="footer_logo" src="./logo.png" alt="logo" />
           </Link>
-        </li>
-        <li>
+        </Col>
+        <Col>
           <Link className="footer_list" to="/contact">
             Contact us
           </Link>
-        </li>
+        </Col>
 
-        <li>
+        <Col>
           <Link className="footer_list" to="/sign-up">
             Signup
           </Link>
-        </li>
-      </ul>
+        </Col>
+      </Row>
+      {/* </ul> */}
       {/* <br> </br> */}
       <hr></hr>
       <div className="privacy">&copy; 2020-2021 privacy - Terms</div>
-    </div>
+      {/* </Col> */}
+    </Container>
   );
 }
 

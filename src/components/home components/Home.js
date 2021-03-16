@@ -45,14 +45,14 @@ function Home() {
               )}
             </div>
           </Col>
-          <Col>
-            <div className="home__image11 ">
-              <img
-                className="home__charging11 "
-                src="./images/car.jpg"
-                alt="car_image"
-              />
-            </div>
+          <Col className="home__image11 ">
+            {/* <div className="home__image11 "> */}
+            <img
+              className="home__charging11 "
+              src="./images/car.jpg"
+              alt="car_image"
+            />
+            {/* </div> */}
           </Col>
         </Row>
       </Container>

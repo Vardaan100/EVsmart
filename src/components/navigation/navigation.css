@@ -9,6 +9,7 @@
 }
 .nav__items {
   padding-right: 10px;
+  align-self: center;
 }
 .white {
   color: white !important;

@@ -1,10 +1,11 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import "./start.css";
+import { Container, Row, Col } from "reactstrap";
 
 function Start() {
   return (
-    <div className="start__component">
+    <Container className="start__component">
       <h4>Ready To start?</h4>
       <br></br>
       <p>
@@ -12,7 +13,7 @@ function Start() {
         available throughout the world
       </p>
       <Button> Start With us </Button>
-    </div>
+    </Container>
   );
 }
 
