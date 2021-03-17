@@ -17,6 +17,7 @@ import AdminDash from "./components/adminDash";
 import { Fragment } from "react";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

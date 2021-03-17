@@ -104,9 +104,9 @@ class AdminDash extends Component {
     let token = localStorage.getItem("jwt");
 
     fetch(`${API}/admin/updateuser/${token}?userid=${uid}`, {
-      method: 'PUT', 
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         firstname: firstname,
@@ -114,15 +114,15 @@ class AdminDash extends Component {
         phone: phone,
         email: email,
         verification: verification,
-        role: role
+        role: role,
       }),
-      })
-      .then(response => response.json())
-      .then(data => {
-      console.log('Success:', data);
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
       })
       .catch((error) => {
-      console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
@@ -196,7 +196,6 @@ class AdminDash extends Component {
               placeholder={user_verification}
               disabled={!isEditable}
             />
-
           </td>
           <td>
             {" "}
@@ -208,15 +207,16 @@ class AdminDash extends Component {
             />{" "}
           </td>
           <td>
-            <div style={{display:"flex"}}>
-            <div style={{marginRight:"10%"}}>
-            <Button onClick={() => this.editbtn(data)} key={data.user_id}>
-              {isEditable ? "Cancel" : "edit"}
-            </Button>
-            </div>
-            <div>
-            <Button onClick={this.saveData}>Save changes</Button>
-            </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ marginRight: "10%" }}>
+                <Button onClick={() => this.editbtn(data)} key={data.user_id}>
+                  {isEditable ? "Cancel" : "edit"}
+                </Button>
+                <Button style={{ margin: "4px" }} onClick={this.saveData}>
+                  Save
+                </Button>
+              </div>
+              <div></div>
             </div>
           </td>
         </tr>

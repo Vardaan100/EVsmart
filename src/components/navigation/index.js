@@ -55,24 +55,24 @@ class Index extends Component {
             </NavbarBrand>
 
             <Collapse isOpen={this.state.isNavOpen} navbar>
-              <Nav navbar className="ml-auto me-auto">
-                <NavItem>
+              <Nav navbar className="ml-auto me-auto ">
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/home">
                     <span className="fa fa-home fa-lg"></span> Home
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white white" to="/about">
                     <span className="fa fa-info fa-lg"></span> About
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/contact">
                     <span className="fa fa-address-card fa-lg"></span> Contact
                     Us
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/sign-in">
                     <Button variant="contained" color="primary">
                       <AccountIcon />
@@ -82,7 +82,7 @@ class Index extends Component {
                     {/* </IconButton> */}
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white " to="/sign-up">
                     <Button variant="contained" color="primary">
                       <AccountIcon />
@@ -106,24 +106,28 @@ class Index extends Component {
             </NavbarBrand>
 
             <Collapse isOpen={this.state.isNavOpen} navbar>
-              <Nav navbar className="ml-auto me-auto">
-                <NavItem>
+              <Nav
+                navbar
+                // style={{ alignItems: "center" }}
+                className="ml-auto me-auto navbaraling"
+              >
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/home">
                     <span className="fa fa-home fa-lg"></span> Home
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/about">
                     <span className="fa fa-info fa-lg"></span> About
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="nav__items">
                   <NavLink className="nav-link white" to="/contact">
                     <span className="fa fa-address-card fa-lg"></span> Contact
                     Us
                   </NavLink>
                 </NavItem>
-                <NavItem className="nav-link white">
+                <NavItem className="nav-link white nav__items">
                   <CustomizedMenus />
                 </NavItem>
                 <NavbarBrand href="/sign-in">
