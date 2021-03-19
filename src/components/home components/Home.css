@@ -36,7 +36,9 @@
   height: 360px;
   max-width: 100%;
 }
-
+.home__image11 {
+  text-align-last: right;
+}
 .home__charging11 {
   height: 360px;
   margin-top: 5%;
