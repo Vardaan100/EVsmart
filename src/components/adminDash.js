@@ -120,10 +120,12 @@ class AdminDash extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        // console.log("Success:", data);
+        alert(data);
       })
       .catch((error) => {
         console.error("Error:", error);
+        alert.error("Error:", error)
       });
   };
 

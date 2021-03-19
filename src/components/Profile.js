@@ -14,15 +14,14 @@ class Profile extends Component {
       phone: "",
       email: "",
       password: "",
-      error: false,
+      error: "",
       edit: true,
-      error: ""
+      success: false,
     };
   }
 
   componentDidMount() {
-    const token = localStorage
-      .getItem("jwt")
+    const token = localStorage.getItem("jwt");
     userData(token).then((data) => {
       this.setState((state) => ({
         firstname: data[0].user_firstname,
@@ -46,34 +45,52 @@ class Profile extends Component {
   clickSubmit = (e) => {
     e.preventDefault();
     const { firstname, lastname, email, phone } = this.state;
-    const token = localStorage
-      .getItem("jwt")
+    const token = localStorage.getItem("jwt");
     updateUser({ firstname, lastname, phone, email }, token).then((data) => {
-      if (data.length == 16 || 
+      if (
+        data.length == 16 ||
         data == "Phone no. in use" ||
         data == "missing Email password phone no. or name" ||
         data == "USER ALREADY EXSIST" ||
         data == "Invalid Phone no." ||
-        data == "Invalid Email") {
+        data == "Invalid Email"
+      ) {
         this.setState({
-          error:data
-        })
+          error: data,
+        });
+        this.showError();
       } else {
         this.setState({
           firstname: firstname,
           lastname: lastname,
           email: email,
           phone: phone,
+          success: true,
         });
         console.log("Profile Updated");
       }
+      setTimeout(function(){ window.location.reload() }, 2000);
     });
   };
-  render() {
-    // if (!this.props.islogin) {
-    //   return <Redirect to={"/sign-in"} />;
-    // }
 
+  showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: this.state.success ? "" : "none" }}
+    >
+      Profile Updated
+    </div>
+  );
+  showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: this.state.error ? "" : "none" }}
+    >
+      {this.state.error}
+    </div>
+  );
+
+  render() {
     const buttonText = this.state.edit ? (
       // <button className="profile__edit profile__editbutton">Edit your profile</button>
       <Button
@@ -96,7 +113,7 @@ class Profile extends Component {
       <div className="profile">
         <div className="profiles">
           <button onClick={this.clickHandler}>{buttonText}</button>
-         
+
           {this.state.edit ? (
             <form>
               <div className="form-group">
@@ -141,6 +158,9 @@ class Profile extends Component {
             </form>
           ) : (
             <form>
+              {this.showSuccess()}
+              {this.showError()}
+
               <div className="form-group">
                 <label className="text-muted">First name</label>
                 <input
@@ -190,7 +210,6 @@ class Profile extends Component {
                 Save Changes
               </Button>
             </form>
-            
           )}
         </div>
       </div>

@@ -16,8 +16,27 @@ class Station extends Component {
       close: "",
       location: this.props.location,
       cost: "",
+      error: "",
+      success: false
     };
   }
+
+  showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: this.state.success ? "" : "none" }}
+    >
+      Station added
+    </div>
+  );
+  showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: this.state.error ? "" : "none" }}
+    >
+      {this.state.error}
+    </div>
+  );
 
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
@@ -35,26 +54,33 @@ class Station extends Component {
       console.log(data);
       if (
         data.length == 16 ||
-        data == "YOU CAN ONLY ADD ONE CHARGING STATION."
+        data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
+        data == "Charging Station Already Exist"
       ) {
-        console.log(data);
-        console.log("Error Updating");
-      } else {
+        this.setState({
+          error: data,
+        });
+        this.showError();
+      }  else {
         this.setState({
           phone: "",
           open: "",
           close: "",
           location: "",
           cost: "",
+          success: true,
         });
         console.log("Station added");
       }
+      setTimeout(function(){ window.location.reload() }, 2000);
     });
   };
   render() {
     return (
       <div className="station">
         <form className="station__container">
+              {this.showSuccess()}
+              {this.showError()}
           <h3>Add Your Station</h3>
 
           <div className="form-group">
