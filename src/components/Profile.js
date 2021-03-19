@@ -43,6 +43,7 @@ class Profile extends Component {
   };
 
   clickSubmit = (e) => {
+    e.preventDefault();
     const { firstname, lastname, email, phone } = this.state;
     const token = localStorage.getItem("jwt");
     updateUser({ firstname, lastname, phone, email }, token).then((data) => {
@@ -68,6 +69,7 @@ class Profile extends Component {
         });
         console.log("Profile Updated");
       }
+      setTimeout(function(){ window.location.reload() }, 2000);
     });
   };
 
