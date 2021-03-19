@@ -36,12 +36,19 @@
   height: 360px;
   max-width: 100%;
 }
-
+.home__image11 {
+  text-align-last: right;
+}
 .home__charging11 {
   height: 360px;
   margin-top: 5%;
   max-width: 100%;
 }
+/* .home__charging11 {
+  height: 360px;
+  margin-top: 5%;
+  max-width: 100%;
+} */
 
 @media screen and (min-width: 780px) {
   .home__charging11 {

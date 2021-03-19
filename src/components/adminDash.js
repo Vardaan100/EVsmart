@@ -63,8 +63,9 @@ class AdminDash extends Component {
   }
 
   editbtn = (data) => {
-    const { user_id } = data;
+    const { user_id } = data; //destructuring
     this.setState((prevState) => ({
+      //checking edit null or have user_id
       edit: prevState.edit === user_id ? null : user_id,
     }));
     this.editbtn = this.editbtn.bind(this);
@@ -119,10 +120,12 @@ class AdminDash extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        // console.log("Success:", data);
+        alert(data);
       })
       .catch((error) => {
         console.error("Error:", error);
+        alert.error("Error:", error)
       });
   };
 
