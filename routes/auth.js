@@ -5,7 +5,8 @@ const jwtGenerator = require("../utils/jwtgenerator");
 const verifyInfo = require("../middleware/validInfo");
 const { isAuth } = require("../middleware/isAuth");
 const jwt = require("jsonwebtoken");
-require("dotenv").config()
+require("dotenv").config();
+
 
 function validEmail(userEmail) {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -19,7 +20,7 @@ function validPhone(phoneNo) {
 router.get("/", (req, res) => {
     res.send("hello EVSMARTAUTH")
 });
-router.post("/signup", verifyInfo, async (req, res) => {
+router.post("/signup", async (req, res) => {
     try {
         const { firstname, lastname, phone, email, password } = req.body;//structing
 
@@ -104,7 +105,7 @@ router.get("/userdata/:id", isAuth, async (req, res) => {
         if (userData.rows.length === 0) {
             return res.status(401).json("INVALID ID");
         };
-        
+
         res.json(userData.rows)
 
     } catch (err) {
