@@ -33,9 +33,23 @@ class StationProfile extends Component {
         cost: data[0].cs_cost,
         location: data[0].cs_latitude + "," + data[0].cs_longitude,
       }));
+      if(this.state.location==null){
+        console.log("No station defined");
+      }
+      else{
+        console.log(this.state.location);
+      }
     });
   }
 
+  componentDidUpdate(){
+    if(this.state.location !== this.props.location)
+    {
+      this.state.location = this.props.location;
+      console.log("Location Updated");
+    }
+  }
+  
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
   };
@@ -70,7 +84,7 @@ class StationProfile extends Component {
           location: location,
           cost: cost,
         });
-        console.log("Station added");
+        console.log("Station Updated");
       }
     });
   };
@@ -133,7 +147,7 @@ class StationProfile extends Component {
                   className="form-control"
                   placeholder="Location"
                   disabled="true"
-                  value={this.props.location}
+                  value={this.state.location}
                 />
                      <Button
               className="station__setlocation station__location"
