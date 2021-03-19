@@ -17,6 +17,7 @@ import AdminDash from "./components/adminDash";
 import { Fragment } from "react";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
           <PublicRoute path="/sign-up" component={SignUp} />
           <PrivateRoute path="/station" component={Station} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/admindash" component={AdminDash} />
+          <AdminRoute path="/admindash" component={AdminDash} />
         </Fragment>
       </Switch>
       <Footer />

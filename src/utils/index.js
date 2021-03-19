@@ -9,6 +9,7 @@ export const authenticate = (data) => {
 
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem("user");
 };
 
 export const getToken = () => {
@@ -40,3 +41,10 @@ export const isAuthenticated = () => {
       return false;
   }
 };
+
+export const isAdmin = () => {
+  if(localStorage.getItem("user")){
+    return true;
+  }
+  return false;
+}
