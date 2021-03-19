@@ -17,6 +17,8 @@ class StationProfile extends Component {
       cost: "",
       location: "",
       edit: true,
+      error: "",
+      success: false
     };
   }
 
@@ -32,23 +34,26 @@ class StationProfile extends Component {
         close: data[0].cs_closeat,
         cost: data[0].cs_cost,
         location: data[0].cs_latitude + "," + data[0].cs_longitude,
-      }));
-      if(this.state.location==null){
-        console.log("No station defined");
-      }
-      else{
-        console.log(this.state.location);
-      }
+      }))
     });
   }
 
-  componentDidUpdate(){
-    if(this.state.location !== this.props.location)
-    {
-      this.state.location = this.props.location;
-      console.log("Location Updated");
-    }
-  }
+  showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: this.state.success ? "" : "none" }}
+    >
+      Profile Updated
+    </div>
+  );
+  showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: this.state.error ? "" : "none" }}
+    >
+      {this.state.error}
+    </div>
+  );
   
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
@@ -56,7 +61,7 @@ class StationProfile extends Component {
 
   clickHandler = (e) => {
     this.setState({
-      edit: !this.state.edit,
+      edit: !this.state.edit
     });
   };
 
@@ -72,20 +77,29 @@ class StationProfile extends Component {
       console.log(data);
       if (
         data.length == 16 ||
-        data == "YOU CAN ONLY ADD ONE CHARGING STATION."
+        data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
+        data == "Charging Station Already Exist" ||
+        data == "YOU HAVE NO CHARGING STATION ADDED" ||
+        data == "Charging Station DOESNT Exist" ||
+        data == "Charging Station Already Exist" ||
+        data == ""
       ) {
-        console.log(data);
-        console.log("Error Updating");
-      } else {
+        this.setState({
+          error: data,
+        });
+        this.showError();
+      }  else {
         this.setState({
           phone: phone,
           open: open,
           close: close,
           location: location,
           cost: cost,
+          success: true,
         });
         console.log("Station Updated");
       }
+      setTimeout(function(){ window.location.reload() }, 2000);
     });
   };
 
@@ -140,6 +154,10 @@ class StationProfile extends Component {
             </form>
           ) : (
             <form>
+
+              {this.showSuccess()}
+              {this.showError()}
+
               <h3>Edit your station profile</h3>
               <div className="form-group">
                 <label>Location</label>
@@ -147,7 +165,7 @@ class StationProfile extends Component {
                   className="form-control"
                   placeholder="Location"
                   disabled="true"
-                  value={this.state.location}
+                  value={this.props.location || this.state.location}
                 />
                      <Button
               className="station__setlocation station__location"
