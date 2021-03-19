@@ -19,7 +19,7 @@ class StationProfile extends Component {
       edit: true,
     };
   }
-
+  
   componentDidMount() {
     const token = localStorage
       .getItem("jwt")
@@ -42,13 +42,14 @@ class StationProfile extends Component {
     });
   }
 
-  componentDidUpdate(){
-    if(this.state.location !== this.props.location)
-    {
-      this.state.location = this.props.location;
-      console.log("Location Updated");
-    }
-  }
+  // componentDidUpdate(){
+  //   if(this.state.location !== this.props.location)
+  //   {
+  //     this.setState()
+  //     this.state.location = this.props.location;
+  //     console.log("Location Updated");
+  //   }
+  // }
   
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
