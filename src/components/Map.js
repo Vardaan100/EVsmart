@@ -20,6 +20,10 @@ class Map extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.location.state.detail);
+  }
+
   render() {
     const latitude = this.props.coords
       ? this.props.coords.latitude
@@ -28,6 +32,19 @@ class Map extends Component {
       ? this.props.coords.longitude
       : this.state.lng;
     // console.log("lat", latitude, "log", longitude);
+    let redirect = () => {
+      getlocation();
+      if (this.props.location.state.detail) {
+        this.props.history.push({
+          pathname: "/station",
+        });
+      } else {
+        this.props.history.push({
+          pathname: "/station-profile",
+        });
+      }
+    };
+
     let getlocation = () => {
       let action = {
         type: "get_location",
@@ -38,6 +55,7 @@ class Map extends Component {
 
         return this.props.dispatch(action);
       }
+
       // return <Link to="/station"> linkskdbvsd </Link>;
     };
     return (
@@ -61,20 +79,8 @@ class Map extends Component {
           )}
         </MapContainer>
         <div>
-          <Button className="primary map__setlocation" onClick={getlocation}>
+          <Button className="primary map__setlocation" onClick={redirect}>
             Save location
-          </Button>
-          <Button className="primary ">
-            <Link className="map__setlocation" to="/station">
-              {" "}
-              Back to station{" "}
-            </Link>
-          </Button>
-          <Button className="primary ">
-            <Link className="map__setlocation" to="/station-profile">
-              {" "}
-              Back to station profile{" "}
-            </Link>
           </Button>
         </div>
       </div>
