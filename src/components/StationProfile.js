@@ -27,7 +27,6 @@ class StationProfile extends Component {
       .getItem("jwt")
     getCS(token).then((data) => {
       console.log(data);
-      console.log(data[0].cs_closeat);
       this.setState((state) => ({
         phone: data[0].cs_phone,
         open: data[0].cs_openat,
@@ -63,11 +62,16 @@ class StationProfile extends Component {
     this.setState({
       edit: !this.state.edit
     });
+    if (this.props.location == this.state.location){
+      this.setState((state) => ({ location: this.state.location }))
+      } else {this.setState((state) => ({ location: this.props.location }))};
   };
 
   clickSubmit = (e) => {
     e.preventDefault();
-    this.setState((state) => ({ location: this.props.location }));
+
+   this.setState((state) => ({ location: this.state.location }));
+
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage
       .getItem("jwt")
@@ -165,7 +169,7 @@ class StationProfile extends Component {
                   className="form-control"
                   placeholder="Location"
                   disabled="true"
-                  value={this.props.location || this.state.location}
+                  value={this.state.location}
                 />
                      <Button
               className="station__setlocation station__location"
