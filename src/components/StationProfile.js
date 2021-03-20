@@ -5,7 +5,6 @@ import "./stationprofile.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getCS, updateCS } from "../fetchingData/api_calls";
-import { TrafficOutlined } from "@material-ui/icons";
 
 class StationProfile extends Component {
   constructor(props) {
@@ -80,6 +79,14 @@ class StationProfile extends Component {
     console.log(this.props.location);
   };
 
+  locationDirect = (e) => {
+    e.preventDefault();
+    this.props.history.push({
+      pathname: "/map",
+      state: { detail: false },
+    });
+  };
+
   clickSubmit = (e) => {
     e.preventDefault();
 
@@ -114,9 +121,9 @@ class StationProfile extends Component {
         });
         console.log("Station Updated");
       }
-      // setTimeout(function () {
-      //   window.location.reload();
-      // }, 2000);
+      setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     });
   };
 
@@ -187,8 +194,9 @@ class StationProfile extends Component {
                   className="station__setlocation station__location"
                   variant="contained"
                   color="primary"
+                  onClick={this.locationDirect}
                 >
-                  <Link to="/map"> Set Your Location Manually</Link>
+                  Set Your Location Manually
                 </Button>{" "}
               </div>
               <div className="form-group">

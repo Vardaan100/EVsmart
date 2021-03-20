@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { TimePicker } from "antd";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
@@ -42,13 +42,21 @@ class Station extends Component {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
+  locationDirect = (e) => {
+    e.preventDefault();
+    this.props.history.push({
+      pathname: "/map",
+      state: { detail: true },
+    });
+  };
+
   clickSubmit = (e) => {
     e.preventDefault();
     this.setState((state) => ({ location: this.props.location }));
     const { phone, open, close, location, cost } = this.state;
     const token = localStorage.getItem("jwt");
-    const lati = location;
-    const long = location;
+    const lati = location[0];
+    const long = location[1];
     addCS({ phone, open, close, long, lati, cost }, token).then((data) => {
       console.log(data);
       if (
@@ -71,9 +79,9 @@ class Station extends Component {
         });
         console.log("Station added");
       }
-      // setTimeout(function () {
-      //   window.location.reload();
-      // }, 2000);
+      setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     });
   };
   render() {
@@ -96,8 +104,9 @@ class Station extends Component {
               className="station__setlocation station__location"
               variant="contained"
               color="primary"
+              onClick={this.locationDirect}
             >
-              <Link to="/map"> Set Your Location Manually</Link>
+              Set Your Location Manually
             </Button>{" "}
           </div>
 
@@ -175,6 +184,8 @@ class Station extends Component {
 const msp = (state) => ({
   clg: console.log("station state", state),
   location: state.location,
+  station: state.station,
+  stat: console.log(state.station),
 });
 
 export default connect(msp, null)(Station);
