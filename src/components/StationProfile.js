@@ -16,7 +16,8 @@ class StationProfile extends Component {
       open: "",
       close: "",
       cost: "",
-      location: "",
+      lat:"",
+      longi:"",
       edit: true,
       error: "",
       success: false
