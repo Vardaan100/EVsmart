@@ -5,6 +5,7 @@ import "./stationprofile.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getCS, updateCS } from "../fetchingData/api_calls";
+import { TrafficOutlined } from "@material-ui/icons";
 
 class StationProfile extends Component {
   constructor(props) {
@@ -32,7 +33,9 @@ class StationProfile extends Component {
         open: data[0].cs_openat,
         close: data[0].cs_closeat,
         cost: data[0].cs_cost,
-        location: data[0].cs_latitude + "," + data[0].cs_longitude,
+        lat: data[0].cs_latitude,
+        longi:data[0].cs_longitude,
+        // location: data[0].cs_latitude + "," + data[0].cs_longitude,
       }))
     });
   }
@@ -62,21 +65,23 @@ class StationProfile extends Component {
     this.setState({
       edit: !this.state.edit
     });
-    if (this.props.location == this.state.location){
-      this.setState((state) => ({ location: this.state.location }))
-      } else {this.setState((state) => ({ location: this.props.location }))};
+    if (this.props.location !== undefined){
+      this.setState((state) =>({ lat: this.props.location[0],
+        longi: this.props.location[1] }))
+      } else {this.setState((state) => ({ lat: this.state.lat,
+        longi: this.state.longi }))};
+      console.log(this.state.lat, this.state.longi);
+      console.log(this.props.location);
   };
 
   clickSubmit = (e) => {
     e.preventDefault();
 
-   this.setState((state) => ({ location: this.state.location }));
-
-    const { phone, open, close, location, cost } = this.state;
+    const { phone, open, close, lat, longi, cost } = this.state;
     const token = localStorage
       .getItem("jwt")
-    const lati = location[0];
-    const long = location[1];
+    const lati = lat;
+    const long = longi;
     updateCS({ phone, open, close, long, lati, cost }, token).then((data) => {
       console.log(data);
       if (
@@ -97,7 +102,8 @@ class StationProfile extends Component {
           phone: phone,
           open: open,
           close: close,
-          location: location,
+          lat:lati,
+          longi:long,
           cost: cost,
           success: true,
         });
@@ -131,7 +137,7 @@ class StationProfile extends Component {
                 <input
                   type="number"
                   className="form-control"
-                  disabled="true"
+                  disabled={true}
                   placeholder={this.state.phone}
                 />
               </div>
@@ -141,7 +147,7 @@ class StationProfile extends Component {
                 <input
                   type="number"
                   className="form-control"
-                  disabled="true"
+                  disabled={true}
                   placeholder={this.state.open + " till " + this.state.close}
                 />
               </div>
@@ -151,7 +157,7 @@ class StationProfile extends Component {
                 <input
                   type="number"
                   className="form-control"
-                  disabled="true"
+                  disabled={true}
                   placeholder={this.state.cost}
                 />
               </div>
@@ -168,8 +174,8 @@ class StationProfile extends Component {
                 <input
                   className="form-control"
                   placeholder="Location"
-                  disabled="true"
-                  value={this.state.location}
+                  disabled={true}
+                  value={this.state.lat + "," + this.state.longi}
                 />
                      <Button
               className="station__setlocation station__location"
@@ -198,7 +204,7 @@ class StationProfile extends Component {
 
                   <TextField
                     id="time"
-                    ampm={false}
+                    ampm="false"
                     type="time"
                     defaultValue="00:00"
                     InputLabelProps={{
@@ -215,7 +221,7 @@ class StationProfile extends Component {
                   
                   <TextField
                     id="time"
-                    ampm={false}
+                    ampm="false"
                     type="time"
                     defaultValue="00:00"
                     InputLabelProps={{
