@@ -6,6 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getCS, updateCS } from "../fetchingData/api_calls";
 
+import { UncontrolledAlert } from "reactstrap";
+
 class StationProfile extends Component {
   constructor(props) {
     super(props);
@@ -40,19 +42,14 @@ class StationProfile extends Component {
   }
 
   showSuccess = () => (
-    <div
-      className="alert alert-info"
-      style={{ display: this.state.success ? "" : "none" }}
-    >
-      Profile Updated
+    <div style={{ display: this.state.success ? "" : "none" }}>
+      <UncontrolledAlert color="info">Profile Updated</UncontrolledAlert>
     </div>
   );
   showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: this.state.error ? "" : "none" }}
-    >
-      {this.state.error}
+    <div style={{ display: this.state.error ? "" : "none" }}>
+      {/*   {this.state.error} */}
+      <UncontrolledAlert color="danger">{this.state.error}</UncontrolledAlert>
     </div>
   );
 
@@ -121,9 +118,6 @@ class StationProfile extends Component {
         });
         console.log("Station Updated");
       }
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
     });
   };
 

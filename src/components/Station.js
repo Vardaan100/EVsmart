@@ -6,6 +6,7 @@ import "./station.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addCS } from "../fetchingData/api_calls";
+import { UncontrolledAlert } from "reactstrap";
 
 class Station extends Component {
   constructor(props) {
@@ -22,19 +23,13 @@ class Station extends Component {
   }
 
   showSuccess = () => (
-    <div
-      className="alert alert-info"
-      style={{ display: this.state.success ? "" : "none" }}
-    >
-      Station added
+    <div style={{ display: this.state.success ? "" : "none" }}>
+      <UncontrolledAlert color="info"> station added </UncontrolledAlert>
     </div>
   );
   showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: this.state.error ? "" : "none" }}
-    >
-      {this.state.error}
+    <div style={{ display: this.state.error ? "" : "none" }}>
+      <UncontrolledAlert color="danger"> {this.state.error} </UncontrolledAlert>
     </div>
   );
 
@@ -62,7 +57,8 @@ class Station extends Component {
       if (
         data.length == 16 ||
         data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
-        data == "Charging Station Already Exist"
+        data == "Charging Station Already Exist" ||
+        data == "NOT AUTHORISED"
       ) {
         this.setState({
           error: data,
@@ -79,9 +75,6 @@ class Station extends Component {
         });
         console.log("Station added");
       }
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
     });
   };
   render() {
@@ -168,14 +161,24 @@ class Station extends Component {
               value={this.state.cost}
             />
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary btn-block"
-            onClick={this.clickSubmit}
-          >
-            Save
-          </button>
+          {this.props.location === undefined ? (
+            <button
+              type="button"
+              disabled
+              className="btn btn-primary btn-block"
+              onClick={this.clickSubmit}
+            >
+              save
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              onClick={this.clickSubmit}
+            >
+              Save
+            </button>
+          )}
         </form>
       </div>
     );

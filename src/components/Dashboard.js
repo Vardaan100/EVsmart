@@ -35,7 +35,7 @@ class Dashboard extends Component {
       lng: 75.7138884,
       zoom: 6,
       stations: [],
-      station_id: ""
+      station_id: "",
     };
   }
 
@@ -49,7 +49,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-
     this.getLatLng();
 
     getallCS().then((data) => {
@@ -61,35 +60,33 @@ class Dashboard extends Component {
     });
   }
 
-
-  
   clickSubmit = () => {
     const { station_id } = this.state;
-    const token = localStorage.getItem("jwt")
+    const token = localStorage.getItem("jwt");
     // bookNow({station_id}, token).then((data) => {
     //  csid:station_id
     // })
 
     fetch(`${API}/message/booked/${token}`, {
-  method: 'POST', 
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({csid : station_id}),
-  })
-  .then(response => response.json())
-  .then(data => {
-  console.log('Success:', data);
-  alert(`Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`)
-  })
-  .catch((error) => {
-  console.error('Error:', error);
-  });
-
-  }
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ csid: station_id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        alert(
+          `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
+        );
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   render() {
-  
     return (
       <div classname="dashboard__container" style={{ marginTop: "-16px" }}>
         <MapContainer
@@ -104,13 +101,13 @@ class Dashboard extends Component {
           {!this.props.coords ? (
             <div>Loading</div>
           ) : (
-              <Marker
-                position={[this.state.lat, this.state.lng]}
-                icon={markerIcon}
-              >
-                <Popup>You are here</Popup>
-              </Marker>
-            )}
+            <Marker
+              position={[this.state.lat, this.state.lng]}
+              icon={markerIcon}
+            >
+              <Popup>You are here</Popup>
+            </Marker>
+          )}
 
           {this.state.stations.map((cs_id, idx) => (
             <Marker
@@ -137,38 +134,45 @@ class Dashboard extends Component {
                   </ul>
                 </div>
                 <div className="buttons">
-                <div>
-                <button
-                  className="dashboard__getdirection"
-                  onClick={() =>
-                    window.open(
-                      `https://www.google.com/maps/search/?api=1&query=${parseFloat(
-                        cs_id.cs_latitude
-                      )},${parseFloat(cs_id.cs_longitude)}`,
-                      "_blank"
-                    )
-                  } >
-                  Get Directions
-                </button>
-                </div>
-                <div>
-                  <button className="dashboard__getdirections"
-                  onMouseOverCapture={() => {this.state.stations.filter((id, index) => {
-                    if (id === cs_id){
-                      this.setState({
-                      station_id: this.state.stations[index].cs_id
-                       })
-                     }
-                     console.log(this.state.station_id)
-                   })}}
-
-                  onClick={this.clickSubmit}>Book now</button>
-                </div>
+                  <div>
+                    <button
+                      className="dashboard__getdirection"
+                      onClick={() =>
+                        window.open(
+                          `https://www.google.com/maps/search/?api=1&query=${parseFloat(
+                            cs_id.cs_latitude
+                          )},${parseFloat(cs_id.cs_longitude)}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      Get Directions
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      className="dashboard__getdirections"
+                      onMouseOverCapture={() => {
+                        this.state.stations.filter((id, index) => {
+                          if (id === cs_id) {
+                            this.setState({
+                              station_id: this.state.stations[index].cs_id,
+                            });
+                          }
+                          console.log(this.state.station_id);
+                        });
+                      }}
+                      onClick={this.clickSubmit}
+                    >
+                      Book now
+                    </button>
+                  </div>
                 </div>
               </Popup>
             </Marker>
           ))}
-        </MapContainer>=
+        </MapContainer>
+        =
       </div>
     );
   }

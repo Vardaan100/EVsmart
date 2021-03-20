@@ -51,28 +51,7 @@ const Contact = () => {
   };
 
   return (
-    <div
-      className="ContactForm contactus"
-      // style={{
-      //   backgroundImage: `url(${require("./img/ev.jpg")})`,
-      //   height: "100px",
-      // }}
-      // style={{
-      //   width: "100%",
-      //   height: "50vh",
-      //   backgroundImage: `url(${image})`,
-      // }}
-    >
-      {/* <img
-        src="/images/ev.jpg"
-        alt="contact"
-        style={{
-          width: "100%",
-          height: "50vh",
-          backgroundImage: `{url(/images/en.jpg)}`,
-        }}
-      /> */}
-      {/* <img src={backgroundImage} alt="ev images" /> */}
+    <div className="ContactForm contactus">
       <div className="container contactus__background">
         <div className="row">
           <div className="col-12 text-center">

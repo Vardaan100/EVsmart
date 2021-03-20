@@ -4,6 +4,7 @@ import "./profile.css";
 import { Button, Table } from "reactstrap";
 import { Input } from "@material-ui/core";
 import { API } from "../config";
+import { UncontrolledAlert } from "reactstrap";
 
 class AdminDash extends Component {
   constructor(props) {
@@ -121,11 +122,13 @@ class AdminDash extends Component {
       .then((response) => response.json())
       .then((data) => {
         // console.log("Success:", data);
-        alert(data);
+        // alert(data);
+        <UncontrolledAlert color="info"> {data} </UncontrolledAlert>;
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert.error("Error:", error)
+        // alert.error("Error:", error)
+        <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>;
       });
   };
 
