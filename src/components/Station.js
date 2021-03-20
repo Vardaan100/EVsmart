@@ -17,7 +17,7 @@ class Station extends Component {
       location: this.props.location,
       cost: "",
       error: "",
-      success: false
+      success: false,
     };
   }
 
@@ -46,10 +46,9 @@ class Station extends Component {
     e.preventDefault();
     this.setState((state) => ({ location: this.props.location }));
     const { phone, open, close, location, cost } = this.state;
-    const token = localStorage
-      .getItem("jwt");
-    const lati = location[0];
-    const long = location[1];
+    const token = localStorage.getItem("jwt");
+    const lati = location;
+    const long = location;
     addCS({ phone, open, close, long, lati, cost }, token).then((data) => {
       console.log(data);
       if (
@@ -61,7 +60,7 @@ class Station extends Component {
           error: data,
         });
         this.showError();
-      }  else {
+      } else {
         this.setState({
           phone: "",
           open: "",
@@ -72,15 +71,17 @@ class Station extends Component {
         });
         console.log("Station added");
       }
-      setTimeout(function(){ window.location.reload() }, 2000);
+      // setTimeout(function () {
+      //   window.location.reload();
+      // }, 2000);
     });
   };
   render() {
     return (
       <div className="station">
         <form className="station__container">
-              {this.showSuccess()}
-              {this.showError()}
+          {this.showSuccess()}
+          {this.showError()}
           <h3>Add Your Station</h3>
 
           <div className="form-group">
@@ -91,7 +92,7 @@ class Station extends Component {
               placeholder="Latitude, Longitude"
               disabled={true}
             />
-               <Button
+            <Button
               className="station__setlocation station__location"
               variant="contained"
               color="primary"

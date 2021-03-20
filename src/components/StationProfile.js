@@ -16,17 +16,16 @@ class StationProfile extends Component {
       open: "",
       close: "",
       cost: "",
-      lat:"",
-      longi:"",
+      lat: "",
+      longi: "",
       edit: true,
       error: "",
-      success: false
+      success: false,
     };
   }
 
   componentDidMount() {
-    const token = localStorage
-      .getItem("jwt")
+    const token = localStorage.getItem("jwt");
     getCS(token).then((data) => {
       console.log(data);
       this.setState((state) => ({
@@ -35,9 +34,9 @@ class StationProfile extends Component {
         close: data[0].cs_closeat,
         cost: data[0].cs_cost,
         lat: data[0].cs_latitude,
-        longi:data[0].cs_longitude,
+        longi: data[0].cs_longitude,
         // location: data[0].cs_latitude + "," + data[0].cs_longitude,
-      }))
+      }));
     });
   }
 
@@ -57,30 +56,35 @@ class StationProfile extends Component {
       {this.state.error}
     </div>
   );
-  
+
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
   clickHandler = (e) => {
     this.setState({
-      edit: !this.state.edit
+      edit: !this.state.edit,
     });
-    if (this.props.location !== undefined){
-      this.setState((state) =>({ lat: this.props.location[0],
-        longi: this.props.location[1] }))
-      } else {this.setState((state) => ({ lat: this.state.lat,
-        longi: this.state.longi }))};
-      console.log(this.state.lat, this.state.longi);
-      console.log(this.props.location);
+    if (this.props.location !== undefined) {
+      this.setState((state) => ({
+        lat: this.props.location[0],
+        longi: this.props.location[1],
+      }));
+    } else {
+      this.setState((state) => ({
+        lat: this.state.lat,
+        longi: this.state.longi,
+      }));
+    }
+    console.log(this.state.lat, this.state.longi);
+    console.log(this.props.location);
   };
 
   clickSubmit = (e) => {
     e.preventDefault();
 
     const { phone, open, close, lat, longi, cost } = this.state;
-    const token = localStorage
-      .getItem("jwt")
+    const token = localStorage.getItem("jwt");
     const lati = lat;
     const long = longi;
     updateCS({ phone, open, close, long, lati, cost }, token).then((data) => {
@@ -98,19 +102,21 @@ class StationProfile extends Component {
           error: data,
         });
         this.showError();
-      }  else {
+      } else {
         this.setState({
           phone: phone,
           open: open,
           close: close,
-          lat:lati,
-          longi:long,
+          lat: lati,
+          longi: long,
           cost: cost,
           success: true,
         });
         console.log("Station Updated");
       }
-      setTimeout(function(){ window.location.reload() }, 2000);
+      // setTimeout(function () {
+      //   window.location.reload();
+      // }, 2000);
     });
   };
 
@@ -165,7 +171,6 @@ class StationProfile extends Component {
             </form>
           ) : (
             <form>
-
               {this.showSuccess()}
               {this.showError()}
 
@@ -178,13 +183,13 @@ class StationProfile extends Component {
                   disabled={true}
                   value={this.state.lat + "," + this.state.longi}
                 />
-                     <Button
-              className="station__setlocation station__location"
-              variant="contained"
-              color="primary"
-            >
-              <Link to="/map"> Set Your Location Manually</Link>
-            </Button>{" "}
+                <Button
+                  className="station__setlocation station__location"
+                  variant="contained"
+                  color="primary"
+                >
+                  <Link to="/map"> Set Your Location Manually</Link>
+                </Button>{" "}
               </div>
               <div className="form-group">
                 <label>Phone Number</label>
@@ -202,7 +207,6 @@ class StationProfile extends Component {
 
                 <div>
                   From:
-
                   <TextField
                     id="time"
                     ampm="false"
@@ -217,9 +221,7 @@ class StationProfile extends Component {
                     onChange={this.handleChange("open")}
                     value={this.state.open}
                   />
-
-                  To: 
-                  
+                  To:
                   <TextField
                     id="time"
                     ampm="false"

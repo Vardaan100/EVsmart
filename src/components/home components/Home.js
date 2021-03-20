@@ -59,8 +59,6 @@ function Home() {
       <Customer />
       <Price />
       <Start />
-      {/* <h1>hello</h1> */}
-      {/* <Footer /> */}
     </div>
   );
 }

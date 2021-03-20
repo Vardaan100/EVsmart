@@ -34,3 +34,10 @@
   height: 320px;
   width: 105%;
 }
+
+@media screen and (max-width: 480) {
+  .price__container {
+    flex-direction: column !important;
+    padding-right: 65px !important;
+  }
+}

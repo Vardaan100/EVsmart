@@ -6,7 +6,7 @@ import { Container, Row, Col } from "reactstrap";
 function Footer() {
   return (
     <Container className="footer_container col-12 my-4">
-      <Row>
+      <Row className="footer__media">
         {/* <Col> */}
         {/* <ul className="footer_lists"> */}
         <Col>
@@ -36,11 +36,8 @@ function Footer() {
           </Link>
         </Col>
       </Row>
-      {/* </ul> */}
-      {/* <br> </br> */}
       <hr></hr>
       <div className="privacy">&copy; 2020-2021 privacy - Terms</div>
-      {/* </Col> */}
     </Container>
   );
 }

@@ -32,3 +32,18 @@
 .privacy {
   text-align: center;
 }
+
+@media screen and (max-width: 290px) {
+  .footer__media {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 480px) {
+  .footer__media {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+}

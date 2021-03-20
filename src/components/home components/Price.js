@@ -6,7 +6,7 @@ import { Container, Row, Col } from "reactstrap";
 function Price() {
   return (
     <Container fluid={true} className="price__container">
-      <Row>
+      <Row className="price__media">
         <Col className="price__text">
           <h3>Our Best Price</h3>
           <p>
@@ -23,13 +23,15 @@ function Price() {
             <Avatar /> <small>Ev smart</small>
           </div>
         </Col>
-        <Col className="price__image">
-          <img
-            className="price__list img-fluid"
-            src="./images/price.jpg"
-            alt="price list"
-          />
-        </Col>
+        <Row>
+          <Col className="price__image">
+            <img
+              className="price__list img-fluid"
+              src="./images/price.jpg"
+              alt="price list"
+            />
+          </Col>
+        </Row>
       </Row>
     </Container>
   );
