@@ -4,6 +4,8 @@ CREATE DATABASE EVsmart;
 -- download extension "uuid-ossp"
 create extension if not exists "uuid-ossp";
 CREATE TABLE users(
+    user_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    user_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     user_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     user_firstname VARCHAR(245) NOT NULL,
     user_lastname VARCHAR(245) NOT NULL,
@@ -12,9 +14,7 @@ CREATE TABLE users(
     user_password VARCHAR(64) NOT NULL,
     user_verification BOOLEAN NOT NULL DEFAULT false,
     user_role VARCHAR(255) NOT NUll DEFAULT 'Normal',
-    cs_status BOOLEAN NOT NULL DEFAULT false,
-    user_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    user_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    cs_status BOOLEAN NOT NULL DEFAULT false
 );
 
 --timestamp trigger for user
@@ -34,6 +34,8 @@ EXECUTE PROCEDURE trigger_set_timestamp_users();
 
 -- charging stion table
 CREATE TABLE charging_station(
+  cs_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  cs_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   cs_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
   cs_phone BIGINT NOT NULL,
   cs_openat TIME NOT NULL DEFAULT '00:00:00',
@@ -42,10 +44,7 @@ CREATE TABLE charging_station(
   cs_latitude NUMERIC(12,9) NOT NULL,
   cs_cost NUMERIC(9,2) NOT NULL,
   cs_verification BOOLEAN NOT NULL DEFAULT false,
-  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id),
-  cs_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  cs_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  
+  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id)
 );
 
 
@@ -66,14 +65,13 @@ EXECUTE PROCEDURE trigger_set_timestamp_cs();
 
 -- Review Table
 CREATE TABLE review(
+  review_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  review_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   review_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
   review_star NUMERIC(2,1) NOT NULL,
   review_comment VARCHAR(245) NOT NULL,
   cs_id uuid UNIQUE NOT NULL REFERENCES charging_station (cs_id),
-  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id) ,
-  review_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  review_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  
+  user_id uuid UNIQUE NOT NULL REFERENCES users (user_id)
 );
 
 --timestamp trigger for review table
@@ -93,31 +91,34 @@ EXECUTE PROCEDURE trigger_set_timestamp_review();
 
 --table for message format 
 CREATE TABLE message_format(
+    message_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    message_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     message_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     message_name VARCHAR(245) NOT NULL ,
     message_format VARCHAR(245) NOT NULL,
-    user_id uuid NOT NULL REFERENCES users (user_id),
-    message_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    message_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    user_id uuid NOT NULL REFERENCES users (user_id)
+    
 );
 
 --timestamp trigger for message_format table
 CREATE OR REPLACE FUNCTION trigger_set_timestamp_message()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.rmessage_updated_at = NOW();
+  NEW.message_updated_at = NOW();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 --trigger for message_format table
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON review
+BEFORE UPDATE ON message_format
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp_message();
 
 --Table for res. from api sms
 CREATE TABLE message_res(
+    res_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    res_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     res_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     res_return BOOLEAN NOT NULL,
     req_id VARCHAR(245) NOT NULL ,
@@ -127,27 +128,53 @@ CREATE TABLE message_res(
     user_phone BIGINT NOT NULL ,
     user_id uuid NOT NULL REFERENCES users (user_id),
     cs_id uuid  NOT NULL REFERENCES charging_station (cs_id),
-    message_name  VARCHAR(245) NOT NULL,
-    res_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    res_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    message_name  VARCHAR(245) NOT NULL
 );
 
 --timestamp trigger for message_res table
-CREATE OR REPLACE FUNCTION trigger_set_timestamp_message()
+CREATE OR REPLACE FUNCTION trigger_set_timestamp_messageres()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.rmessage_updated_at = NOW();
+  NEW.res_updated_at = NOW();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 --trigger for message_res table
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON review
+BEFORE UPDATE ON message_res
 FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp_message();
+EXECUTE PROCEDURE trigger_set_timestamp_messageres();
+-- Table to otp
+CREATE TABLE otp(
+    otp_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    otp_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    otp_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
+    otp_phone BIGINT NOT NULL,
+    otp_token VARCHAR(245) NOT NULL,
+    otp_expire BIGINT NOT NULL ,
+    expiry_status BOOLEAN NOT NULL DEFAULT false,
+    otp_hash VARCHAR(1000) NOT NULL,
+    otp_ver BOOLEAN NOT NULL DEFAULT false,
+    message_sent VARCHAR(245) NOT NULL ,
+    message_name  VARCHAR(245) NOT NULL,
+    sms_res VARCHAR(1000) NOT NULL
+);
 
+--timestamp trigger for otp table
+CREATE OR REPLACE FUNCTION trigger_set_timestamp_otp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.otp_updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
+--trigger for otp table
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON otp
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp_otp();
 -- test chargins station
 INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,user_id)
 VALUES(9990372304,'10:00:00','22:00:00',-45.7895442,-89.448245,800.56,'f720a607-53fb-4505-a622-6ac8498dbe29');
@@ -183,8 +210,8 @@ ADD COLUMN message_name VARCHAR(255) NOT NUll ;
 -- ALTER TABLE users
 -- ADD user_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
-ALTER TABLE message_format
-ADD user_id uuid UNIQUE NOT NULL REFERENCES users (user_id);
+ALTER TABLE otp
+ADD expiry_status BOOLEAN NOT NULL DEFAULT false;
 
 ALTER TABLE charging_station
 ALTER COLUMN cs_longitude NUMERIC(12,9) NOT NULL;

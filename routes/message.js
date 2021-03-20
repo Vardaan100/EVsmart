@@ -1,14 +1,9 @@
 const router = require("express").Router();
 const pool = require("../db");
-const bcrypt = require("bcrypt");
-const jwtGenerator = require("../utils/jwtgenerator");
-const verifyInfo = require("../middleware/validInfo");
 const { isAuth, isAdmin } = require("../middleware/isAuth");
-const jwt = require("jsonwebtoken");
+const { otpSend, otpVerify } = require("../middleware/otp");
 const unirest = require("unirest");
-const { response } = require("express");
-require("dotenv").config()
-
+require("dotenv").config();
 
 router.post("/addFormat", (req, res) => {
     res.json("hellomessage");
@@ -96,6 +91,9 @@ router.delete("/deleteFormat/:id", isAuth, isAdmin, async (req, res) => {
     };
 });
 
+
+
+// sms protocol for cs book now button
 router.post("/booked/:id", isAuth, async (req, res) => {
     try {
         const { csid } = req.body;
@@ -138,4 +136,61 @@ router.post("/booked/:id", isAuth, async (req, res) => {
         res.status(500).json("server error");
     };
 });
+
+
+function validPhone(phoneNo) {
+    return /^[6-9]\d{9}$/.test(phoneNo);
+};
+
+// to send otp at the time of signup when user add phone no
+router.post("/otpPhone", otpSend, async (req, res) => {
+    try {
+        const { phone } = req.body;
+        // //valid phone no.
+        if (!phone) {
+            return res.status(401).json("missing Email password phone no. or name");
+        } else if (!validPhone(phone)) {
+            return res.status(401).json("Invalid Phone no.")
+        };
+        //check if phone no. exsist
+        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1", [phone]);
+        if (phone_no.rows.length << 0) {
+            return res.status(401).json("Phone no. in use");
+        };
+        const name = "otp";
+        const format = await pool.query("SELECT message_format FROM message_format WHERE message_name = $1", [name]);
+        format1 = eval('`' + format.rows[0].message_format + '`');
+        const Request = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
+        Request
+            .headers({ "authorization": process.env.smsApi })
+            .form({
+                "route": "v3",
+                "sender_id": process.env.smsID,
+                "message_text": format1,
+                "language": "english",
+                "flash": 0,
+                "numbers": phone
+            })
+            .end(async (response) => {
+                if (response.error) {
+                    return response.error;
+                };
+                // res.json(response.body);
+                res.json("OTP sent Successfully");
+                const otpRes = await pool.query("INSERT INTO otp(otp_phone,otp_token,otp_expire,\
+                        otp_hash,message_sent,message_name,sms_res)\
+                         VALUES ($1,$2,$3,$4,$5,$6,$7) \
+                         RETURNING *", [phone, req.otp, req.expire, req.bcryptHash, format1, name, response.body]);
+            })
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json("server error");
+    };
+});
+
+// to verify the otp
+router.post("/otpVerify", otpVerify, async (req, res) => {
+});
+
+
 module.exports = router;

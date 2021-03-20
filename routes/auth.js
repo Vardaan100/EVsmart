@@ -20,7 +20,7 @@ function validPhone(phoneNo) {
 router.get("/", (req, res) => {
     res.send("hello EVSMARTAUTH")
 });
-router.post("/signup", async (req, res) => {
+router.post("/signup", verifyInfo, async (req, res) => {
     try {
         const { firstname, lastname, phone, email, password } = req.body;//structing
 
