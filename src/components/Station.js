@@ -118,7 +118,7 @@ class Station extends Component {
               From :
               <TextField
                 id="time"
-                ampm={false}
+                ampm="false"
                 type="time"
                 defaultValue="00:00"
                 InputLabelProps={{
@@ -133,7 +133,7 @@ class Station extends Component {
               To:
               <TextField
                 id="time"
-                ampm={false}
+                ampm="false"
                 type="time"
                 defaultValue="00:00"
                 InputLabelProps={{
