@@ -2,6 +2,7 @@ const router = require("express").Router();
 const pool = require("../db");
 const { isAuth, isAdmin } = require("../middleware/isAuth");
 const { otpSend, otpVerify } = require("../middleware/otp");
+const { smsSend } = require("../middleware/sms");
 const unirest = require("unirest");
 require("dotenv").config();
 
@@ -137,26 +138,10 @@ router.post("/booked/:id", isAuth, async (req, res) => {
     };
 });
 
-
-function validPhone(phoneNo) {
-    return /^[6-9]\d{9}$/.test(phoneNo);
-};
-
 // to send otp at the time of signup when user add phone no
-router.post("/otpPhone", otpSend, async (req, res) => {
+router.post("/otpPhone/", otpSend, async (req, res) => {
     try {
-        const { phone } = req.body;
-        // //valid phone no.
-        if (!phone) {
-            return res.status(401).json("missing Email password phone no. or name");
-        } else if (!validPhone(phone)) {
-            return res.status(401).json("Invalid Phone no.")
-        };
-        //check if phone no. exsist
-        const phone_no = await pool.query("SELECT * FROM users WHERE user_phone = $1", [phone]);
-        if (phone_no.rows.length << 0) {
-            return res.status(401).json("Phone no. in use");
-        };
+        // console.log(req.query.h)
         const name = "otp";
         const format = await pool.query("SELECT message_format FROM message_format WHERE message_name = $1", [name]);
         format1 = eval('`' + format.rows[0].message_format + '`');
@@ -169,18 +154,18 @@ router.post("/otpPhone", otpSend, async (req, res) => {
                 "message_text": format1,
                 "language": "english",
                 "flash": 0,
-                "numbers": phone
+                "numbers": req.phone
             })
-            .end(async (response) => {
+            .end((response) => {
                 if (response.error) {
                     return response.error;
                 };
                 // res.json(response.body);
                 res.json("OTP sent Successfully");
-                const otpRes = await pool.query("INSERT INTO otp(otp_phone,otp_token,otp_expire,\
+                const otpRes = pool.query("INSERT INTO otp(otp_phone,otp_token,otp_expire,\
                         otp_hash,message_sent,message_name,sms_res)\
                          VALUES ($1,$2,$3,$4,$5,$6,$7) \
-                         RETURNING *", [phone, req.otp, req.expire, req.bcryptHash, format1, name, response.body]);
+                         RETURNING *", [req.phone, req.otp, req.expire, req.bcryptHash, format1, name, response.body]);
             })
     } catch (err) {
         console.error(err.message);

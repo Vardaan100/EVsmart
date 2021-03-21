@@ -9,12 +9,18 @@ router.get("/g/:id", csIDReturn, (req, res) => {
 // create charging station
 router.post("/newcs/:id", isAuth, async (req, res) => {
     try {
+        
         const ocs = await pool.query("SELECT * FROM charging_station WHERE user_id =$1", [req.userID]);
         csStatus = ocs.rows;
         if (csStatus.length << 0) {
             return res.status(400).json("YOU CAN ONLY ADD ONE CHARGING STATION.");
         };
         const { phone, open, close, long, lati, cost } = req.body;
+        //check whetherr no. is verified or not
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true",[phone]);
+        if (verCheck.rows.length === 0){
+            return res.json("phone no. not verified,Please verify your No.");
+        };
         // check in charging station exist or not
         const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
         if (chargingStation.rows.length << 0) {

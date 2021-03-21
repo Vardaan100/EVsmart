@@ -23,7 +23,11 @@ router.get("/", (req, res) => {
 router.post("/signup", verifyInfo, async (req, res) => {
     try {
         const { firstname, lastname, phone, email, password } = req.body;//structing
-
+        //Check whether phone no. is verified or not
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true",[phone]);
+        if (verCheck.rows.length === 0){
+            return res.json("phone no. not verified,Please verify your No.");
+        };
         // check if user exsist
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
         // res.json(user.rows);
