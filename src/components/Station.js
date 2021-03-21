@@ -7,6 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addCS } from "../fetchingData/api_calls";
 import { UncontrolledAlert } from "reactstrap";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { API } from "../config";
 
 class Station extends Component {
   constructor(props) {
@@ -19,14 +25,90 @@ class Station extends Component {
       cost: "",
       error: "",
       success: false,
+      popupOpen: false,
+      otp: "",
+      phoneVerification: ""
     };
   }
+
+  handleVerify = () => {
+    const { phone, otp } = this.state;
+
+    fetch(`${API}/message/otpVerify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        phone:phone,
+        otpToken: otp
+       }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (
+          data.length == 16 ||
+          data == "OTP is invalid"
+        ) {
+          this.setState({
+            error: data,
+          });
+          this.showError();
+        } else if (data == true) {
+          this.setState({
+            phoneVerification: "Number has been verified successfully"
+          });
+        }
+      });
+      
+      this.setState({
+        popupOpen:false
+      })
+  }
+
+  handleClickOpen = () => {
+    this.setState({
+      popupOpen: true
+    });
+
+    const { phone } = this.state;
+    fetch(`${API}/message/otpPhone`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone: phone }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        if (
+          data.length == 16 ||
+          data == "Phone no. in use" ||
+          data == "Invalid Phone no." ||
+          data == "missing Email password phone no. or name"
+        ) {
+          this.setState({
+            error: data,
+          });
+          this.showError();
+        }
+      })
+  };
+
+  handleClose = () => {
+    this.setState({
+      popupOpen: false
+    })
+  };
 
   showSuccess = () => (
     <div style={{ display: this.state.success ? "" : "none" }}>
       <UncontrolledAlert color="info"> station added </UncontrolledAlert>
     </div>
   );
+
   showError = () => (
     <div style={{ display: this.state.error ? "" : "none" }}>
       <UncontrolledAlert color="danger"> {this.state.error} </UncontrolledAlert>
@@ -74,6 +156,7 @@ class Station extends Component {
           success: true,
         });
         console.log("Station added");
+        setTimeout(function(){ window.location.reload() }, 2000);
       }
     });
   };
@@ -83,6 +166,9 @@ class Station extends Component {
         <form className="station__container">
           {this.showSuccess()}
           {this.showError()}
+          <div style={{ display: this.state.phoneVerification ? "" : "none" }}>
+            <UncontrolledAlert color="info"> {this.state.phoneVerification} </UncontrolledAlert>
+          </div>
           <h3>Add Your Station</h3>
 
           <div className="form-group">
@@ -112,6 +198,38 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleChange("phone")}
             />
+          <div>
+            <Button 
+              className="station__setlocation station__location"
+              variant="contained" color="primary" onClick={this.handleClickOpen}>
+              Verify your phone number
+             </Button>
+            <Dialog open={this.state.popupOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Verify</DialogTitle>
+            <DialogContent>
+            <DialogContentText>
+              Please enter the otp recieved on your phone number
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+             id="name"
+              label="One Time Password"
+              type="number"
+             onChange={this.handleChange("otp")}
+              fullWidth
+            />
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleVerify} color="primary">
+              Ok
+            </Button>
+            </DialogActions>
+            </Dialog>
+    </div>
           </div>
 
           <div className="form-group">

@@ -117,6 +117,7 @@ class StationProfile extends Component {
           success: true,
         });
         console.log("Station Updated");
+        setTimeout(function(){ window.location.reload() }, 2000);
       }
     });
   };

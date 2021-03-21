@@ -16,8 +16,8 @@ const data = {
       title: "How to add your charging station?",
       content: `Inside menu drawer, you can see option as "Add station". Click on the add station, you will be taken to
               another page,  on that page provide all the necessary details. To add your location click on the link
-              provided at the bottom of page. It will take you the map, after going to map press "Save location". After that
-              press "Go back to station". After coming to station your location will be updated with coordinates.
+              provided at the bottom of page. It will take you the map, after going to map press "Save location".
+               After coming to station your location will be updated with coordinates.
               Now just clicks on the "Save", your station will be added to map. Go to dashboard you will see your
               station on the map!`,
     },
