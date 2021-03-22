@@ -95,6 +95,12 @@ router.put("/csdata/:id", csIDReturn, async (req, res) => {
         if (verCheck.rows.length === 0) {
             return res.json("phone no. not verified,Please verify your No.");
         };
+        // if user change phone no. its will change otp_ver to false for the oldNo. so that it again can be verified
+        const oldCs =await pool.query("SELECT * FROM charging_station WHERE user_id = $1",[req.userID]);
+        const oldPhone = oldCs.rows[0].cs_phone;
+        if(oldPhone!==phone){
+            const notVer = await pool.query("UPDATE otp SET otp_ver = false WHERE otp_phone = $1 AND otp_route= 'cs'", [oldPhone])
+        }
         const updateCs = await pool.query("UPDATE charging_station SET cs_phone = $1 ,cs_openat = $2 , cs_closeat = $3 , cs_longitude = $4 , cs_latitude =$5 , cs_cost =$6 WHERE cs_id = $7 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [phone, open, close, long, lati, cost, req.csid]);
         res.json(updateCs.rows);
 

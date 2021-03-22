@@ -25,6 +25,7 @@ router.post("/signup", verifyInfo, async (req, res) => {
         const { firstname, lastname, phone, email, password } = req.body;//structing
         //Check whether phone no. is verified or not
         const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true",[phone]);
+        // console.log(verCheck.rows)
         if (verCheck.rows.length === 0){
             return res.json("phone no. not verified,Please verify your No.");
         };
@@ -121,7 +122,7 @@ router.get("/userdata/:id", isAuth, async (req, res) => {
 //updting the user data
 router.put("/userdata/:id", verifyInfo, isAuth, async (req, res) => {
     try {
-        console.log(req.userID)
+        // console.log(req.userID)
         const { firstname, lastname, email, phone } = req.body;
         if (![email, firstname, lastname, phone].every(Boolean)) {
             return res.status(401).json("missing Email password phone no. or name");
@@ -144,7 +145,17 @@ router.put("/userdata/:id", verifyInfo, isAuth, async (req, res) => {
         if (verCheck.rows.length === 0){
             return res.json("phone no. not verified,Please verify your No.");
         };
-        // console.log(req.user)
+        // if user change phone no. its will change otp_ver to false for the oldNo. so that it again can be verified
+        const oldUser =await pool.query("SELECT * FROM users WHERE user_id = $1",[req.userID]);
+        const oldPhone = oldUser.rows[0].user_phone;
+        // console.log(oldUser.rows)
+        // console.log("oldPhone",typeof(oldPhone))
+        // console.log("Phone",typeof(phone))
+        if(oldPhone!==phone){
+            const notVer = await pool.query("UPDATE otp SET otp_ver = false WHERE otp_phone = $1 AND otp_route= 'user' RETURNING *", [oldPhone])
+            // console.log(notVer.rows)
+        }
+        
         const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_email=$4,user_phone=$3 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone", [firstname, lastname, phone, email, req.userID])
         // res.json(updateUser.rows)
         res.json(updateUser.rows);

@@ -164,13 +164,14 @@ router.put("/userRole/:id", isAuth, isAdmin, async (req, res) => {
 router.post("/newcs/:id", isAuth, isAdmin, async (req, res) => {
     try {
         let userID = req.query.userid;
-        const ocs = await pool.query("SELECT * FROM charging_station WHERE user_id =$1", [userID]);
-        csStatus = ocs.rows;
-        if (csStatus.length << 0) {
-            return res.status(400).json("YOU CAN ONLY ADD ONE CHARGING STATION.");
-        };
-        const { phone, open, close, long, lati, cost, verification } = req.body;
+        // const ocs = await pool.query("SELECT * FROM charging_station WHERE user_id =$1", [userID]);
+        // csStatus = ocs.rows;
+        // if (csStatus.length << 0) {
+        //     return res.status(400).json("YOU CAN ONLY ADD ONE CHARGING STATION.");
+        // };
+        const { phone, open, close, long, lati, cost} = req.body;
         // check in charging station exist or not
+        const verification = true;
         const chargingStation = await pool.query("SELECT * FROM charging_station WHERE cs_longitude = $1 AND cs_latitude =$2", [long, lati]);
         if (chargingStation.rows.length << 0) {
             return res.status(400).json("Charging Station Already Exist");
@@ -178,7 +179,7 @@ router.post("/newcs/:id", isAuth, isAdmin, async (req, res) => {
         const newCS = await pool.query("INSERT INTO charging_station(cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost,cs_verification,user_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *", [phone, open, close, long, lati, cost, verification, userID]);
         const oc = await pool.query("UPDATE users SET cs_status = true WHERE user_id = $1 ", [userID])
         res.json(newCS.rows);
-        console.log("created charging station");
+        // console.log("created charging station");
     } catch (err) {
         console.error(err.message);
         res.status(500).json("server error");
@@ -238,7 +239,7 @@ router.delete("/deletecs/:id", isAuth, isAdmin, async (req, res) => {
     try {
         let csID = req.query.csID;
         const deleteCS = await pool.query("DELETE FROM charging_station WHERE cs_id =$1 RETURNING user_id", [csID]);
-        console.log(deleteCS.rows[0].user_id);
+        // console.log(deleteCS.rows[0].user_id);
         const csstatus = await pool.query("UPDATE users SET cs_status = false WHERE user_id = $1 ", [deleteCS.rows[0].user_id])
         res.json("DELETED SUCCESSFULLY")
 
