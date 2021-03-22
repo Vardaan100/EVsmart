@@ -150,6 +150,7 @@ CREATE TABLE otp(
     otp_created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     otp_updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     otp_id uuid PRIMARY KEY UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
+    otp_route VARCHAR(245) NOT NULL,
     otp_phone BIGINT NOT NULL,
     otp_token VARCHAR(245) NOT NULL,
     otp_expire BIGINT NOT NULL ,
@@ -158,7 +159,8 @@ CREATE TABLE otp(
     otp_ver BOOLEAN NOT NULL DEFAULT false,
     message_sent VARCHAR(245) NOT NULL ,
     message_name  VARCHAR(245) NOT NULL,
-    sms_res VARCHAR(1000) NOT NULL
+    sms_res VARCHAR(1000) NOT NULL,
+    resend_status BOOLEAN NOT NULL DEFAULT false,
 );
 
 --timestamp trigger for otp table
@@ -194,8 +196,8 @@ VALUES('naman','gupta',99996420326,'guptanaman401@gmail.com','123456');
 ALTER TABLE charging_station
 ADD user_email VARCHAR(245) NOT NULL REFERENCES users (user_email) DEFAULT users (user_email);
 
-ALTER TABLE message_res
-ADD COLUMN message_name VARCHAR(255) NOT NUll ;
+ALTER TABLE otp
+ADD COLUMN resend_status BOOLEAN NOT NULL DEFAULT false;
 
 -- --ALTER TABLE users
 -- ALTER TABLE users

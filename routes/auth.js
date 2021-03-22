@@ -140,6 +140,10 @@ router.put("/userdata/:id", verifyInfo, isAuth, async (req, res) => {
         } else if (!validEmail(email)) {
             return res.status(401).json("Invalid Email");
         };
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true",[phone]);
+        if (verCheck.rows.length === 0){
+            return res.json("phone no. not verified,Please verify your No.");
+        };
         // console.log(req.user)
         const updateUser = await pool.query("UPDATE users SET user_firstname=$1,user_lastname=$2,user_email=$4,user_phone=$3 WHERE user_id=$5 RETURNING user_firstname,user_lastname,user_email,user_phone", [firstname, lastname, phone, email, req.userID])
         // res.json(updateUser.rows)

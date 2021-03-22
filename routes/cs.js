@@ -9,7 +9,7 @@ router.get("/g/:id", csIDReturn, (req, res) => {
 // create charging station
 router.post("/newcs/:id", isAuth, async (req, res) => {
     try {
-        
+
         const ocs = await pool.query("SELECT * FROM charging_station WHERE user_id =$1", [req.userID]);
         csStatus = ocs.rows;
         if (csStatus.length << 0) {
@@ -17,8 +17,8 @@ router.post("/newcs/:id", isAuth, async (req, res) => {
         };
         const { phone, open, close, long, lati, cost } = req.body;
         //check whetherr no. is verified or not
-        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true",[phone]);
-        if (verCheck.rows.length === 0){
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true", [phone]);
+        if (verCheck.rows.length === 0) {
             return res.json("phone no. not verified,Please verify your No.");
         };
         // check in charging station exist or not
@@ -91,7 +91,10 @@ router.put("/csdata/:id", csIDReturn, async (req, res) => {
         if (chargingStation.rows.length << 0) {
             return res.status(400).json("Charging Station Already Exist");
         };
-
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 and otp_ver = true", [phone]);
+        if (verCheck.rows.length === 0) {
+            return res.json("phone no. not verified,Please verify your No.");
+        };
         const updateCs = await pool.query("UPDATE charging_station SET cs_phone = $1 ,cs_openat = $2 , cs_closeat = $3 , cs_longitude = $4 , cs_latitude =$5 , cs_cost =$6 WHERE cs_id = $7 RETURNING cs_id,cs_phone,cs_openat,cs_closeat,cs_longitude,cs_latitude,cs_cost ", [phone, open, close, long, lati, cost, req.csid]);
         res.json(updateCs.rows);
 
