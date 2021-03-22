@@ -6,7 +6,7 @@ import { Container, Row, Col } from "reactstrap";
 function Footer() {
   return (
     <Container className="footer_container col-12 my-4">
-      <Row className="footer__media">
+      <Row className="footer__media" style={{marginLeft:"8%"}}>
         {/* <Col> */}
         {/* <ul className="footer_lists"> */}
         <Col>
