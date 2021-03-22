@@ -217,3 +217,37 @@ export const updateAdminUser = (user, token, user_id) => {
       console.log(err);
     });
 };
+
+export const sendOTP = (phone) => {
+  return fetch(`${API}/message/otpPhone/?h=user`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ phone: phone }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const verifyOTP = (phone, otp) => {
+  return fetch(`${API}/message/otpVerify?h=user`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ phone: phone, otpToken: otp }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
