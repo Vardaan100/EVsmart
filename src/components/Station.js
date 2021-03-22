@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { addCS } from "../fetchingData/api_calls";
+import { addCS, userData } from "../fetchingData/api_calls";
 import { UncontrolledAlert } from "reactstrap";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -18,6 +18,7 @@ class Station extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:[],
       phone: "",
       open: "",
       close: "",
@@ -31,10 +32,20 @@ class Station extends Component {
     };
   }
 
+  componentDidMount() {
+    const token = localStorage.getItem("jwt");
+    userData(token).then((data) => {
+      this.setState((state) => ({
+        user: data,
+        phone: data[0].user_phone,
+      }));
+    });
+  }
+
   handleVerify = () => {
     const { phone, otp } = this.state;
 
-    fetch(`${API}/message/otpVerify`, {
+    fetch(`${API}/message/otpVerify/?h=cs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +86,7 @@ class Station extends Component {
     });
 
     const { phone } = this.state;
-    fetch(`${API}/message/otpPhone`, {
+    fetch(`${API}/message/otpPhone/?h=cs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +153,8 @@ class Station extends Component {
         data.length == 16 ||
         data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
         data == "Charging Station Already Exist" ||
-        data == "NOT AUTHORISED"
+        data == "NOT AUTHORISED" ||
+        data == "phone no. not verified,Please verify your No."
       ) {
         this.setState({
           error: data,
@@ -200,39 +212,41 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleChange("phone")}
             />
-          <div>
-            <Button 
-              className="station__setlocation station__location"
-              variant="contained" color="primary" onClick={this.handleClickOpen}>
-              Verify your phone number
-             </Button>
-            <Dialog open={this.state.popupOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Verify</DialogTitle>
-            <DialogContent>
-            <DialogContentText>
-              Please enter the otp recieved on your phone number
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-             id="name"
-              label="One Time Password"
-              type="number"
-             onChange={this.handleChange("otp")}
-              fullWidth
-            />
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleVerify} color="primary">
-              Ok
-            </Button>
-            </DialogActions>
-            </Dialog>
-    </div>
-          </div>
+            {/* {(this.state.user[0].user_phone !== this.state.phone) ? */}
+              <div>
+                <Button 
+                className="station__setlocation station__location"
+                variant="contained" color="primary" onClick={this.handleClickOpen}>
+                  Verify your phone number
+                </Button>
+                <Dialog open={this.state.popupOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Verify</DialogTitle>
+                <DialogContent>
+                <DialogContentText>
+                  Please enter the otp recieved on your phone number
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="One Time Password"
+                  type="number"
+                  onChange={this.handleChange("otp")}
+                  fullWidth
+                />
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={this.handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={this.handleVerify} color="primary">
+                  Ok
+                </Button>
+                </DialogActions>
+                </Dialog>
+                </div> 
+                 {/* : null }  */}
+           </div>
 
           <div className="form-group">
             <label>Working Hours</label>

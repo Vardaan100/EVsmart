@@ -104,9 +104,14 @@ const Signup = () => {
         data == undefined ||
         data.length == 16 ||
         data == "missing Email password phone no. or name" ||
-        data == "USER ALREADY EXSIST" ||
-        data == "Invalid Phone no."
-      ) {
+        data == "USER ALREADY EXSIST" || 
+        data == "Invalid Phone no." ||
+        data == "phone no. not verified,Please verify your No."
+      )
+       {
+        if (data == "phone no. not verified,Please verify your No.") {
+          data = "Please verify your phone number.";
+        }
         if (data == "missing Email password phone no. or name") {
           data = "Missing Fields";
         }
