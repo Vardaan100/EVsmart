@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { signup } from "../fetchingData/api_calls";
+import { sendOTP, signup, verifyOTP } from "../fetchingData/api_calls";
+import { UncontrolledAlert } from "reactstrap";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import "./signup.css";
+import { compose } from "redux";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -12,6 +21,11 @@ const Signup = () => {
     password: "",
     error: "",
     success: false,
+    otp: "",
+    phoneVerification: "",
+  });
+  const [popup, setPopup] = useState({
+    popupOpen: false,
   });
 
   const {
@@ -22,12 +36,65 @@ const Signup = () => {
     password,
     error,
     success,
+    otp,
+    phoneVerification,
   } = values;
 
-  const handleChange = (firstname) => (event) => {
-    setValues({ ...values, error: false, [firstname]: event.target.value });
+  const { popupOpen } = popup;
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+  const handleClickOpen = () => {
+    setValues({ ...values, error: false });
+    setPopup({ popupOpen: true });
+    console.log(phone);
+    sendOTP(phone).then((data) => {
+      console.log(data);
+      if (
+        data.length == 16 ||
+        data == "Phone no. in use" ||
+        data == "Invalid Phone no." ||
+        data == "missing Email password phone no. or name"
+      ) {
+        setValues({
+          error: data,
+        });
+        showError();
+      }
+    });
   };
 
+  const handleClose = () => {
+    setPopup({
+      popupOpen: false,
+    });
+  };
+
+  const handleVerify = () => {
+    setValues({ ...values, error: false });
+    verifyOTP(phone, otp).then((data) => {
+      console.log(data);
+      if (
+        data.length == 16 ||
+        data == "OTP is invalid" ||
+        data == "server error" ||
+        data == "OTP expired"
+      ) {
+        setValues({
+          error: data,
+        });
+        showError();
+      } else if (data == true) {
+        setValues({
+          phoneVerification: "Number has been verified successfully",
+        });
+      }
+    });
+    setPopup({
+      popupOpen: false,
+    });
+  };
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
@@ -51,9 +118,8 @@ const Signup = () => {
         if (data == undefined) {
           data = "Down for Maintenance";
         }
-        if(data == "Invalid Phone no.")
-        {
-          data ="Enter Valid Number";
+        if (data == "Invalid Phone no.") {
+          data = "Enter Valid Number";
         }
         setValues({ ...values, error: data, success: false });
       } else {
@@ -107,6 +173,43 @@ const Signup = () => {
           placeholder="Enter phone number"
           value={phone}
         />
+        <Button
+          className="station__setlocation station__location"
+          variant="contained"
+          color="primary"
+          onClick={handleClickOpen}
+        >
+          Verify your phone number
+        </Button>
+        <Dialog
+          open={popupOpen}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Verify</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please enter the otp recieved on your phone number
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="One Time Password"
+              type="number"
+              onChange={handleChange("otp")}
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleVerify} color="primary">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
 
       <div className="form-group">
@@ -165,6 +268,9 @@ const Signup = () => {
 
   return (
     <div className="signup">
+       <div style={{ display: phoneVerification ? "" : "none" }}>
+            <UncontrolledAlert color="info"> {phoneVerification} </UncontrolledAlert>
+          </div>
       {showSuccess()}
       {showError()}
       {signUpForm()}

@@ -61,7 +61,9 @@ class Station extends Component {
         console.log(data);
         if (
           data.length == 16 ||
-          data == "OTP is invalid"
+          data == "OTP is invalid" ||
+          data == "server error" ||
+        data == "OTP expired"
         ) {
           this.setState({
             error: data,

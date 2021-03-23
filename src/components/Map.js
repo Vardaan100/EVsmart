@@ -20,9 +20,9 @@ class Map extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.location.state.detail);
-  }
+  // componentDidMount() {
+  //   console.log(this.props.location.state.detail);
+  // }
 
   render() {
     const latitude = this.props.coords
