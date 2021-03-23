@@ -62,8 +62,9 @@ class Profile extends Component {
       .then((data) => {
         console.log(data);
         if (
-          data.length == 16 ||
-          data == "OTP is invalid"
+          data == "OTP is invalid" ||
+          data == "server error" ||
+          data == "OTP expired"
         ) {
           this.setState({
             error: data,
@@ -98,7 +99,6 @@ class Profile extends Component {
       .then((data) => {
         console.log(data)
         if (
-          data.length == 16 ||
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
           data == "missing Email password phone no. or name"
@@ -167,7 +167,6 @@ class Profile extends Component {
 
   showError = () => (
     <div
-      className="alert alert-danger"
       style={{ display: this.state.error ? "" : "none" }}
     >
       <UncontrolledAlert color="danger"> {this.state.error} </UncontrolledAlert>

@@ -18,7 +18,6 @@ class Station extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user:[],
       phone: "",
       open: "",
       close: "",
@@ -28,7 +27,8 @@ class Station extends Component {
       success: false,
       popupOpen: false,
       otp: "",
-      phoneVerification: ""
+      phoneVerification: "",
+      oldNumber: ""
     };
   }
 
@@ -36,12 +36,13 @@ class Station extends Component {
     const token = localStorage.getItem("jwt");
     userData(token).then((data) => {
       this.setState((state) => ({
-        user: data,
         phone: data[0].user_phone,
+        oldNumber : data[0].user_phone
       }));
-      const oldNumber = this.state.user[0].user_phone
     });
   }
+
+ 
 
   handleVerify = () => {
     const { phone, otp } = this.state;
@@ -60,10 +61,9 @@ class Station extends Component {
       .then((data) => {
         console.log(data);
         if (
-          data.length == 16 ||
           data == "OTP is invalid" ||
           data == "server error" ||
-        data == "OTP expired"
+          data == "OTP expired"
         ) {
           this.setState({
             error: data,
@@ -98,7 +98,6 @@ class Station extends Component {
       .then((data) => {
         console.log(data)
         if (
-          data.length == 16 ||
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
           data == "missing Email password phone no. or name"
@@ -179,11 +178,14 @@ class Station extends Component {
     return (
       <div className="station">
         <form className="station__container">
+
           {this.showSuccess()}
           {this.showError()}
+
           <div style={{ display: this.state.phoneVerification ? "" : "none" }}>
             <UncontrolledAlert color="info"> {this.state.phoneVerification} </UncontrolledAlert>
           </div>
+
           <h3>Add Your Station</h3>
 
           <div className="form-group">
@@ -213,7 +215,7 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleChange("phone")}
             />
-            {(this.oldNumber !== this.state.phone) ?
+            {(this.state.oldNumber !== this.state.phone) ?
               <div>
                 <Button 
                 className="station__setlocation station__location"

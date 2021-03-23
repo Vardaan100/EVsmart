@@ -45,6 +45,7 @@ const Signup = () => {
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
+
   const handleClickOpen = () => {
     setValues({ ...values, error: false });
     setPopup({ popupOpen: true });
@@ -251,18 +252,17 @@ const Signup = () => {
   );
   const showSuccess = () => (
     <div
-      className="alert alert-info"
       style={{ display: success ? "" : "none" }}
     >
-      New account is created. Please <Link to="/sign-in">Signin</Link>
+   <UncontrolledAlert color="info"> New account is created. Please <Link to="/sign-in">Signin</Link></UncontrolledAlert>
+      
     </div>
   );
   const showError = () => (
     <div
-      className="alert alert-danger"
       style={{ display: error ? "" : "none" }}
     >
-      {error}
+      <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>
     </div>
   );
 

@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { geolocated } from "react-geolocated";
-// import cities from "../cities.json";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import L from "leaflet";
 import { getallCS } from "../fetchingData/api_calls";
 import "./dashboard.css";
@@ -36,8 +41,15 @@ class Dashboard extends Component {
       zoom: 6,
       stations: [],
       station_id: "",
+      popUpOpen: true
     };
   }
+
+  handleClose = () => {
+    this.setState({
+      popUpOpen:false
+    })
+  };
 
   getLatLng() {
     setTimeout(() => {
@@ -60,31 +72,51 @@ class Dashboard extends Component {
     });
   }
 
-  clickSubmit = () => {
-    const { station_id } = this.state;
-    const token = localStorage.getItem("jwt");
-    // bookNow({station_id}, token).then((data) => {
-    //  csid:station_id
-    // })
+  // clickSubmit = () => {
+  //   const { station_id } = this.state;
+  //   const token = localStorage.getItem("jwt");
+  //   // bookNow({station_id}, token).then((data) => {
+  //   //  csid:station_id
+  //   // })
 
-    fetch(`${API}/message/booked/${token}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ csid: station_id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        alert(
-          `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+  //   fetch(`${API}/message/booked/${token}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ csid: station_id }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("Success:", data);
+  //       alert(
+  //         `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
+  //       );
+  //       <div>
+  //       <Dialog
+  //         open={this.state.popUpOpen}
+  //         onClose={this.handleClose}
+  //         aria-labelledby="alert-dialog-title"
+  //         aria-describedby="alert-dialog-description"
+  //       >
+  //         <DialogTitle id="alert-dialog-title">{"Notification"}</DialogTitle>
+  //         <DialogContent>
+  //           <DialogContentText id="alert-dialog-description">
+  //           Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon
+  //           </DialogContentText>
+  //         </DialogContent>
+  //         <DialogActions>
+  //           <Button onClick={this.handleClose} color="primary" autoFocus>
+  //             Ok
+  //           </Button>
+  //         </DialogActions>
+  //       </Dialog>
+  //     </div>
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
 
   render() {
     return (
@@ -162,7 +194,52 @@ class Dashboard extends Component {
                           console.log(this.state.station_id);
                         });
                       }}
-                      onClick={this.clickSubmit}
+                      onClick={() => {
+                        const { station_id } = this.state;
+                        const token = localStorage.getItem("jwt");
+                        // bookNow({station_id}, token).then((data) => {
+                        //  csid:station_id
+                        // })
+                    
+                        fetch(`${API}/message/booked/${token}`, {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ csid: station_id }),
+                        })
+                          .then((response) => response.json())
+                          .then((data) => {
+                            console.log("Success:", data);
+                            // alert(
+                            //   `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
+                            // );
+                            <div>
+                            <Dialog
+                              open={true}
+                              onClose={this.handleClose}
+                              aria-labelledby="alert-dialog-title"
+                              aria-describedby="alert-dialog-description"
+                            >
+                              {console.log("booked")}
+                              <DialogTitle id="alert-dialog-title">{"Notification"}</DialogTitle>
+                              <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={this.handleClose} color="primary" autoFocus>
+                                  Ok
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
+                          </div>
+                          })
+                          .catch((error) => {
+                            console.error("Error:", error);
+                          });
+                      }}
                     >
                       Book now
                     </button>
@@ -172,7 +249,6 @@ class Dashboard extends Component {
             </Marker>
           ))}
         </MapContainer>
-        =
       </div>
     );
   }
