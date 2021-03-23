@@ -7,18 +7,18 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { addCS, userData } from "../fetchingData/api_calls";
 import { UncontrolledAlert } from "reactstrap";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { API } from "../config";
 
 class Station extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user:[],
+      user: [],
       phone: "",
       open: "",
       close: "",
@@ -28,7 +28,8 @@ class Station extends Component {
       success: false,
       popupOpen: false,
       otp: "",
-      phoneVerification: ""
+      phoneVerification: "",
+      edit:false
     };
   }
 
@@ -39,9 +40,11 @@ class Station extends Component {
         user: data,
         phone: data[0].user_phone,
       }));
+      const oldNumber = this.state.user[0].user_phone;
     });
   }
 
+  
   handleVerify = () => {
     const { phone, otp } = this.state;
 
@@ -50,10 +53,10 @@ class Station extends Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
-        phone:phone,
-        otpToken: otp
-       }),
+      body: JSON.stringify({
+        phone: phone,
+        otpToken: otp,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -62,7 +65,7 @@ class Station extends Component {
           data.length == 16 ||
           data == "OTP is invalid" ||
           data == "server error" ||
-        data == "OTP expired"
+          data == "OTP expired"
         ) {
           this.setState({
             error: data,
@@ -70,19 +73,19 @@ class Station extends Component {
           this.showError();
         } else if (data == true) {
           this.setState({
-            phoneVerification: "Number has been verified successfully"
+            phoneVerification: "Number has been verified successfully",
           });
         }
       });
-      
-      this.setState({
-        popupOpen:false
-      })
-  }
+
+    this.setState({
+      popupOpen: false,
+    });
+  };
 
   handleClickOpen = () => {
     this.setState({
-      popupOpen: true
+      popupOpen: true,
     });
 
     const { phone } = this.state;
@@ -95,7 +98,7 @@ class Station extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (
           data.length == 16 ||
           data == "Phone no. in use" ||
@@ -107,13 +110,13 @@ class Station extends Component {
           });
           this.showError();
         }
-      })
+      });
   };
 
   handleClose = () => {
     this.setState({
-      popupOpen: false
-    })
+      popupOpen: false,
+    });
   };
 
   showSuccess = () => (
@@ -129,6 +132,17 @@ class Station extends Component {
   );
 
   handleChange = (name) => (event) => {
+    this.setState((state) => ({ [name]: event.target.value }));
+  };
+
+  handleNumber = (name) => (event) => {
+    if(this.oldNumber !== this.state.phone)
+    {
+      console.log("Number not equal ");
+    }
+    else {
+      console.log("Number equal");
+    }
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
@@ -170,7 +184,9 @@ class Station extends Component {
           success: true,
         });
         console.log("Station added");
-        setTimeout(function(){ window.location.reload() }, 2000);
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       }
     });
   };
@@ -181,7 +197,10 @@ class Station extends Component {
           {this.showSuccess()}
           {this.showError()}
           <div style={{ display: this.state.phoneVerification ? "" : "none" }}>
-            <UncontrolledAlert color="info"> {this.state.phoneVerification} </UncontrolledAlert>
+            <UncontrolledAlert color="info">
+              {" "}
+              {this.state.phoneVerification}{" "}
+            </UncontrolledAlert>
           </div>
           <h3>Add Your Station</h3>
 
@@ -204,50 +223,55 @@ class Station extends Component {
           </div>
 
           <div className="form-group">
-            <label>Phone Number</label>
+            <label className="text-muted">Phone Number</label>
             <input
               type="number"
               className="form-control"
-              placeholder="Enter phone number for station"
               value={this.state.phone}
-              onChange={this.handleChange("phone")}
+              onChange={this.handleNumber("phone")}
             />
-            {/* {(this.state.user[0].user_phone !== this.state.phone) ? */}
+            {(this.oldNumber !== this.state.phone) ? (
               <div>
-                <Button 
-                className="station__setlocation station__location"
-                variant="contained" color="primary" onClick={this.handleClickOpen}>
+                <Button
+                  className="station__setlocation station__location"
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleClickOpen}
+                >
                   Verify your phone number
                 </Button>
-                <Dialog open={this.state.popupOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Verify</DialogTitle>
-                <DialogContent>
-                <DialogContentText>
-                  Please enter the otp recieved on your phone number
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="One Time Password"
-                  type="number"
-                  onChange={this.handleChange("otp")}
-                  fullWidth
-                />
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={this.handleVerify} color="primary">
-                  Ok
-                </Button>
-                </DialogActions>
+                <Dialog
+                  open={this.state.popupOpen}
+                  onClose={this.handleClose}
+                  aria-labelledby="form-dialog-title"
+                >
+                  <DialogTitle id="form-dialog-title">Verify</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Please enter the otp recieved on your phone number
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="One Time Password"
+                      type="number"
+                      onChange={this.handleChange("otp")}
+                      fullWidth
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                      Cancel
+                    </Button>
+                    <Button onClick={this.handleVerify} color="primary">
+                      Ok
+                    </Button>
+                  </DialogActions>
                 </Dialog>
-                </div> 
-                 {/* : null }  */}
-           </div>
-
+              </div>
+            ) : null}
+          </div>
           <div className="form-group">
             <label>Working Hours</label>
 
