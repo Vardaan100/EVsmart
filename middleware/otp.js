@@ -31,7 +31,7 @@ exports.otpSend = async (req, res, next) => {
         }
         const resendStatus = await pool.query("UPDATE otp SET resend_status = true,expiry_status = true WHERE otp_phone = $1 AND otp_route =$2", [phone, path]);
         const otp = await otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
-        const timeInMinute = 5 * 60 * 1000//5 minutes to milliseconds
+        const timeInMinute = 60* 1000//5 minutes to milliseconds
         const expire = Date.now() + timeInMinute;
         const data = `${phone}${otp}${expire}`;
         const saltRound = 9;

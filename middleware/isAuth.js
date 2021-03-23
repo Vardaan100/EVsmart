@@ -97,13 +97,13 @@ exports.csIDReturn = async (req, res, next) => {
         if (!verify) {
             return res.status(403).json("NOT AUTHORISED(invalid token");
         };
-        req.user = verify.user;
+        req.userID = verify.user;
 
-        const csExist = await pool.query("SELECT * FROM charging_station WHERE user_ID =$1", [req.user]);
+        const csExist = await pool.query("SELECT * FROM charging_station WHERE user_ID =$1", [req.userID]);
         if (csExist.rows.length === 0) {
             return res.status(401).json("YOU HAVE NO CHARGING STATION ADDED");
         };
-        const csID = await pool.query(" SELECT cs_id FROM charging_station WHERE user_id = $1", [req.user]);
+        const csID = await pool.query(" SELECT cs_id FROM charging_station WHERE user_id = $1", [req.userID]);
         const ID = csID.rows;
         const a = ID[0].cs_id;
         //  console.log(csID)
