@@ -39,6 +39,7 @@ class Station extends Component {
         user: data,
         phone: data[0].user_phone,
       }));
+      const oldNumber = this.state.user[0].user_phone
     });
   }
 
@@ -210,7 +211,7 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleChange("phone")}
             />
-            {/* {(this.state.user[0].user_phone !== this.state.phone) ? */}
+            {(this.oldNumber !== this.state.phone) ?
               <div>
                 <Button 
                 className="station__setlocation station__location"
@@ -242,8 +243,7 @@ class Station extends Component {
                 </Button>
                 </DialogActions>
                 </Dialog>
-                </div> 
-                 {/* : null }  */}
+                </div> : null }
            </div>
 
           <div className="form-group">
