@@ -52,9 +52,9 @@ const Signup = () => {
   const handleClickOpen = () => {
     setValues({ ...values, error: false });
     setPopup({ popupOpen: true });
-    console.log(phone);
+    // console.log(phone);
     sendOTP(phone).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "Phone no. in use" ||
@@ -80,7 +80,7 @@ const Signup = () => {
   const handleVerify = () => {
     setValues({ ...values, error: false });
     verifyOTP(phone, otp).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "OTP is invalid" ||
@@ -92,7 +92,7 @@ const Signup = () => {
         });
         showError();
       } else if (data == true) {
-        setValues({
+        setValues({...values,
           phoneVerification: "Number has been verified successfully",
         });
       }
@@ -107,7 +107,7 @@ const Signup = () => {
     setValues({ ...values, error: false });
     console.log(firstname);
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data == undefined ||
         data.length == 16 ||
@@ -141,7 +141,7 @@ const Signup = () => {
           error: "",
           success: true,
         });
-        console.log("SignUp Successfully");
+        // console.log("SignUp Successfully");
       }
     });
   };

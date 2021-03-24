@@ -38,24 +38,25 @@ class StationProfile extends Component {
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     getCS(token).then((data) => {
-      console.log(data);
-      if (data == 16 || data == "YOU HAVE NO CHARGING STATION ADDED") {
-        this.setState({
-          error: data,
-        });
-        this.showError();
-      } else {
-        this.setState((state) => ({
-          user: data,
-          phone: data[0].cs_phone,
-          open: data[0].cs_openat,
-          close: data[0].cs_closeat,
-          cost: data[0].cs_cost,
-          lat: data[0].cs_latitude,
-          longi: data[0].cs_longitude,
-          // location: data[0].cs_latitude + "," + data[0].cs_longitude,
-        }));
-      }
+      // console.log(data);
+      if (data == 16 ||
+        data == "YOU HAVE NO CHARGING STATION ADDED")
+          {
+            this.setState({
+              error: data,
+            });
+            this.showError();
+          } else {
+      this.setState((state) => ({
+        user: data,
+        phone: data[0].cs_phone,
+        open: data[0].cs_openat,
+        close: data[0].cs_closeat,
+        cost: data[0].cs_cost,
+        lat: data[0].cs_latitude,
+        longi: data[0].cs_longitude,
+        // location: data[0].cs_latitude + "," + data[0].cs_longitude,
+      }))};
     });
   }
 
@@ -74,8 +75,11 @@ class StationProfile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        if (data.length == 16 || data == "OTP is invalid") {
+        // console.log(data);
+        if (
+          data.length == 16 ||
+          data == "OTP is invalid"
+        ) {
           this.setState({
             error: data,
           });
@@ -107,7 +111,7 @@ class StationProfile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data)
         if (
           data.length == 16 ||
           data == "Phone no. in use" ||
@@ -159,8 +163,8 @@ class StationProfile extends Component {
         longi: this.state.longi,
       }));
     }
-    console.log(this.state.lat, this.state.longi);
-    console.log(this.props.location);
+    // console.log(this.state.lat, this.state.longi);
+    // console.log(this.props.location);
   };
 
   locationDirect = (e) => {
@@ -179,7 +183,7 @@ class StationProfile extends Component {
     const lati = lat;
     const long = longi;
     updateCS({ phone, open, close, long, lati, cost }, token).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
@@ -204,7 +208,7 @@ class StationProfile extends Component {
           cost: cost,
           success: true,
         });
-        console.log("Station Updated");
+        // console.log("Station Updated");
       }
     });
   };

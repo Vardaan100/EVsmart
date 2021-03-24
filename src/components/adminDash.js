@@ -126,14 +126,10 @@ class AdminDash extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Success:", data);
-        // alert(data);
-        <UncontrolledAlert color="info"> {data} </UncontrolledAlert>;
+        alert(data)
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // alert.error("Error:", error)
-        <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>;
+        alert(error)
       });
   };
 

@@ -60,7 +60,7 @@ class Profile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (
           data == "OTP is invalid" ||
           data == "server error" ||
@@ -98,7 +98,11 @@ class Profile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
+<<<<<<< HEAD
         console.log(data);
+=======
+        // console.log(data)
+>>>>>>> 3ec58296261b5530ad9f4888e74836401796c932
         if (
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
@@ -158,11 +162,14 @@ class Profile extends Component {
           phone: phone,
           success: true,
         });
-        console.log("Profile Updated");
+        // console.log("Profile Updated");
       }
+<<<<<<< HEAD
       setTimeout(function () {
         window.location.reload();
       }, 2000);
+=======
+>>>>>>> 3ec58296261b5530ad9f4888e74836401796c932
     });
   };
 

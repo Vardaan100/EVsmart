@@ -55,7 +55,7 @@ class Signin extends Component {
       event.preventDefault();
       this.setValues({ ...this.values, error: false, loading: true });
       signin({ email, password }).then((data) => {
-        console.log(data.user);
+        // console.log(data.user);
         if (
           data == "User doesnt exsist" ||
           data == "Password or Email is incorrect" ||
@@ -70,7 +70,7 @@ class Signin extends Component {
         } else {
           authenticate(data);
           if (data.user == "user") {
-            console.log("User is user");
+            // console.log("User is user");
             this.setValues({
               ...this.values,
               user: true,
@@ -78,7 +78,7 @@ class Signin extends Component {
             });
           }
           if (data.user == "admin") {
-            console.log("User is admin");
+            // console.log("User is admin");
             this.setValues({
               ...this.values,
               user: false,
@@ -87,7 +87,7 @@ class Signin extends Component {
             localStorage.setItem("user","Admin");
           }
 
-          console.log("Login Succesfull");
+          // console.log("Login Succesfull");
           let action = {
             type: "menu",
             payload: true,
