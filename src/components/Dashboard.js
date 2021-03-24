@@ -71,7 +71,7 @@ class Dashboard extends Component {
     this.getLatLng();
 
     getallCS().then((data) => {
-      console.log(data);
+      // console.log(data);
       data.map((cs_id, idx) => {
         return this.setState({
           stations: data,

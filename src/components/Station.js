@@ -96,7 +96,7 @@ class Station extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
+        // console.log(data);
         if (
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
@@ -136,6 +136,11 @@ class Station extends Component {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
+  // 
+  handleNumber = (name) => (event) => {
+    this.setState((state) => ({ [name]: event.target.value }));
+  };
+
   // Routing to map and sending a prop 
   locationDirect = (e) => {
     e.preventDefault();
@@ -145,7 +150,7 @@ class Station extends Component {
     });
   };
 
-  // Action of Save changes button
+  // Action of Save changes
   clickSubmit = (e) => {
     e.preventDefault();
     this.setState((state) => ({ location: this.props.location }));
@@ -176,7 +181,9 @@ class Station extends Component {
           success: true,
         });
         // console.log("Station added");
-        // setTimeout(function(){ window.location.reload() }, 2000);
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       }
     });
   };
@@ -220,7 +227,7 @@ class Station extends Component {
               type="number"
               className="form-control"
               value={this.state.phone}
-              onChange={this.handleNumber("phone")}
+              onChange={this.handleChange("phone")}
             />
             {this.state.oldNumber !== this.state.phone ? (
               <div>
@@ -339,7 +346,6 @@ const msp = (state) => ({
   // clg: console.log("station state", state),
   location: state.location,
   station: state.station,
-  // stat: console.log(state.station),
 });
 
 export default connect(msp, null)(Station);

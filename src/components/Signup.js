@@ -105,7 +105,7 @@ const Signup = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
-    console.log(firstname);
+    // console.log(firstname);
     signup({ firstname, lastname, email, phone, password }).then((data) => {
       // console.log(data);
       if (
