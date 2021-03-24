@@ -13,6 +13,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { API } from "../config";
 
+// Add station page
 class Station extends Component {
   constructor(props) {
     super(props);
@@ -27,22 +28,21 @@ class Station extends Component {
       popupOpen: false,
       otp: "",
       phoneVerification: "",
-      oldNumber: ""
+      oldNumber: "",
     };
   }
-
+  // Initialing the userData of the user 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     userData(token).then((data) => {
       this.setState((state) => ({
         phone: data[0].user_phone,
-        oldNumber : data[0].user_phone
+        oldNumber: data[0].user_phone,
       }));
     });
   }
 
- 
-
+  // Verifying the OTP used by the user
   handleVerify = () => {
     const { phone, otp } = this.state;
 
@@ -80,6 +80,7 @@ class Station extends Component {
     });
   };
 
+  // Opening the dialog box
   handleClickOpen = () => {
     this.setState({
       popupOpen: true,
@@ -109,39 +110,33 @@ class Station extends Component {
       });
   };
 
+  // Closing the OTP dialog box
   handleClose = () => {
     this.setState({
       popupOpen: false,
     });
   };
 
+  // Showing success 
   showSuccess = () => (
     <div style={{ display: this.state.success ? "" : "none" }}>
       <UncontrolledAlert color="info"> station added </UncontrolledAlert>
     </div>
   );
 
+  // Showing error 
   showError = () => (
     <div style={{ display: this.state.error ? "" : "none" }}>
       <UncontrolledAlert color="danger"> {this.state.error} </UncontrolledAlert>
     </div>
   );
 
+  // Handling change in the input field
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
-  handleNumber = (name) => (event) => {
-    if(this.oldNumber !== this.state.phone)
-    {
-      console.log("Number not equal ");
-    }
-    else {
-      console.log("Number equal");
-    }
-    this.setState((state) => ({ [name]: event.target.value }));
-  };
-
+  // Routing to map and sending a prop 
   locationDirect = (e) => {
     e.preventDefault();
     this.props.history.push({
@@ -150,6 +145,7 @@ class Station extends Component {
     });
   };
 
+  // Action of Save changes button
   clickSubmit = (e) => {
     e.preventDefault();
     this.setState((state) => ({ location: this.props.location }));
@@ -190,7 +186,6 @@ class Station extends Component {
     return (
       <div className="station">
         <form className="station__container">
-
           {this.showSuccess()}
           {this.showError()}
 
@@ -229,7 +224,7 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleNumber("phone")}
             />
-            {(this.state.oldNumber !== this.state.phone) ?
+            {this.state.oldNumber !== this.state.phone ? (
               <div>
                 <Button
                   className="station__setlocation station__location"
@@ -268,8 +263,9 @@ class Station extends Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
-                </div> : null }
-           </div>
+              </div>
+            ) : null}
+          </div>
 
           <div className="form-group">
             <label>Working Hours</label>

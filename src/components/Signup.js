@@ -12,6 +12,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import "./signup.css";
 import { compose } from "redux";
 
+// SignUp component
 const Signup = () => {
   const [values, setValues] = useState({
     firstname: "",
@@ -42,10 +43,12 @@ const Signup = () => {
 
   const { popupOpen } = popup;
 
+  // Handling change in values of input fields
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  // Opening the dialog box when verifying OTP
   const handleClickOpen = () => {
     setValues({ ...values, error: false });
     setPopup({ popupOpen: true });
@@ -66,12 +69,14 @@ const Signup = () => {
     });
   };
 
+  // Closing the dialog box
   const handleClose = () => {
     setPopup({
       popupOpen: false,
     });
   };
 
+  // Verifying OTP in the dialog box
   const handleVerify = () => {
     setValues({ ...values, error: false });
     verifyOTP(phone, otp).then((data) => {
@@ -96,6 +101,7 @@ const Signup = () => {
       popupOpen: false,
     });
   };
+  // Action at submit button
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
@@ -140,6 +146,7 @@ const Signup = () => {
     });
   };
 
+  // Sign Up form 
   const signUpForm = () => (
     <form className="signup__container">
       <h3>Sign Up</h3>
@@ -251,6 +258,7 @@ const Signup = () => {
       </p>
     </form>
   );
+  // Showing success of action
   const showSuccess = () => (
     <div
       style={{ display: success ? "" : "none" }}
@@ -259,6 +267,7 @@ const Signup = () => {
       
     </div>
   );
+  // Showing error to the user
   const showError = () => (
     <div
       style={{ display: error ? "" : "none" }}
@@ -266,7 +275,7 @@ const Signup = () => {
       <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>
     </div>
   );
-
+    
   return (
     <div className="signup">
        <div style={{ display: phoneVerification ? "" : "none" }}>

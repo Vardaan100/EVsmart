@@ -41,6 +41,7 @@ class Signin extends Component {
       redirectToReferrer,
     } = this.state;
 
+    // Handling change in input fields
     const handleChange = (name) => (event) => {
       this.setValues({
         ...this.values,
@@ -49,6 +50,7 @@ class Signin extends Component {
       });
     };
 
+    // Action of submit button
     const clickSubmit = (event) => {
       event.preventDefault();
       this.setValues({ ...this.values, error: false, loading: true });
@@ -94,7 +96,8 @@ class Signin extends Component {
         }
       });
     };
-
+    
+    // SignIn form 
     const signInForm = () => (
       <form className="sign__container">
         <h3>Login</h3>
@@ -125,6 +128,7 @@ class Signin extends Component {
       </form>
     );
 
+    // Showing error 
     const showError = () => (
       <div
         className="alert alert-danger"
@@ -134,6 +138,7 @@ class Signin extends Component {
       </div>
     );
 
+    // Showing loading 
     const showLoading = () =>
       loading && (
         <div className="alert alert-info">
@@ -141,6 +146,7 @@ class Signin extends Component {
         </div>
       );
 
+    // Redirection of user w.r.t. this access
     const redirectUser = (user) => {
       if (redirectToReferrer) {
         if (user) {

@@ -68,6 +68,7 @@ export const userData = (token) => {
     });
 };
 
+// Update user for Profile
 export const updateUser = (user, token) => {
   return fetch(`${API}/auth/userdata/${token}`, {
     method: "PUT",
@@ -104,6 +105,7 @@ export const addCS = (chargingD, token) => {
     });
 };
 
+// Get charging station data for station profile page
 export const getCS = (token) => {
   return fetch(`${API}/cs/csdata/${token}`, {
     method: "GET",
@@ -119,6 +121,7 @@ export const getCS = (token) => {
     });
 };
 
+// Update charging station data for update statiopn profile page
 export const updateCS = (chargingD, token) => {
   // console.log(name,email, password);
   return fetch(`${API}/cs/csdata/${token}`, {
@@ -137,6 +140,7 @@ export const updateCS = (chargingD, token) => {
     });
 };
 
+// Delete charging station for admin dashboard
 export const deleteCS = (token) => {
   return fetch(`${API}/cs/deletecs/${token}`, {
     method: "DELETE",
@@ -153,6 +157,7 @@ export const deleteCS = (token) => {
     });
 };
 
+// Get all charging station for dashboard
 export const getallCS = () => {
   return fetch(`${API}/cs/csall`, {
     method: "GET",
@@ -169,7 +174,7 @@ export const getallCS = () => {
     });
 };
 
-//Get data from API for Profile
+//Get data from API for Dashboard
 export const getDash = (token) => {
   return fetch(`${API}/dashboard/${token}`, {
     method: "GET",
@@ -201,6 +206,7 @@ export const getAllDash = (token) => {
     });
 };
 
+// Updating the Admin dashboard
 export const updateAdminUser = (user, token, user_id) => {
   return fetch(`${API}/auth/userdata/${token}?userid=${user_id}`, {
     method: "PUT",
@@ -218,6 +224,7 @@ export const updateAdminUser = (user, token, user_id) => {
     });
 };
 
+// Sending an OTP to phone 
 export const sendOTP = (phone) => {
   return fetch(`${API}/message/otpPhone/?h=user`, {
     method: "POST",
@@ -235,6 +242,7 @@ export const sendOTP = (phone) => {
     });
 };
 
+// Verfiying OTP 
 export const verifyOTP = (phone, otp) => {
   return fetch(`${API}/message/otpVerify?h=user`, {
     method: "POST",
