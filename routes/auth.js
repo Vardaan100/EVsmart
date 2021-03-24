@@ -141,7 +141,7 @@ router.put("/userdata/:id", verifyInfo, isAuth, async (req, res) => {
         } else if (!validEmail(email)) {
             return res.status(401).json("Invalid Email");
         };
-        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 AND otp_ver = true AND opt_route = 'user'", [phone]);
+        const verCheck = await pool.query("SELECT * FROM otp WHERE otp_phone=$1 AND otp_ver = true AND otp_route = 'user'", [phone]);
         if (verCheck.rows.length === 0) {
             return res.json("phone no. not verified,Please verify your No.");
         };
