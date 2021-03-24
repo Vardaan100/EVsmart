@@ -6,11 +6,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getCS, updateCS } from "../fetchingData/api_calls";
 import { API } from "../config";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { UncontrolledAlert } from "reactstrap";
 
@@ -20,7 +20,7 @@ class StationProfile extends Component {
 
     this.state = {
       phone: "",
-      user:[],
+      user: [],
       open: "",
       close: "",
       cost: "",
@@ -31,7 +31,7 @@ class StationProfile extends Component {
       success: false,
       popupOpen: false,
       otp: "",
-      phoneVerification: ""
+      phoneVerification: "",
     };
   }
 
@@ -39,24 +39,23 @@ class StationProfile extends Component {
     const token = localStorage.getItem("jwt");
     getCS(token).then((data) => {
       console.log(data);
-      if (data == 16 ||
-        data == "YOU HAVE NO CHARGING STATION ADDED")
-          {
-            this.setState({
-              error: data,
-            });
-            this.showError();
-          } else {
-      this.setState((state) => ({
-        user: data,
-        phone: data[0].cs_phone,
-        open: data[0].cs_openat,
-        close: data[0].cs_closeat,
-        cost: data[0].cs_cost,
-        lat: data[0].cs_latitude,
-        longi: data[0].cs_longitude,
-        // location: data[0].cs_latitude + "," + data[0].cs_longitude,
-      }))};
+      if (data == 16 || data == "YOU HAVE NO CHARGING STATION ADDED") {
+        this.setState({
+          error: data,
+        });
+        this.showError();
+      } else {
+        this.setState((state) => ({
+          user: data,
+          phone: data[0].cs_phone,
+          open: data[0].cs_openat,
+          close: data[0].cs_closeat,
+          cost: data[0].cs_cost,
+          lat: data[0].cs_latitude,
+          longi: data[0].cs_longitude,
+          // location: data[0].cs_latitude + "," + data[0].cs_longitude,
+        }));
+      }
     });
   }
 
@@ -68,37 +67,34 @@ class StationProfile extends Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
-        phone:phone,
-        otpToken: otp
-       }),
+      body: JSON.stringify({
+        phone: phone,
+        otpToken: otp,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (
-          data.length == 16 ||
-          data == "OTP is invalid"
-        ) {
+        if (data.length == 16 || data == "OTP is invalid") {
           this.setState({
             error: data,
           });
           this.showError();
         } else if (data == true) {
           this.setState({
-            phoneVerification: "Number has been verified successfully"
+            phoneVerification: "Number has been verified successfully",
           });
         }
       });
-      
-      this.setState({
-        popupOpen:false
-      })
-  }
+
+    this.setState({
+      popupOpen: false,
+    });
+  };
 
   handleClickOpen = () => {
     this.setState({
-      popupOpen: true
+      popupOpen: true,
     });
 
     const { phone } = this.state;
@@ -111,7 +107,7 @@ class StationProfile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (
           data.length == 16 ||
           data == "Phone no. in use" ||
@@ -123,13 +119,13 @@ class StationProfile extends Component {
           });
           this.showError();
         }
-      })
+      });
   };
 
   handleClose = () => {
     this.setState({
-      popupOpen: false
-    })
+      popupOpen: false,
+    });
   };
 
   showSuccess = () => (
@@ -191,7 +187,8 @@ class StationProfile extends Component {
         data == "YOU HAVE NO CHARGING STATION ADDED" ||
         data == "Charging Station DOESNT Exist" ||
         data == "Charging Station Already Exist" ||
-        data == "phone no. not verified,Please verify your No."
+        data == "phone no. not verified,Please verify your No." ||
+        data == "server error"
       ) {
         this.setState({
           error: data,
@@ -266,8 +263,13 @@ class StationProfile extends Component {
               {this.showSuccess()}
               {this.showError()}
 
-              <div style={{ display: this.state.phoneVerification ? "" : "none" }}>
-                <UncontrolledAlert color="info"> {this.state.phoneVerification} </UncontrolledAlert>
+              <div
+                style={{ display: this.state.phoneVerification ? "" : "none" }}
+              >
+                <UncontrolledAlert color="info">
+                  {" "}
+                  {this.state.phoneVerification}{" "}
+                </UncontrolledAlert>
               </div>
 
               <h3>Edit your station profile</h3>
@@ -297,39 +299,47 @@ class StationProfile extends Component {
                   onChange={this.handleChange("phone")}
                   value={this.state.phone}
                 />
-                {(this.state.user[0].cs_phone !== this.state.phone) ?
-              <div>
-                <Button 
-                className="station__setlocation station__location"
-                variant="contained" color="primary" onClick={this.handleClickOpen}>
-                  Verify your phone number
-                </Button>
-                <Dialog open={this.state.popupOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Verify</DialogTitle>
-                <DialogContent>
-                <DialogContentText>
-                  Please enter the otp recieved on your phone number
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="One Time Password"
-                  type="number"
-                  onChange={this.handleChange("otp")}
-                  fullWidth
-                />
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={this.handleVerify} color="primary">
-                  Ok
-                </Button>
-                </DialogActions>
-                </Dialog>
-                </div> : null }
+                {this.state.user[0].cs_phone !== this.state.phone ? (
+                  <div>
+                    <Button
+                      className="station__setlocation station__location"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleClickOpen}
+                    >
+                      Verify your phone number
+                    </Button>
+                    <Dialog
+                      open={this.state.popupOpen}
+                      onClose={this.handleClose}
+                      aria-labelledby="form-dialog-title"
+                    >
+                      <DialogTitle id="form-dialog-title">Verify</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Please enter the otp recieved on your phone number
+                        </DialogContentText>
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="name"
+                          label="One Time Password"
+                          type="number"
+                          onChange={this.handleChange("otp")}
+                          fullWidth
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                          Cancel
+                        </Button>
+                        <Button onClick={this.handleVerify} color="primary">
+                          Ok
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+                ) : null}
               </div>
 
               <div className="form-group">

@@ -11,7 +11,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { API } from "../config";
 
-// const Token_key = 'jwt'
 
 class Profile extends Component {
   constructor(props) {
@@ -31,7 +30,7 @@ class Profile extends Component {
       phoneVerification: "",
     };
   }
-
+  // Fetching the user data from the db 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     userData(token).then((data) => {
@@ -45,6 +44,7 @@ class Profile extends Component {
     });
   }
 
+  // Verifying phone number
   handleVerify = () => {
     const { phone, otp } = this.state;
 
@@ -61,7 +61,11 @@ class Profile extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.length == 16 || data == "OTP is invalid") {
+        if (
+          data == "OTP is invalid" ||
+          data == "server error" ||
+          data == "OTP expired" 
+        ) {
           this.setState({
             error: data,
           });
@@ -78,6 +82,7 @@ class Profile extends Component {
     });
   };
 
+  // Opening the otp dialog box
   handleClickOpen = () => {
     this.setState({
       popupOpen: true,
@@ -95,7 +100,6 @@ class Profile extends Component {
       .then((data) => {
         console.log(data);
         if (
-          data.length == 16 ||
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
           data == "missing Email password phone no. or name"
@@ -108,22 +112,26 @@ class Profile extends Component {
       });
   };
 
+  // Closing the otp dialog box
   handleClose = () => {
     this.setState({
       popupOpen: false,
     });
   };
 
+  // Switching between view and edit page
   clickHandler = (e) => {
     this.setState((state) => ({
       edit: !this.state.edit,
     }));
   };
 
+  // Changing state as value entered in the blanks
   handleChange = (name) => (event) => {
     this.setState((state) => ({ [name]: event.target.value }));
   };
 
+  // Action performed after save button is clicked
   clickSubmit = (e) => {
     e.preventDefault();
     const { firstname, lastname, email, phone } = this.state;
@@ -158,21 +166,22 @@ class Profile extends Component {
     });
   };
 
+  // Showing success message when profile is updated
   showSuccess = () => (
     <div style={{ display: this.state.success ? "" : "none" }}>
       <UncontrolledAlert color="info"> Profile Updated </UncontrolledAlert>
     </div>
   );
 
+  // Showing error message when profile could not be updated
   showError = () => (
     <div
-      className="alert alert-danger"
       style={{ display: this.state.error ? "" : "none" }}
     >
       <UncontrolledAlert color="danger"> {this.state.error} </UncontrolledAlert>
     </div>
   );
-
+    
   render() {
     const buttonText = this.state.edit ? (
       // <button className="profile__edit profile__editbutton">Edit your profile</button>

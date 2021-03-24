@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 // import { TimePicker } from "antd";
-import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./station.css";
 import TextField from "@material-ui/core/TextField";
@@ -18,7 +17,6 @@ class Station extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
       phone: "",
       open: "",
       close: "",
@@ -29,7 +27,7 @@ class Station extends Component {
       popupOpen: false,
       otp: "",
       phoneVerification: "",
-      edit:false
+      oldNumber: ""
     };
   }
 
@@ -37,14 +35,14 @@ class Station extends Component {
     const token = localStorage.getItem("jwt");
     userData(token).then((data) => {
       this.setState((state) => ({
-        user: data,
         phone: data[0].user_phone,
+        oldNumber : data[0].user_phone
       }));
-      const oldNumber = this.state.user[0].user_phone;
     });
   }
 
-  
+ 
+
   handleVerify = () => {
     const { phone, otp } = this.state;
 
@@ -62,7 +60,6 @@ class Station extends Component {
       .then((data) => {
         console.log(data);
         if (
-          data.length == 16 ||
           data == "OTP is invalid" ||
           data == "server error" ||
           data == "OTP expired"
@@ -100,7 +97,6 @@ class Station extends Component {
       .then((data) => {
         console.log(data);
         if (
-          data.length == 16 ||
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
           data == "missing Email password phone no. or name"
@@ -194,14 +190,17 @@ class Station extends Component {
     return (
       <div className="station">
         <form className="station__container">
+
           {this.showSuccess()}
           {this.showError()}
+
           <div style={{ display: this.state.phoneVerification ? "" : "none" }}>
             <UncontrolledAlert color="info">
               {" "}
               {this.state.phoneVerification}{" "}
             </UncontrolledAlert>
           </div>
+
           <h3>Add Your Station</h3>
 
           <div className="form-group">
@@ -230,7 +229,7 @@ class Station extends Component {
               value={this.state.phone}
               onChange={this.handleNumber("phone")}
             />
-            {(this.oldNumber !== this.state.phone) ? (
+            {(this.state.oldNumber !== this.state.phone) ?
               <div>
                 <Button
                   className="station__setlocation station__location"
@@ -269,9 +268,9 @@ class Station extends Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
-              </div>
-            ) : null}
-          </div>
+                </div> : null }
+           </div>
+
           <div className="form-group">
             <label>Working Hours</label>
 

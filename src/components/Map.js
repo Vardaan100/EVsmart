@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import "./map.css";
-// import { fuel } from "../../public/images/fuel.png"
-// import { marker } from "./images/marker.png"
+
 
 class Map extends Component {
   constructor(props) {
@@ -19,11 +18,7 @@ class Map extends Component {
       zoom: 6,
     };
   }
-
-  // componentDidMount() {
-  //   console.log(this.props.location.state.detail);
-  // }
-
+  // Receiving the location and handling routing
   render() {
     const latitude = this.props.coords
       ? this.props.coords.latitude
@@ -45,6 +40,7 @@ class Map extends Component {
       }
     };
 
+    // Getting the current location of the user from redux store
     let getlocation = () => {
       let action = {
         type: "get_location",
