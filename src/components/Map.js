@@ -51,7 +51,8 @@ class Map extends Component {
         payload: [latitude, longitude],
       };
       if (this.props.dispatch(action)) {
-        console.log(`lat ${latitude} and log ${longitude}`);
+
+        // console.log(`lat ${latitude} and log ${longitude}`);
 
         return this.props.dispatch(action);
       }
@@ -96,7 +97,7 @@ let location = geolocated({
 })(Map);
 
 function msp(state) {
-  console.log("state is ", state);
+  // console.log("state is ", state);
 }
 
 function mdp(dispatch) {

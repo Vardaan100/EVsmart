@@ -41,7 +41,7 @@ class Dashboard extends Component {
       zoom: 6,
       stations: [],
       station_id: "",
-      popUpOpen: true
+      popUpOpen: false
     };
   }
 
@@ -72,51 +72,29 @@ class Dashboard extends Component {
     });
   }
 
-  // clickSubmit = () => {
-  //   const { station_id } = this.state;
-  //   const token = localStorage.getItem("jwt");
-  //   // bookNow({station_id}, token).then((data) => {
-  //   //  csid:station_id
-  //   // })
+  clickSubmit = () => {
 
-  //   fetch(`${API}/message/booked/${token}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ csid: station_id }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //       alert(
-  //         `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
-  //       );
-  //       <div>
-  //       <Dialog
-  //         open={this.state.popUpOpen}
-  //         onClose={this.handleClose}
-  //         aria-labelledby="alert-dialog-title"
-  //         aria-describedby="alert-dialog-description"
-  //       >
-  //         <DialogTitle id="alert-dialog-title">{"Notification"}</DialogTitle>
-  //         <DialogContent>
-  //           <DialogContentText id="alert-dialog-description">
-  //           Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon
-  //           </DialogContentText>
-  //         </DialogContent>
-  //         <DialogActions>
-  //           <Button onClick={this.handleClose} color="primary" autoFocus>
-  //             Ok
-  //           </Button>
-  //         </DialogActions>
-  //       </Dialog>
-  //     </div>
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
+    const { station_id } = this.state;
+    const token = localStorage.getItem("jwt");
+
+    fetch(`${API}/message/booked/${token}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ csid: station_id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Success:", data);
+      })
+      .catch((error) => {
+        // console.error("Error:", error);
+      });
+      this.setState({
+        popUpOpen: true
+      })
+  };
 
   render() {
     return (
@@ -168,6 +146,8 @@ class Dashboard extends Component {
                 <div className="buttons">
                   <div>
                     <button
+                      variant="contained" 
+                      color="primary"
                       className="dashboard__getdirection"
                       onClick={() =>
                         window.open(
@@ -182,69 +162,42 @@ class Dashboard extends Component {
                     </button>
                   </div>
                   <div>
-                    <button
-                      className="dashboard__getdirections"
-                      onMouseOverCapture={() => {
-                        this.state.stations.filter((id, index) => {
-                          if (id === cs_id) {
-                            this.setState({
-                              station_id: this.state.stations[index].cs_id,
-                            });
-                          }
-                          console.log(this.state.station_id);
-                        });
-                      }}
-                      onClick={() => {
-                        const { station_id } = this.state;
-                        const token = localStorage.getItem("jwt");
-                        // bookNow({station_id}, token).then((data) => {
-                        //  csid:station_id
-                        // })
-                    
-                        fetch(`${API}/message/booked/${token}`, {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({ csid: station_id }),
-                        })
-                          .then((response) => response.json())
-                          .then((data) => {
-                            console.log("Success:", data);
-                            // alert(
-                            //   `Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon`
-                            // );
-                            <div>
-                            <Dialog
-                              open={true}
-                              onClose={this.handleClose}
-                              aria-labelledby="alert-dialog-title"
-                              aria-describedby="alert-dialog-description"
-                            >
-                              {console.log("booked")}
-                              <DialogTitle id="alert-dialog-title">{"Notification"}</DialogTitle>
-                              <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                Thank you for booking this station, your number has been sent successfully to charging station provider. He will contact you soon
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={this.handleClose} color="primary" autoFocus>
-                                  Ok
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-                          </div>
-                          })
-                          .catch((error) => {
-                            console.error("Error:", error);
-                          });
-                      }}
-                    >
-                      Book now
-                    </button>
+              
+              <button 
+              className="dashboard__getdirections"
+              onMouseOverCapture={() => {
+                this.state.stations.filter((id, index) => {
+                  if (id === cs_id) {
+                    this.setState({
+                      station_id: this.state.stations[index].cs_id,
+                    });
+                  }
+                  // console.log(this.state.station_id);
+                });
+              }} 
+              onClick={this.clickSubmit}>
+                Book now
+             </button>
+              <Dialog
+                  open={this.state.popUpOpen}
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+              >
+              <DialogTitle id="alert-dialog-title">{"Notification"}</DialogTitle>
+              <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Thank you for booking this station. Your number has been sent successfully to charging station owner. He will contact you soon.
+              </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+              <Button onClick={this.handleClose} color="primary" autoFocus>
+                  Ok
+              </Button>
+              </DialogActions>
+              </Dialog>
+              </div>
                   </div>
-                </div>
               </Popup>
             </Marker>
           ))}

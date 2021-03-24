@@ -81,7 +81,7 @@ export const updateUser = (user, token) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -100,7 +100,7 @@ export const addCS = (chargingD, token) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -115,7 +115,7 @@ export const getCS = (token) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -133,7 +133,7 @@ export const updateCS = (chargingD, token) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -149,7 +149,7 @@ export const deleteCS = (token) => {
       return response;
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -161,11 +161,11 @@ export const getallCS = () => {
     },
   })
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -181,7 +181,7 @@ export const getDash = (token) => {
       return response;
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -197,7 +197,7 @@ export const getAllDash = (token) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -214,7 +214,7 @@ export const updateAdminUser = (user, token, user_id) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -231,7 +231,7 @@ export const sendOTP = (phone) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -248,6 +248,6 @@ export const verifyOTP = (phone, otp) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };

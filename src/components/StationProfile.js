@@ -38,7 +38,7 @@ class StationProfile extends Component {
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     getCS(token).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data == 16 ||
         data == "YOU HAVE NO CHARGING STATION ADDED")
           {
@@ -75,7 +75,7 @@ class StationProfile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (
           data.length == 16 ||
           data == "OTP is invalid"
@@ -111,7 +111,7 @@ class StationProfile extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         if (
           data.length == 16 ||
           data == "Phone no. in use" ||
@@ -163,8 +163,8 @@ class StationProfile extends Component {
         longi: this.state.longi,
       }));
     }
-    console.log(this.state.lat, this.state.longi);
-    console.log(this.props.location);
+    // console.log(this.state.lat, this.state.longi);
+    // console.log(this.props.location);
   };
 
   locationDirect = (e) => {
@@ -183,7 +183,7 @@ class StationProfile extends Component {
     const lati = lat;
     const long = longi;
     updateCS({ phone, open, close, long, lati, cost }, token).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
@@ -207,7 +207,7 @@ class StationProfile extends Component {
           cost: cost,
           success: true,
         });
-        console.log("Station Updated");
+        // console.log("Station Updated");
       }
     });
   };

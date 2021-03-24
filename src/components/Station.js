@@ -59,7 +59,7 @@ class Station extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (
           data == "OTP is invalid" ||
           data == "server error" ||
@@ -96,7 +96,7 @@ class Station extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         if (
           data == "Phone no. in use" ||
           data == "Invalid Phone no." ||
@@ -148,7 +148,7 @@ class Station extends Component {
     const lati = location[0];
     const long = location[1];
     addCS({ phone, open, close, long, lati, cost }, token).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "YOU CAN ONLY ADD ONE CHARGING STATION." ||
@@ -169,8 +169,8 @@ class Station extends Component {
           cost: "",
           success: true,
         });
-        console.log("Station added");
-        setTimeout(function(){ window.location.reload() }, 2000);
+        // console.log("Station added");
+        // setTimeout(function(){ window.location.reload() }, 2000);
       }
     });
   };
@@ -321,10 +321,10 @@ class Station extends Component {
   }
 }
 const msp = (state) => ({
-  clg: console.log("station state", state),
+  // clg: console.log("station state", state),
   location: state.location,
   station: state.station,
-  stat: console.log(state.station),
+  // stat: console.log(state.station),
 });
 
 export default connect(msp, null)(Station);

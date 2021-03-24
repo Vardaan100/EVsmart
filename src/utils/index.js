@@ -3,7 +3,7 @@ const TOKEN_KEY = "jwt";
 export const authenticate = (data) => {
   if (typeof window !== "undefined") {
     localStorage.setItem(TOKEN_KEY,data.token);
-    console.log("Setting token");
+    // console.log("Setting token");
   }
 };
 
