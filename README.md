@@ -28,7 +28,7 @@
 
 ## Screen shots
 
-<img src="https://drive.google.com/file/d/1SSo4sNaBZrHKGT6SUoKYQ3yb_IAHY-Pe/view?usp=sharing" width="30%"> 
+<img src="https://imgur.com/oJuDOKi" width="30%"> 
 <img src="https://drive.google.com/file/d/1SQKwSxel4BTdYDnJ3shPCrGlEvYLUAtY/view?usp=sharing" width="30%"> 
 <img src="https://drive.google.com/file/d/1SKFlfZk6pcwj07UBD6HPsWpjGEG4IXD4/view?usp=sharing" width="30%"> 
 <img src="https://drive.google.com/file/d/1SEnfxCpiPkFhL5-aWqskiNM8tQHughw7/view?usp=sharing" width="30%"> 
