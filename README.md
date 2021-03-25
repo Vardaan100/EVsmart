@@ -26,14 +26,14 @@
 
 ## Screen shots
 
-<img src="/public/help.png" width="30%"> 
-<img src="/public/signin.png" width="30%"> 
-<img src="/public/signup.png" width="30%"> 
-<img src="/public/edit.png width="30%"> 
-<img src="/public/dashboard.png" width="30%"> 
-<img src="/public/info.png" width="30%"> 
-<img src="/public/contact.png" width="30%"> 
-<img src="/public/di.png" width="30%"> 
+<img src="/public/signin.png" width="70%"> 
+<img src="/public/signup.png" width="70%"> 
+<img src="/public/edit.png width="70%"> 
+<img src="/public/dashboard.png" width="70%"> 
+<img src="/public/info.png" width="70%"> 
+<img src="/public/contact.png" width="70%"> 
+<img src="/public/di.png" width="70%"> 
+<img src="/public/help.png" width="70%">                                     
 
 # Getting Started with App
 
