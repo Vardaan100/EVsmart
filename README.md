@@ -28,7 +28,7 @@
 
 <img src="/public/signin.png" width="70%"> 
 <img src="/public/signup.png" width="70%"> 
-<img src="/public/edit.png width="70%"> 
+<img src="/public/edit.png" width="70%"> 
 <img src="/public/dashboard.png" width="70%"> 
 <img src="/public/info.png" width="70%"> 
 <img src="/public/contact.png" width="70%"> 
