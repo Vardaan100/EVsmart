@@ -41,6 +41,7 @@ class Signin extends Component {
       redirectToReferrer,
     } = this.state;
 
+    // Handling change in input fields
     const handleChange = (name) => (event) => {
       this.setValues({
         ...this.values,
@@ -49,11 +50,12 @@ class Signin extends Component {
       });
     };
 
+    // Action of submit button
     const clickSubmit = (event) => {
       event.preventDefault();
       this.setValues({ ...this.values, error: false, loading: true });
       signin({ email, password }).then((data) => {
-        console.log(data.user);
+        // console.log(data.user);
         if (
           data == "User doesnt exsist" ||
           data == "Password or Email is incorrect" ||
@@ -68,7 +70,7 @@ class Signin extends Component {
         } else {
           authenticate(data);
           if (data.user == "user") {
-            console.log("User is user");
+            // console.log("User is user");
             this.setValues({
               ...this.values,
               user: true,
@@ -76,7 +78,7 @@ class Signin extends Component {
             });
           }
           if (data.user == "admin") {
-            console.log("User is admin");
+            // console.log("User is admin");
             this.setValues({
               ...this.values,
               user: false,
@@ -85,7 +87,7 @@ class Signin extends Component {
             localStorage.setItem("user", "Admin");
           }
 
-          console.log("Login Succesfull");
+          // console.log("Login Succesfull");
           let action = {
             type: "menu",
             payload: true,
@@ -94,7 +96,8 @@ class Signin extends Component {
         }
       });
     };
-
+    
+    // SignIn form 
     const signInForm = () => (
       <form className="sign__container">
         <h3>Login</h3>
@@ -125,6 +128,7 @@ class Signin extends Component {
       </form>
     );
 
+    // Showing error 
     const showError = () => (
       <div
         className="alert alert-danger"
@@ -134,6 +138,7 @@ class Signin extends Component {
       </div>
     );
 
+    // Showing loading 
     const showLoading = () =>
       loading && (
         <div className="alert alert-info">
@@ -141,6 +146,7 @@ class Signin extends Component {
         </div>
       );
 
+    // Redirection of user w.r.t. this access
     const redirectUser = (user) => {
       if (redirectToReferrer) {
         if (user) {

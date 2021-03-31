@@ -6,10 +6,10 @@ import { Input } from "@material-ui/core";
 import { API } from "../config";
 import { UncontrolledAlert } from "reactstrap";
 
+//Admin Dashboard component shown only to Admin 
 class AdminDash extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       users: [],
       edit: null,
@@ -25,6 +25,7 @@ class AdminDash extends Component {
     };
   }
 
+  //Fetching all the user data from API at mount 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     getAllDash(token).then((data) => {
@@ -32,6 +33,7 @@ class AdminDash extends Component {
     });
   }
 
+  //Updating the attributes of users when value changes
   componentDidUpdate(prevProps, prevState) {
     if (prevState.edit !== this.state.edit) {
       if (this.state.edit) {
@@ -63,6 +65,7 @@ class AdminDash extends Component {
     }
   }
 
+  // Action of Edit button 
   editbtn = (data) => {
     const { user_id } = data; //destructuring
     this.setState((prevState) => ({
@@ -71,6 +74,7 @@ class AdminDash extends Component {
     }));
     this.editbtn = this.editbtn.bind(this);
   };
+  // Action of Save button
   saveData = () => {
     this.setState((prevState) => ({
       users: prevState.users.map((user) =>
@@ -105,6 +109,7 @@ class AdminDash extends Component {
     } = this.state;
     let token = localStorage.getItem("jwt");
 
+    // API call to update user on the database
     fetch(`${API}/admin/updateuser/${token}?userid=${uid}`, {
       method: "PUT",
       headers: {
@@ -121,17 +126,14 @@ class AdminDash extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Success:", data);
-        // alert(data);
-        <UncontrolledAlert color="info"> {data} </UncontrolledAlert>;
+        alert(data)
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // alert.error("Error:", error)
-        <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>;
+        alert(error)
       });
   };
 
+  // Rendering the data in table
   renderTableData() {
     return this.state.users.map((data, index) => {
       const {
@@ -229,7 +231,6 @@ class AdminDash extends Component {
       );
     });
   }
-
   render() {
     return (
       <div className="adminDash">

@@ -31,12 +31,12 @@ function Footer() {
         </Col>
 
         <Col>
-          <Link className="footer_list" to="/sign-up">
-            Signup
+          <Link className="footer_list" to="/dashboard">
+            Dashboard
           </Link>
         </Col>
       </Row>
-      <hr></hr>
+      <hr></hr>             
       <div className="privacy">&copy; 2020-2021 privacy - Terms</div>
     </Container>
   );

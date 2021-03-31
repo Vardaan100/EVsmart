@@ -12,6 +12,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import "./signup.css";
 import { compose } from "redux";
 
+// SignUp component
 const Signup = () => {
   const [values, setValues] = useState({
     firstname: "",
@@ -42,15 +43,18 @@ const Signup = () => {
 
   const { popupOpen } = popup;
 
+  // Handling change in values of input fields
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
+
+  // Opening the dialog box when verifying OTP
   const handleClickOpen = () => {
     setValues({ ...values, error: false });
     setPopup({ popupOpen: true });
-    console.log(phone);
+    // console.log(phone);
     sendOTP(phone).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "Phone no. in use" ||
@@ -65,16 +69,18 @@ const Signup = () => {
     });
   };
 
+  // Closing the dialog box
   const handleClose = () => {
     setPopup({
       popupOpen: false,
     });
   };
 
+  // Verifying OTP in the dialog box
   const handleVerify = () => {
     setValues({ ...values, error: false });
     verifyOTP(phone, otp).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data.length == 16 ||
         data == "OTP is invalid" ||
@@ -86,7 +92,7 @@ const Signup = () => {
         });
         showError();
       } else if (data == true) {
-        setValues({
+        setValues({...values,
           phoneVerification: "Number has been verified successfully",
         });
       }
@@ -95,11 +101,13 @@ const Signup = () => {
       popupOpen: false,
     });
   };
+  // Action at submit button
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
+    // console.log(firstname);
     signup({ firstname, lastname, email, phone, password }).then((data) => {
-      console.log(data);
+      // console.log(data);
       if (
         data == undefined ||
         data.length == 16 ||
@@ -133,11 +141,12 @@ const Signup = () => {
           error: "",
           success: true,
         });
-        console.log("SignUp Successfully");
+        // console.log("SignUp Successfully");
       }
     });
   };
 
+  // Sign Up form 
   const signUpForm = () => (
     <form className="signup__container">
       <h3>Sign Up</h3>
@@ -249,23 +258,24 @@ const Signup = () => {
       </p>
     </form>
   );
+  // Showing success of action
   const showSuccess = () => (
     <div
-      className="alert alert-info"
       style={{ display: success ? "" : "none" }}
     >
-      New account is created. Please <Link to="/sign-in">Signin</Link>
+   <UncontrolledAlert color="info"> New account is created. Please <Link to="/sign-in">Signin</Link></UncontrolledAlert>
+      
     </div>
   );
+  // Showing error to the user
   const showError = () => (
     <div
-      className="alert alert-danger"
       style={{ display: error ? "" : "none" }}
     >
-      {error}
+      <UncontrolledAlert color="danger"> {error} </UncontrolledAlert>
     </div>
   );
-
+    
   return (
     <div className="signup">
        <div style={{ display: phoneVerification ? "" : "none" }}>
