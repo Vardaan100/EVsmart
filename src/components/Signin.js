@@ -82,7 +82,7 @@ class Signin extends Component {
               user: false,
               redirectToReferrer: true,
             });
-            localStorage.setItem("user","Admin");
+            localStorage.setItem("user", "Admin");
           }
 
           console.log("Login Succesfull");

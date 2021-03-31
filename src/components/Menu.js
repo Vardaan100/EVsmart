@@ -54,7 +54,7 @@ export default function CustomizedMenus() {
 
   React.useEffect(() => {
     userData(token).then((data) => {
-      setName(data[0].user_firstname || "Menu");
+      setName(data[0]?.user_firstname || "Menu");
     });
   }, []);
 

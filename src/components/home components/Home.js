@@ -49,7 +49,7 @@ function Home() {
             {/* <div className="home__image11 "> */}
             <img
               className="home__charging11 "
-              src="./images/car.jpg"
+              src="./images/car2.jpg"
               alt="car_image"
             />
             {/* </div> */}
