@@ -18,7 +18,7 @@ function Home() {
             <div className="home__text11 ">
               <h1 className="">Charging location near me</h1>
               <br></br>
-              <br></br>
+
               <p>
                 EV Smart aims to provide service for people who needs to charge
                 their vehicle away from home. At EV Smart service is given by
