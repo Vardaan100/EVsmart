@@ -33,10 +33,13 @@
 .privacy {
   text-align: center;
 }
-
+.footer__media {
+  height: 40px;
+}
 @media screen and (max-width: 290px) {
   .footer__media {
     display: flex;
+    /* height: auto; */
     flex-direction: column;
     text-align: center;
   }
@@ -44,6 +47,7 @@
 @media screen and (max-width: 480px) {
   .footer__media {
     display: flex;
+    height: auto !important;
     flex-direction: column;
     text-align: center;
   }
