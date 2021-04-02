@@ -23,7 +23,7 @@ function Price() {
             <Avatar /> <small>Ev smart</small>
           </div>
         </Col>
-        <Row>
+        {/* <Row>
           <Col className="price__image">
             <img
               className="price__list img-fluid"
@@ -31,7 +31,7 @@ function Price() {
               alt="price list"
             />
           </Col>
-        </Row>
+        </Row> */}
       </Row>
     </Container>
   );

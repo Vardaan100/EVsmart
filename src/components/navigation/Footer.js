@@ -5,12 +5,15 @@ import { Container, Row, Col } from "reactstrap";
 
 function Footer() {
   return (
-    <Container className="footer_container col-12 my-4">
-      <Row className="footer__media" style={{marginLeft:"8%"}}>
+    <Container className="footer_container col-12">
+      <Row
+        className="footer__media"
+        style={{ marginLeft: "8%", paddingTop: "2%" }}
+      >
         {/* <Col> */}
         {/* <ul className="footer_lists"> */}
         <Col>
-          <Link className="footer_list" to="/home">
+          <Link className="footer_list my-2" to="/home">
             Home
           </Link>
         </Col>
@@ -36,7 +39,7 @@ function Footer() {
           </Link>
         </Col>
       </Row>
-      <hr></hr>             
+      <hr></hr>
       <div className="privacy">&copy; 2020-2021 privacy - Terms</div>
     </Container>
   );

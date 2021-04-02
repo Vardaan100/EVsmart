@@ -13,6 +13,7 @@
 .footer_lists {
   justify-content: space-around;
   align-items: center;
+  padding-top: 2%;
 }
 
 .footer_logo {

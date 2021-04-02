@@ -58,7 +58,7 @@ function Home() {
       </Container>
       <Customer />
       <Price />
-      <Start />
+      {/* <Start /> */}
     </div>
   );
 }
